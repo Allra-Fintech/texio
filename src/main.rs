@@ -73,12 +73,26 @@ fn line_end(input: &str, from: usize) -> usize {
 
 fn heading_body_start(input: &str, start: usize) -> usize {
     let first_end = line_end(input, start);
-    let first_line = input[start..first_end].trim_start();
-    if first_line.starts_with('#') {
+    let first_line = input[start..first_end].trim_end_matches(['\r', '\n']);
+    if is_atx_heading_line(first_line) {
         first_end
     } else {
         line_end(input, first_end)
     }
+}
+
+fn is_atx_heading_line(line: &str) -> bool {
+    let indent = line.bytes().take_while(|byte| *byte == b' ').count();
+    if indent > 3 {
+        return false;
+    }
+    let content = &line[indent..];
+    let hashes = content.bytes().take_while(|byte| *byte == b'#').count();
+    (1..=6).contains(&hashes)
+        && content
+            .as_bytes()
+            .get(hashes)
+            .is_none_or(u8::is_ascii_whitespace)
 }
 
 fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, String> {
@@ -313,6 +327,14 @@ mod tests {
             [(1, "Title"), (2, "Section")]
         );
         let section = select_heading(&all, "Section").unwrap();
+        assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn setext_title_starting_with_hash_has_correct_body_boundary() {
+        let md = "#Title\n------\nbody\n";
+        let all = headings(md);
+        let section = select_heading(&all, "#Title").unwrap();
         assert_eq!(&md[section.body_start..section.end], "body\n");
     }
 
