@@ -154,7 +154,7 @@ fn unified_preview(path: &str, before: &str, after: &str) {
 
 fn atomic_write(path: &str, content: &str) -> Result<(), String> {
     let target = Path::new(path);
-    let parent = target.parent().unwrap_or_else(|| Path::new("."));
+    let parent = parent_directory(target);
     let permissions = fs::metadata(target)
         .map_err(|e| e.to_string())?
         .permissions();
@@ -169,6 +169,12 @@ fn atomic_write(path: &str, content: &str) -> Result<(), String> {
         .map_err(|e| e.to_string())?;
     temporary.persist(target).map_err(|e| e.error.to_string())?;
     Ok(())
+}
+
+fn parent_directory(path: &Path) -> &Path {
+    path.parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+        .unwrap_or_else(|| Path::new("."))
 }
 
 fn main() {
@@ -344,6 +350,24 @@ mod tests {
     #[test]
     fn json_escape_handles_all_control_characters() {
         assert_eq!(json_escape("a\u{0}b\u{8}\u{c}\n"), "a\\u0000b\\b\\f\\n");
+    }
+
+    #[test]
+    fn parentless_relative_paths_use_the_current_directory() {
+        assert_eq!(parent_directory(Path::new("README.md")), Path::new("."));
+    }
+
+    #[test]
+    fn atomic_write_replaces_content_and_preserves_permissions() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("document.md");
+        fs::write(&path, "before").unwrap();
+        let permissions = fs::metadata(&path).unwrap().permissions();
+
+        atomic_write(path.to_str().unwrap(), "after").unwrap();
+
+        assert_eq!(fs::read_to_string(&path).unwrap(), "after");
+        assert_eq!(fs::metadata(&path).unwrap().permissions(), permissions);
     }
 
     #[test]
