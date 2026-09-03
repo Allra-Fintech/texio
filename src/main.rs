@@ -354,7 +354,7 @@ fn run(cli: &Cli) -> Result<(), AppError> {
             if *as_json {
                 let values: Vec<_> = all
                     .iter()
-                    .map(|h| json!({"level": h.level, "title": h.title}))
+                    .map(|h| json!({"level": h.level, "title": h.title.as_str()}))
                     .collect();
                 println!("{}", serde_json::to_string(&values).unwrap());
             } else {
@@ -377,7 +377,7 @@ fn run(cli: &Cli) -> Result<(), AppError> {
             if *as_json {
                 println!(
                     "{}",
-                    json!({"heading": h.title, "level": h.level, "content": value})
+                    json!({"heading": h.title.as_str(), "level": h.level, "content": value})
                 );
             } else {
                 print!("{value}");
