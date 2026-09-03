@@ -97,12 +97,38 @@ fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, St
 }
 
 fn json_escape(value: &str) -> String {
-    value
-        .replace('\\', "\\\\")
-        .replace('"', "\\\"")
-        .replace('\n', "\\n")
-        .replace('\r', "\\r")
-        .replace('\t', "\\t")
+    let mut escaped = String::with_capacity(value.len());
+    for character in value.chars() {
+        match character {
+            '"' => escaped.push_str("\\\""),
+            '\\' => escaped.push_str("\\\\"),
+            '\u{08}' => escaped.push_str("\\b"),
+            '\u{0c}' => escaped.push_str("\\f"),
+            '\n' => escaped.push_str("\\n"),
+            '\r' => escaped.push_str("\\r"),
+            '\t' => escaped.push_str("\\t"),
+            control if control <= '\u{1f}' => {
+                escaped.push_str(&format!("\\u{:04x}", control as u32));
+            }
+            other => escaped.push(other),
+        }
+    }
+    escaped
+}
+
+fn line_ending(input: &str) -> &'static str {
+    if input.contains("\r\n") { "\r\n" } else { "\n" }
+}
+
+fn normalize_replacement(mut replacement: String, document: &str) -> String {
+    let ending = line_ending(document);
+    if !replacement.ends_with('\n') {
+        replacement.push_str(ending);
+    }
+    if ending == "\r\n" {
+        replacement = replacement.replace("\r\n", "\n").replace('\n', "\r\n");
+    }
+    replacement
 }
 
 fn usage() -> ! {
@@ -215,10 +241,7 @@ fn main() {
             let all = headings(&input);
             let h = select_heading(&all, title).unwrap_or_else(|e| fail(e));
             let old = &input[h.body_start..h.end];
-            let mut normalized = replacement;
-            if !normalized.ends_with('\n') {
-                normalized.push('\n');
-            }
+            let normalized = normalize_replacement(replacement, &input);
             let output = format!(
                 "{}{}{}",
                 &input[..h.body_start],
@@ -298,6 +321,29 @@ mod tests {
             &md[target.end..]
         );
         assert_eq!(output, "# Top\nkeep\n## Target\nnew\n## Last\nkeep too\n");
+    }
+
+    #[test]
+    fn replacement_uses_the_documents_crlf_line_endings() {
+        let md = "# Top\r\n## Target\r\nold\r\n## Last\r\nkeep\r\n";
+        let all = headings(md);
+        let target = select_heading(&all, "Target").unwrap();
+        let replacement = normalize_replacement("first\nsecond".to_string(), md);
+        let output = format!(
+            "{}{}{}",
+            &md[..target.body_start],
+            replacement,
+            &md[target.end..]
+        );
+        assert_eq!(
+            output,
+            "# Top\r\n## Target\r\nfirst\r\nsecond\r\n## Last\r\nkeep\r\n"
+        );
+    }
+
+    #[test]
+    fn json_escape_handles_all_control_characters() {
+        assert_eq!(json_escape("a\u{0}b\u{8}\u{c}\n"), "a\\u0000b\\b\\f\\n");
     }
 
     #[test]
