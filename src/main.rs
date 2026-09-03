@@ -153,7 +153,17 @@ fn unified_preview(path: &str, before: &str, after: &str) {
 }
 
 fn atomic_write(path: &str, content: &str) -> Result<(), String> {
-    let target = Path::new(path);
+    let requested = Path::new(path);
+    let target_path = if fs::symlink_metadata(requested)
+        .map_err(|e| e.to_string())?
+        .file_type()
+        .is_symlink()
+    {
+        fs::canonicalize(requested).map_err(|e| e.to_string())?
+    } else {
+        requested.to_path_buf()
+    };
+    let target = target_path.as_path();
     let parent = parent_directory(target);
     let permissions = fs::metadata(target)
         .map_err(|e| e.to_string())?
@@ -368,6 +378,28 @@ mod tests {
 
         assert_eq!(fs::read_to_string(&path).unwrap(), "after");
         assert_eq!(fs::metadata(&path).unwrap().permissions(), permissions);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn atomic_write_preserves_a_symlink_and_updates_its_target() {
+        use std::os::unix::fs::symlink;
+
+        let directory = tempfile::tempdir().unwrap();
+        let target = directory.path().join("target.md");
+        let link = directory.path().join("link.md");
+        fs::write(&target, "before").unwrap();
+        symlink(&target, &link).unwrap();
+
+        atomic_write(link.to_str().unwrap(), "after").unwrap();
+
+        assert!(
+            fs::symlink_metadata(&link)
+                .unwrap()
+                .file_type()
+                .is_symlink()
+        );
+        assert_eq!(fs::read_to_string(&target).unwrap(), "after");
     }
 
     #[test]
