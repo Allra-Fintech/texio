@@ -61,13 +61,27 @@ fn yaml_front_matter_end(input: &str) -> usize {
         return 0;
     }
     let mut offset = first_end;
+    let mut has_mapping_key = false;
     for line in input[first_end..].split_inclusive('\n') {
         offset += line.len();
-        if matches!(line.trim_end_matches(['\r', '\n']), "---" | "...") {
-            return offset;
+        let content = line.trim_end_matches(['\r', '\n']);
+        if matches!(content, "---" | "...") {
+            return if has_mapping_key { offset } else { 0 };
         }
+        has_mapping_key |= looks_like_yaml_mapping_line(content);
     }
     0
+}
+
+fn looks_like_yaml_mapping_line(line: &str) -> bool {
+    let Some((key, _)) = line.split_once(':') else {
+        return false;
+    };
+    let key = key.trim();
+    !key.is_empty()
+        && key
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'-'))
 }
 
 fn heading_level(level: HeadingLevel) -> usize {
@@ -481,6 +495,25 @@ mod tests {
         assert!(section.contains("## Heading inside an HTML block"));
         assert!(section.contains("[^note]: Footnote text."));
         assert!(!section.contains("This must remain outside Target."));
+    }
+
+    #[test]
+    fn opening_thematic_break_does_not_hide_later_headings() {
+        let md = "---\nIntro text\n\n# Visible\nbody\n\n---\n";
+        assert_eq!(yaml_front_matter_end(md), 0);
+        assert_eq!(
+            headings(md)
+                .iter()
+                .map(|heading| heading.title.as_str())
+                .collect::<Vec<_>>(),
+            ["Visible"]
+        );
+    }
+
+    #[test]
+    fn front_matter_requires_a_top_level_mapping_key() {
+        assert_eq!(yaml_front_matter_end("---\ntitle: Texio\n---\n# Doc\n"), 21);
+        assert_eq!(yaml_front_matter_end("---\nplain scalar\n---\n# Doc\n"), 0);
     }
 
     #[test]
