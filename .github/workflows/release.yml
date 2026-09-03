@@ -21,7 +21,7 @@ jobs:
       - run: cargo test --locked
       - run: cargo package --locked
       - run: cargo publish --dry-run --locked
-      - run: cargo install cargo-audit --locked
+      - run: cargo install cargo-audit --version 0.22.2 --locked
       - run: cargo audit
 
   build:
