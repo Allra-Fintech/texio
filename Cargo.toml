@@ -8,7 +8,11 @@ readme = "README.md"
 keywords = ["markdown", "cli", "automation", "agents", "commonmark"]
 categories = ["command-line-utilities", "text-processing"]
 
+[dependencies]
+pulldown-cmark = "0.13"
+similar = "2.7"
+tempfile = "3.23"
+
 [[bin]]
 name = "texio"
 path = "src/main.rs"
-

@@ -1,4 +1,7 @@
-use std::{env, fs, process};
+use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
+use similar::TextDiff;
+use std::{env, fs, io::Write, path::Path, process};
+use tempfile::NamedTempFile;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Heading {
@@ -10,46 +13,37 @@ struct Heading {
 }
 
 fn headings(input: &str) -> Vec<Heading> {
-    let mut found: Vec<Heading> = Vec::new();
-    let mut offset = 0;
-    let mut fence: Option<(char, usize)> = None;
+    let options = Options::ENABLE_TABLES
+        | Options::ENABLE_FOOTNOTES
+        | Options::ENABLE_STRIKETHROUGH
+        | Options::ENABLE_TASKLISTS;
+    let mut found = Vec::new();
+    let mut current: Option<(usize, usize, String)> = None;
 
-    for line_with_end in input.split_inclusive('\n') {
-        let line = line_with_end.strip_suffix('\n').unwrap_or(line_with_end);
-        let trimmed = line.trim_start();
-
-        if let Some((marker, width)) = fence {
-            if trimmed.chars().take_while(|c| *c == marker).count() >= width {
-                fence = None;
+    for (event, range) in Parser::new_ext(input, options).into_offset_iter() {
+        match event {
+            Event::Start(Tag::Heading { level, .. }) => {
+                current = Some((heading_level(level), range.start, String::new()));
             }
-            offset += line_with_end.len();
-            continue;
-        }
-
-        let first = trimmed.chars().next();
-        if matches!(first, Some('`' | '~')) {
-            let marker = first.unwrap();
-            let width = trimmed.chars().take_while(|c| *c == marker).count();
-            if width >= 3 {
-                fence = Some((marker, width));
-                offset += line_with_end.len();
-                continue;
+            Event::Text(text) | Event::Code(text) if current.is_some() => {
+                current.as_mut().unwrap().2.push_str(&text);
             }
+            Event::SoftBreak | Event::HardBreak if current.is_some() => {
+                current.as_mut().unwrap().2.push(' ');
+            }
+            Event::End(TagEnd::Heading(_)) => {
+                if let Some((level, start, title)) = current.take() {
+                    found.push(Heading {
+                        level,
+                        title: title.trim().to_string(),
+                        start,
+                        body_start: heading_body_start(input, start),
+                        end: input.len(),
+                    });
+                }
+            }
+            _ => {}
         }
-
-        let level = line.chars().take_while(|c| *c == '#').count();
-        if (1..=6).contains(&level) && line.as_bytes().get(level) == Some(&b' ') {
-            let raw = line[level + 1..].trim();
-            let title = raw.trim_end_matches('#').trim_end().to_string();
-            found.push(Heading {
-                level,
-                title,
-                start: offset,
-                body_start: offset + line_with_end.len(),
-                end: input.len(),
-            });
-        }
-        offset += line_with_end.len();
     }
 
     for i in 0..found.len() {
@@ -58,6 +52,47 @@ fn headings(input: &str) -> Vec<Heading> {
         }
     }
     found
+}
+
+fn heading_level(level: HeadingLevel) -> usize {
+    match level {
+        HeadingLevel::H1 => 1,
+        HeadingLevel::H2 => 2,
+        HeadingLevel::H3 => 3,
+        HeadingLevel::H4 => 4,
+        HeadingLevel::H5 => 5,
+        HeadingLevel::H6 => 6,
+    }
+}
+
+fn line_end(input: &str, from: usize) -> usize {
+    input[from..]
+        .find('\n')
+        .map_or(input.len(), |relative| from + relative + 1)
+}
+
+fn heading_body_start(input: &str, start: usize) -> usize {
+    let first_end = line_end(input, start);
+    let first_line = input[start..first_end].trim_end_matches(['\r', '\n']);
+    if is_atx_heading_line(first_line) {
+        first_end
+    } else {
+        line_end(input, first_end)
+    }
+}
+
+fn is_atx_heading_line(line: &str) -> bool {
+    let indent = line.bytes().take_while(|byte| *byte == b' ').count();
+    if indent > 3 {
+        return false;
+    }
+    let content = &line[indent..];
+    let hashes = content.bytes().take_while(|byte| *byte == b'#').count();
+    (1..=6).contains(&hashes)
+        && content
+            .as_bytes()
+            .get(hashes)
+            .is_none_or(u8::is_ascii_whitespace)
 }
 
 fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, String> {
@@ -76,12 +111,39 @@ fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, St
 }
 
 fn json_escape(value: &str) -> String {
-    value
-        .replace('\\', "\\\\")
-        .replace('"', "\\\"")
-        .replace('\n', "\\n")
-        .replace('\r', "\\r")
-        .replace('\t', "\\t")
+    let mut escaped = String::with_capacity(value.len());
+    for character in value.chars() {
+        match character {
+            '"' => escaped.push_str("\\\""),
+            '\\' => escaped.push_str("\\\\"),
+            '\u{08}' => escaped.push_str("\\b"),
+            '\u{0c}' => escaped.push_str("\\f"),
+            '\n' => escaped.push_str("\\n"),
+            '\r' => escaped.push_str("\\r"),
+            '\t' => escaped.push_str("\\t"),
+            control if control <= '\u{1f}' => {
+                escaped.push_str(&format!("\\u{:04x}", control as u32));
+            }
+            other => escaped.push(other),
+        }
+    }
+    escaped
+}
+
+fn line_ending(input: &str) -> &'static str {
+    if input.contains("\r\n") { "\r\n" } else { "\n" }
+}
+
+fn normalize_replacement(mut replacement: String, document: &str) -> String {
+    let ending = line_ending(document);
+    replacement = replacement.replace("\r\n", "\n").replace('\r', "\n");
+    if !replacement.ends_with('\n') {
+        replacement.push('\n');
+    }
+    if ending == "\r\n" {
+        replacement = replacement.replace('\n', "\r\n");
+    }
+    replacement
 }
 
 fn usage() -> ! {
@@ -97,15 +159,47 @@ fn fail(message: impl std::fmt::Display) -> ! {
 }
 
 fn unified_preview(path: &str, before: &str, after: &str) {
-    println!("--- {path}");
-    println!("+++ {path} (proposed)");
-    println!("@@ section replacement @@");
-    for line in before.lines() {
-        println!("-{line}");
-    }
-    for line in after.lines() {
-        println!("+{line}");
-    }
+    print!(
+        "{}",
+        TextDiff::from_lines(before, after)
+            .unified_diff()
+            .header(path, &format!("{path} (proposed)"))
+    );
+}
+
+fn atomic_write(path: &str, content: &str) -> Result<(), String> {
+    let requested = Path::new(path);
+    let target_path = if fs::symlink_metadata(requested)
+        .map_err(|e| e.to_string())?
+        .file_type()
+        .is_symlink()
+    {
+        fs::canonicalize(requested).map_err(|e| e.to_string())?
+    } else {
+        requested.to_path_buf()
+    };
+    let target = target_path.as_path();
+    let parent = parent_directory(target);
+    let permissions = fs::metadata(target)
+        .map_err(|e| e.to_string())?
+        .permissions();
+    let mut temporary = NamedTempFile::new_in(parent).map_err(|e| e.to_string())?;
+    temporary
+        .write_all(content.as_bytes())
+        .and_then(|_| temporary.flush())
+        .map_err(|e| e.to_string())?;
+    temporary
+        .as_file()
+        .set_permissions(permissions)
+        .map_err(|e| e.to_string())?;
+    temporary.persist(target).map_err(|e| e.error.to_string())?;
+    Ok(())
+}
+
+fn parent_directory(path: &Path) -> &Path {
+    path.parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+        .unwrap_or_else(|| Path::new("."))
 }
 
 fn main() {
@@ -178,10 +272,7 @@ fn main() {
             let all = headings(&input);
             let h = select_heading(&all, title).unwrap_or_else(|e| fail(e));
             let old = &input[h.body_start..h.end];
-            let mut normalized = replacement;
-            if !normalized.ends_with('\n') {
-                normalized.push('\n');
-            }
+            let normalized = normalize_replacement(replacement, &input);
             let output = format!(
                 "{}{}{}",
                 &input[..h.body_start],
@@ -195,7 +286,7 @@ fn main() {
                     &output[h.body_start..h.body_start + normalized.len()],
                 );
             } else {
-                fs::write(path, output).unwrap_or_else(|e| fail(e));
+                atomic_write(path, &output).unwrap_or_else(|e| fail(e));
             }
         }
         "--help" | "-h" => usage(),
@@ -223,6 +314,123 @@ mod tests {
             all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
             ["Real", "Next"]
         );
+    }
+
+    #[test]
+    fn supports_setext_headings() {
+        let md = "Title\n=====\nintro\n\nSection\n-------\nbody\n";
+        let all = headings(md);
+        assert_eq!(
+            all.iter()
+                .map(|h| (h.level, h.title.as_str()))
+                .collect::<Vec<_>>(),
+            [(1, "Title"), (2, "Section")]
+        );
+        let section = select_heading(&all, "Section").unwrap();
+        assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn setext_title_starting_with_hash_has_correct_body_boundary() {
+        let md = "#Title\n------\nbody\n";
+        let all = headings(md);
+        let section = select_heading(&all, "#Title").unwrap();
+        assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn handles_crlf_without_inventing_a_heading() {
+        let md = "# Real\r\ntext\r\n```md\r\n# Fake\r\n```\r\n## Next\r\n";
+        let all = headings(md);
+        assert_eq!(
+            all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
+            ["Real", "Next"]
+        );
+    }
+
+    #[test]
+    fn preserves_unrelated_bytes_during_replacement() {
+        let md = "# Top\nkeep\n## Target\nold\n## Last\nkeep too\n";
+        let all = headings(md);
+        let target = select_heading(&all, "Target").unwrap();
+        let output = format!(
+            "{}{}{}",
+            &md[..target.body_start],
+            "new\n",
+            &md[target.end..]
+        );
+        assert_eq!(output, "# Top\nkeep\n## Target\nnew\n## Last\nkeep too\n");
+    }
+
+    #[test]
+    fn replacement_uses_the_documents_crlf_line_endings() {
+        let md = "# Top\r\n## Target\r\nold\r\n## Last\r\nkeep\r\n";
+        let all = headings(md);
+        let target = select_heading(&all, "Target").unwrap();
+        let replacement = normalize_replacement("first\nsecond".to_string(), md);
+        let output = format!(
+            "{}{}{}",
+            &md[..target.body_start],
+            replacement,
+            &md[target.end..]
+        );
+        assert_eq!(
+            output,
+            "# Top\r\n## Target\r\nfirst\r\nsecond\r\n## Last\r\nkeep\r\n"
+        );
+    }
+
+    #[test]
+    fn replacement_uses_the_documents_lf_line_endings() {
+        assert_eq!(
+            normalize_replacement("first\r\nsecond\r".to_string(), "# Document\n"),
+            "first\nsecond\n"
+        );
+    }
+
+    #[test]
+    fn json_escape_handles_all_control_characters() {
+        assert_eq!(json_escape("a\u{0}b\u{8}\u{c}\n"), "a\\u0000b\\b\\f\\n");
+    }
+
+    #[test]
+    fn parentless_relative_paths_use_the_current_directory() {
+        assert_eq!(parent_directory(Path::new("README.md")), Path::new("."));
+    }
+
+    #[test]
+    fn atomic_write_replaces_content_and_preserves_permissions() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("document.md");
+        fs::write(&path, "before").unwrap();
+        let permissions = fs::metadata(&path).unwrap().permissions();
+
+        atomic_write(path.to_str().unwrap(), "after").unwrap();
+
+        assert_eq!(fs::read_to_string(&path).unwrap(), "after");
+        assert_eq!(fs::metadata(&path).unwrap().permissions(), permissions);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn atomic_write_preserves_a_symlink_and_updates_its_target() {
+        use std::os::unix::fs::symlink;
+
+        let directory = tempfile::tempdir().unwrap();
+        let target = directory.path().join("target.md");
+        let link = directory.path().join("link.md");
+        fs::write(&target, "before").unwrap();
+        symlink(&target, &link).unwrap();
+
+        atomic_write(link.to_str().unwrap(), "after").unwrap();
+
+        assert!(
+            fs::symlink_metadata(&link)
+                .unwrap()
+                .file_type()
+                .is_symlink()
+        );
+        assert_eq!(fs::read_to_string(&target).unwrap(), "after");
     }
 
     #[test]
