@@ -1,0 +1,191 @@
+{
+  "binary_sha256": "518e7241297ecf362c38031d14876d335085d0a9e636abe73be108b7d88e5b0d",
+  "methods": {
+    "regex": {
+      "input_tokens": 32,
+      "output_tokens": 13,
+      "passed": 2,
+      "success_rate": 0.5,
+      "total": 4,
+      "unrelated_lines_changed": 1
+    },
+    "texio": {
+      "input_tokens": 32,
+      "output_tokens": 13,
+      "passed": 4,
+      "success_rate": 1.0,
+      "total": 4,
+      "unrelated_lines_changed": 0
+    },
+    "whole-file": {
+      "input_tokens": 175,
+      "output_tokens": 86,
+      "passed": 3,
+      "success_rate": 0.75,
+      "total": 4,
+      "unrelated_lines_changed": 1
+    }
+  },
+  "release": "v0.1.1",
+  "results": [
+    {
+      "case": "simple-section",
+      "exit_code": 0,
+      "input_tokens": 32,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 125,
+      "method": "whole-file",
+      "output_tokens": 25,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "simple-section",
+      "exit_code": 0,
+      "input_tokens": 12,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 3041,
+      "method": "regex",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "simple-section",
+      "exit_code": 0,
+      "input_tokens": 12,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 3570917,
+      "method": "texio",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "complex-gfm-preservation",
+      "exit_code": 0,
+      "input_tokens": 97,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 83,
+      "method": "whole-file",
+      "output_tokens": 32,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "complex-gfm-preservation",
+      "exit_code": 0,
+      "input_tokens": 8,
+      "lines_different_from_expected": 7,
+      "markdown_preserved": false,
+      "median_runtime_ns": 3500,
+      "method": "regex",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": false,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "complex-gfm-preservation",
+      "exit_code": 0,
+      "input_tokens": 8,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 3376042,
+      "method": "texio",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "duplicate-heading-refusal",
+      "exit_code": 0,
+      "input_tokens": 23,
+      "lines_different_from_expected": 4,
+      "markdown_preserved": false,
+      "median_runtime_ns": 2541,
+      "method": "whole-file",
+      "output_tokens": 16,
+      "repeatable": true,
+      "success": false,
+      "unrelated_lines_changed": 1
+    },
+    {
+      "case": "duplicate-heading-refusal",
+      "exit_code": 0,
+      "input_tokens": 9,
+      "lines_different_from_expected": 4,
+      "markdown_preserved": false,
+      "median_runtime_ns": 2417,
+      "method": "regex",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": false,
+      "unrelated_lines_changed": 1
+    },
+    {
+      "case": "duplicate-heading-refusal",
+      "exit_code": 5,
+      "input_tokens": 9,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 3147541,
+      "method": "texio",
+      "output_tokens": 0,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "nested-section-extraction",
+      "exit_code": 0,
+      "input_tokens": 23,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 125,
+      "method": "whole-file",
+      "output_tokens": 13,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "nested-section-extraction",
+      "exit_code": 0,
+      "input_tokens": 3,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 2583,
+      "method": "regex",
+      "output_tokens": 13,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    },
+    {
+      "case": "nested-section-extraction",
+      "exit_code": 0,
+      "input_tokens": 3,
+      "lines_different_from_expected": 0,
+      "markdown_preserved": true,
+      "median_runtime_ns": 3053250,
+      "method": "texio",
+      "output_tokens": 13,
+      "repeatable": true,
+      "success": true,
+      "unrelated_lines_changed": 0
+    }
+  ],
+  "runs_per_case": 5,
+  "schema_version": 1,
+  "token_metric": "Unicode words and punctuation; deterministic proxy, not model tokens"
+}

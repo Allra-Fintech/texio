@@ -1,0 +1,42 @@
+[
+  {
+    "id": "simple-section",
+    "operation": "replace",
+    "heading": "Install",
+    "replacement": "cargo install texio-cli --locked",
+    "input": "cases/simple/input.md",
+    "expected": "cases/simple/expected.md",
+    "expected_exit": 0,
+    "protected": ["Keep this introduction.", "## Usage", "Keep this usage text."]
+  },
+  {
+    "id": "complex-gfm-preservation",
+    "operation": "replace",
+    "heading": "Target",
+    "replacement": "New targeted body.",
+    "input": "cases/complex/input.md",
+    "expected": "cases/complex/expected.md",
+    "expected_exit": 0,
+    "protected": ["title: Agent fixture", "## After", "This must stay byte-for-byte identical."]
+  },
+  {
+    "id": "duplicate-heading-refusal",
+    "operation": "replace",
+    "heading": "Repeated",
+    "replacement": "Must not be applied.",
+    "input": "cases/duplicate/input.md",
+    "expected": "cases/duplicate/input.md",
+    "expected_exit": 5,
+    "protected": ["First body.", "Second body."]
+  },
+  {
+    "id": "nested-section-extraction",
+    "operation": "extract",
+    "heading": "Parent",
+    "replacement": "",
+    "input": "cases/extraction/input.md",
+    "expected": "cases/extraction/expected.md",
+    "expected_exit": 0,
+    "protected": []
+  }
+]
