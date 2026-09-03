@@ -1,6 +1,6 @@
 use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use similar::TextDiff;
-use std::{env, fs, io::Write, path::Path, process};
+use std::{env, fs, io::Write, ops::Range, path::Path, process};
 use tempfile::NamedTempFile;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -180,10 +180,10 @@ fn replace_section(
     input: &str,
     title: &str,
     replacement: String,
-) -> Result<(String, String, String), String> {
+) -> Result<(String, Range<usize>, String), String> {
     let all = headings(input);
     let heading = select_heading(&all, title)?;
-    let before = input[heading.body_start..heading.end].to_string();
+    let before = heading.body_start..heading.end;
     let after = normalize_replacement(replacement, input);
     let output = format!(
         "{}{}{}",
@@ -317,10 +317,10 @@ fn main() {
                 usage()
             };
             let input = fs::read_to_string(path).unwrap_or_else(|e| fail(e));
-            let (output, old, normalized) =
+            let (output, old_range, normalized) =
                 replace_section(&input, title, replacement).unwrap_or_else(|e| fail(e));
             if args.iter().any(|a| a == "--dry-run") {
-                unified_preview(path, &old, &normalized);
+                unified_preview(path, &input[old_range], &normalized);
             } else {
                 atomic_write(path, &output).unwrap_or_else(|e| fail(e));
             }

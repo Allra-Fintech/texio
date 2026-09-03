@@ -14,9 +14,11 @@ tables, task lists, footnotes, and strikethrough.
 - Documents with or without a final newline
 
 Heading-like text inside fenced code blocks and HTML blocks is not treated as a
-section boundary. Leading YAML front matter with delimiter lines and at least
-one top-level mapping key is preserved and never rewritten by section
-operations. A leading thematic break is not mistaken for front matter.
+section boundary. Leading YAML front matter is recognized when it has delimiter
+lines and at least one unquoted, top-level key containing only ASCII letters,
+digits, hyphens, or underscores. Recognized front matter is preserved and never
+rewritten by section operations. A leading thematic break is not mistaken for
+front matter.
 
 ## Editing guarantees
 
