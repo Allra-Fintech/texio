@@ -26,5 +26,6 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           cargo build --release --locked
+          bash scripts/test-recipes.sh target/release/texio
           python3 benchmarks/run.py --texio target/release/texio --release ci --output /tmp/texio-benchmark.json
           python3 benchmarks/check.py /tmp/texio-benchmark.json
