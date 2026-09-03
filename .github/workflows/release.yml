@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy,rustfmt
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo package --locked
+      - run: cargo publish --dry-run --locked
+      - uses: rustsec/audit-check@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs: verify
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            asset: texio-x86_64-unknown-linux-gnu.tar.gz
+            binary: texio
+          - os: macos-13
+            target: x86_64-apple-darwin
+            asset: texio-x86_64-apple-darwin.tar.gz
+            binary: texio
+          - os: macos-14
+            target: aarch64-apple-darwin
+            asset: texio-aarch64-apple-darwin.tar.gz
+            binary: texio
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            asset: texio-x86_64-pc-windows-msvc.zip
+            binary: texio.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - run: cargo build --locked --release --target ${{ matrix.target }}
+      - name: Smoke test binary
+        shell: bash
+        run: target/${{ matrix.target }}/release/${{ matrix.binary }} --version
+      - name: Package Unix binary
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir staging
+          cp target/${{ matrix.target }}/release/${{ matrix.binary }} staging/
+          cp README.md LICENSE staging/
+          tar -C staging -czf ${{ matrix.asset }} .
+          shasum -a 256 ${{ matrix.asset }} > ${{ matrix.asset }}.sha256
+      - name: Package Windows binary
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory staging
+          Copy-Item target/${{ matrix.target }}/release/${{ matrix.binary }} staging/
+          Copy-Item README.md,LICENSE staging/
+          Compress-Archive -Path staging/* -DestinationPath ${{ matrix.asset }}
+          $hash = (Get-FileHash ${{ matrix.asset }} -Algorithm SHA256).Hash.ToLower()
+          "$hash  ${{ matrix.asset }}" | Out-File -Encoding ascii ${{ matrix.asset }}.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: |
+            ${{ matrix.asset }}
+            ${{ matrix.asset }}.sha256
+          if-no-files-found: error
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" dist/* --verify-tag --generate-notes --title "Texio ${{ github.ref_name }}"

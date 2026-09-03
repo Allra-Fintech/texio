@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 license = "MIT"
 description = "Reliable Markdown operations for shell scripts and AI agents"
+repository = "https://github.com/Allra-Fintech/texio"
 readme = "README.md"
 keywords = ["markdown", "cli", "automation", "agents", "commonmark"]
 categories = ["command-line-utilities", "text-processing"]
