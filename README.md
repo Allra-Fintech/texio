@@ -43,12 +43,25 @@ texio headings README.md --json
 ```
 
 ## Installation
-
-Texio is currently built from source:
+Texio requires a current stable Rust toolchain. Install the published crate:
 
 ```sh
-cargo install --path .
+cargo install texio-cli --locked
+texio --version
 ```
+
+To install from a checkout instead:
+
+```sh
+cargo install --path . --locked
+```
+
+Tagged releases also provide checksum-protected archives for Linux x86-64,
+Windows x86-64, Intel macOS, and Apple Silicon macOS. Download the archive and
+its adjacent `.sha256` file from [GitHub Releases](https://github.com/Allra-Fintech/texio/releases),
+verify the checksum, then place `texio` (or `texio.exe`) on your `PATH`.
+
+The Homebrew formula will be published after the first stable binary release.
 
 ## Status
 
