@@ -122,11 +122,12 @@ fn line_ending(input: &str) -> &'static str {
 
 fn normalize_replacement(mut replacement: String, document: &str) -> String {
     let ending = line_ending(document);
+    replacement = replacement.replace("\r\n", "\n").replace('\r', "\n");
     if !replacement.ends_with('\n') {
-        replacement.push_str(ending);
+        replacement.push('\n');
     }
     if ending == "\r\n" {
-        replacement = replacement.replace("\r\n", "\n").replace('\n', "\r\n");
+        replacement = replacement.replace('\n', "\r\n");
     }
     replacement
 }
@@ -354,6 +355,14 @@ mod tests {
         assert_eq!(
             output,
             "# Top\r\n## Target\r\nfirst\r\nsecond\r\n## Last\r\nkeep\r\n"
+        );
+    }
+
+    #[test]
+    fn replacement_uses_the_documents_lf_line_endings() {
+        assert_eq!(
+            normalize_replacement("first\r\nsecond\r".to_string(), "# Document\n"),
+            "first\nsecond\n"
         );
     }
 
