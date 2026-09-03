@@ -1,6 +1,14 @@
+use clap::{ArgGroup, Parser as ClapParser, Subcommand, ValueEnum};
 use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
+use serde_json::json;
 use similar::TextDiff;
-use std::{env, fs, io::Write, ops::Range, path::Path, process};
+use std::{
+    fs,
+    io::{self, Read, Write},
+    ops::Range,
+    path::Path,
+    process::ExitCode,
+};
 use tempfile::NamedTempFile;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -140,6 +148,7 @@ fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, St
     }
 }
 
+#[cfg(test)]
 fn json_escape(value: &str) -> String {
     let mut escaped = String::with_capacity(value.len());
     for character in value.chars() {
@@ -194,16 +203,100 @@ fn replace_section(
     Ok((output, before, after))
 }
 
-fn usage() -> ! {
-    eprintln!(
-        "texio — reliable Markdown operations\n\nUSAGE:\n  texio headings <file> [--json]\n  texio section <file> <heading> [--body-only] [--json]\n  texio replace <file> --section <heading> (--from <file> | --text <text>) [--dry-run]\n"
-    );
-    process::exit(2);
+#[derive(ClapParser)]
+#[command(name = "texio", version, about = "Reliable Markdown operations")]
+struct Cli {
+    /// Emit runtime errors as text or JSON on stderr.
+    #[arg(long, global = true, value_enum, default_value_t = ErrorFormat::Text)]
+    error_format: ErrorFormat,
+    #[command(subcommand)]
+    command: Command,
 }
 
-fn fail(message: impl std::fmt::Display) -> ! {
-    eprintln!("texio: {message}");
-    process::exit(1);
+#[derive(Clone, Copy, ValueEnum)]
+enum ErrorFormat {
+    Text,
+    Json,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    /// List structural headings.
+    Headings {
+        /// Markdown file, or - for stdin.
+        file: String,
+        #[arg(long)]
+        json: bool,
+    },
+    /// Extract one section by visible heading text.
+    Section {
+        /// Markdown file, or - for stdin.
+        file: String,
+        heading: String,
+        #[arg(long)]
+        body_only: bool,
+        #[arg(long)]
+        json: bool,
+    },
+    /// Replace one section body.
+    #[command(
+        group(ArgGroup::new("source").required(true).multiple(false).args(["from", "text"])),
+        group(ArgGroup::new("mode").required(true).multiple(false).args(["write", "dry_run", "stdout"]))
+    )]
+    Replace {
+        /// Markdown file, or - for stdin with --stdout/--dry-run.
+        file: String,
+        #[arg(long)]
+        section: String,
+        /// Read replacement text from a file, or - for stdin.
+        #[arg(long)]
+        from: Option<String>,
+        #[arg(long)]
+        text: Option<String>,
+        /// Atomically update FILE.
+        #[arg(long)]
+        write: bool,
+        /// Print a unified diff without changing FILE.
+        #[arg(long)]
+        dry_run: bool,
+        /// Print the updated document without changing FILE.
+        #[arg(long)]
+        stdout: bool,
+    },
+}
+
+struct AppError {
+    code: u8,
+    kind: &'static str,
+    message: String,
+}
+
+fn error(code: u8, kind: &'static str, message: impl ToString) -> AppError {
+    AppError {
+        code,
+        kind,
+        message: message.to_string(),
+    }
+}
+
+fn read_input(path: &str) -> Result<String, AppError> {
+    if path == "-" {
+        let mut input = String::new();
+        io::stdin()
+            .read_to_string(&mut input)
+            .map_err(|e| error(3, "input", e))?;
+        Ok(input)
+    } else {
+        fs::read_to_string(path).map_err(|e| error(3, "input", e))
+    }
+}
+
+fn selection_error(message: String) -> AppError {
+    if message.starts_with("ambiguous") {
+        error(5, "ambiguous_section", message)
+    } else {
+        error(4, "section_not_found", message)
+    }
 }
 
 fn unified_preview(path: &str, before: &str, after: &str) {
@@ -250,83 +343,103 @@ fn parent_directory(path: &Path) -> &Path {
         .unwrap_or_else(|| Path::new("."))
 }
 
-fn main() {
-    let args: Vec<String> = env::args().skip(1).collect();
-    let Some(command) = args.first().map(String::as_str) else {
-        usage()
-    };
-
-    match command {
-        "headings" => {
-            let Some(path) = args.get(1) else { usage() };
-            let input = fs::read_to_string(path).unwrap_or_else(|e| fail(e));
+fn run(cli: &Cli) -> Result<(), AppError> {
+    match &cli.command {
+        Command::Headings {
+            file,
+            json: as_json,
+        } => {
+            let input = read_input(file)?;
             let all = headings(&input);
-            if args.iter().any(|a| a == "--json") {
-                print!("[");
-                for (i, h) in all.iter().enumerate() {
-                    if i > 0 {
-                        print!(",");
-                    }
-                    print!(
-                        "{{\"level\":{},\"title\":\"{}\"}}",
-                        h.level,
-                        json_escape(&h.title)
-                    );
-                }
-                println!("]");
+            if *as_json {
+                let values: Vec<_> = all
+                    .iter()
+                    .map(|h| json!({"level": h.level, "title": h.title}))
+                    .collect();
+                println!("{}", serde_json::to_string(&values).unwrap());
             } else {
                 for h in all {
                     println!("H{}\t{}", h.level, h.title);
                 }
             }
         }
-        "section" => {
-            let (Some(path), Some(title)) = (args.get(1), args.get(2)) else {
-                usage()
-            };
-            let input = fs::read_to_string(path).unwrap_or_else(|e| fail(e));
+        Command::Section {
+            file,
+            heading,
+            body_only,
+            json: as_json,
+        } => {
+            let input = read_input(file)?;
             let all = headings(&input);
-            let h = select_heading(&all, title).unwrap_or_else(|e| fail(e));
-            let body_only = args.iter().any(|a| a == "--body-only");
-            let start = if body_only { h.body_start } else { h.start };
+            let h = select_heading(&all, heading).map_err(selection_error)?;
+            let start = if *body_only { h.body_start } else { h.start };
             let value = &input[start..h.end];
-            if args.iter().any(|a| a == "--json") {
+            if *as_json {
                 println!(
-                    "{{\"heading\":\"{}\",\"level\":{},\"content\":\"{}\"}}",
-                    json_escape(&h.title),
-                    h.level,
-                    json_escape(value)
+                    "{}",
+                    json!({"heading": h.title, "level": h.level, "content": value})
                 );
             } else {
                 print!("{value}");
             }
         }
-        "replace" => {
-            let Some(path) = args.get(1) else { usage() };
-            let section_pos = args
-                .iter()
-                .position(|a| a == "--section")
-                .unwrap_or_else(|| usage());
-            let title = args.get(section_pos + 1).unwrap_or_else(|| usage());
-            let replacement = if let Some(pos) = args.iter().position(|a| a == "--from") {
-                fs::read_to_string(args.get(pos + 1).unwrap_or_else(|| usage()))
-                    .unwrap_or_else(|e| fail(e))
-            } else if let Some(pos) = args.iter().position(|a| a == "--text") {
-                args.get(pos + 1).unwrap_or_else(|| usage()).clone()
-            } else {
-                usage()
+        Command::Replace {
+            file,
+            section,
+            from,
+            text,
+            write,
+            dry_run,
+            stdout,
+        } => {
+            if file == "-" && *write {
+                return Err(error(
+                    2,
+                    "usage",
+                    "--write requires a filesystem path; use --stdout with FILE -",
+                ));
+            }
+            if file == "-" && from.as_deref() == Some("-") {
+                return Err(error(
+                    2,
+                    "usage",
+                    "document and replacement cannot both read from stdin",
+                ));
+            }
+            let replacement = match (from, text) {
+                (Some(path), None) => read_input(path)?,
+                (None, Some(value)) => value.clone(),
+                _ => unreachable!("clap validates the source group"),
             };
-            let input = fs::read_to_string(path).unwrap_or_else(|e| fail(e));
+            let input = read_input(file)?;
             let (output, old_range, normalized) =
-                replace_section(&input, title, replacement).unwrap_or_else(|e| fail(e));
-            if args.iter().any(|a| a == "--dry-run") {
-                unified_preview(path, &input[old_range], &normalized);
-            } else {
-                atomic_write(path, &output).unwrap_or_else(|e| fail(e));
+                replace_section(&input, section, replacement).map_err(selection_error)?;
+            if *dry_run {
+                unified_preview(file, &input[old_range], &normalized);
+            } else if *stdout {
+                print!("{output}");
+            } else if *write {
+                atomic_write(file, &output).map_err(|e| error(6, "write", e))?;
             }
         }
-        "--help" | "-h" => usage(),
-        _ => usage(),
+    }
+    Ok(())
+}
+
+fn main() -> ExitCode {
+    let cli = Cli::parse();
+    match run(&cli) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(failure) => {
+            match cli.error_format {
+                ErrorFormat::Text => eprintln!("texio: {}", failure.message),
+                ErrorFormat::Json => eprintln!(
+                    "{}",
+                    json!({"error": {"code": failure.kind, "message": failure.message}})
+                ),
+            }
+            ExitCode::from(failure.code)
+        }
     }
 }
 
