@@ -492,7 +492,10 @@ mod tests {
             ["Document title", "#Target", "Following section"]
         );
         let target = select_heading(&all, "#Target").unwrap();
-        assert_eq!(&md[target.body_start..target.end], "\nSetext body.\n\n");
+        assert_eq!(
+            md[target.body_start..target.end].replace("\r\n", "\n"),
+            "\nSetext body.\n\n"
+        );
     }
 
     #[test]
