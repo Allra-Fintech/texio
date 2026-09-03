@@ -1,6 +1,6 @@
 use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use similar::TextDiff;
-use std::{env, fs, io::Write, path::Path, process};
+use std::{env, fs, io::Write, ops::Range, path::Path, process};
 use tempfile::NamedTempFile;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -19,10 +19,11 @@ fn headings(input: &str) -> Vec<Heading> {
         | Options::ENABLE_TASKLISTS;
     let mut found = Vec::new();
     let mut current: Option<(usize, usize, String)> = None;
+    let front_matter_end = yaml_front_matter_end(input);
 
     for (event, range) in Parser::new_ext(input, options).into_offset_iter() {
         match event {
-            Event::Start(Tag::Heading { level, .. }) => {
+            Event::Start(Tag::Heading { level, .. }) if range.start >= front_matter_end => {
                 current = Some((heading_level(level), range.start, String::new()));
             }
             Event::Text(text) | Event::Code(text) if current.is_some() => {
@@ -52,6 +53,35 @@ fn headings(input: &str) -> Vec<Heading> {
         }
     }
     found
+}
+
+fn yaml_front_matter_end(input: &str) -> usize {
+    let first_end = line_end(input, 0);
+    if input[..first_end].trim_end_matches(['\r', '\n']) != "---" {
+        return 0;
+    }
+    let mut offset = first_end;
+    let mut has_mapping_key = false;
+    for line in input[first_end..].split_inclusive('\n') {
+        offset += line.len();
+        let content = line.trim_end_matches(['\r', '\n']);
+        if matches!(content, "---" | "...") {
+            return if has_mapping_key { offset } else { 0 };
+        }
+        has_mapping_key |= looks_like_yaml_mapping_line(content);
+    }
+    0
+}
+
+fn looks_like_yaml_mapping_line(line: &str) -> bool {
+    let Some((key, _)) = line.split_once(':') else {
+        return false;
+    };
+    let key = key.trim();
+    !key.is_empty()
+        && key
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'-'))
 }
 
 fn heading_level(level: HeadingLevel) -> usize {
@@ -144,6 +174,24 @@ fn normalize_replacement(mut replacement: String, document: &str) -> String {
         replacement = replacement.replace('\n', "\r\n");
     }
     replacement
+}
+
+fn replace_section(
+    input: &str,
+    title: &str,
+    replacement: String,
+) -> Result<(String, Range<usize>, String), String> {
+    let all = headings(input);
+    let heading = select_heading(&all, title)?;
+    let before = heading.body_start..heading.end;
+    let after = normalize_replacement(replacement, input);
+    let output = format!(
+        "{}{}{}",
+        &input[..heading.body_start],
+        after,
+        &input[heading.end..]
+    );
+    Ok((output, before, after))
 }
 
 fn usage() -> ! {
@@ -269,22 +317,10 @@ fn main() {
                 usage()
             };
             let input = fs::read_to_string(path).unwrap_or_else(|e| fail(e));
-            let all = headings(&input);
-            let h = select_heading(&all, title).unwrap_or_else(|e| fail(e));
-            let old = &input[h.body_start..h.end];
-            let normalized = normalize_replacement(replacement, &input);
-            let output = format!(
-                "{}{}{}",
-                &input[..h.body_start],
-                normalized,
-                &input[h.end..]
-            );
+            let (output, old_range, normalized) =
+                replace_section(&input, title, replacement).unwrap_or_else(|e| fail(e));
             if args.iter().any(|a| a == "--dry-run") {
-                unified_preview(
-                    path,
-                    old,
-                    &output[h.body_start..h.body_start + normalized.len()],
-                );
+                unified_preview(path, &input[old_range], &normalized);
             } else {
                 atomic_write(path, &output).unwrap_or_else(|e| fail(e));
             }
@@ -441,5 +477,90 @@ mod tests {
                 .unwrap_err()
                 .contains("ambiguous")
         );
+    }
+
+    #[test]
+    fn complex_gfm_fixture_has_only_structural_headings() {
+        let md = include_str!("../tests/fixtures/complex-gfm.md");
+        let all = headings(md);
+        assert_eq!(
+            all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
+            ["Document", "Target", "Nested section", "After"]
+        );
+        let target = select_heading(&all, "Target").unwrap();
+        let section = &md[target.start..target.end];
+        assert!(section.contains("| Tables | yes |"));
+        assert!(section.contains("- [x] Parsed task"));
+        assert!(section.contains("## Heading inside a fence"));
+        assert!(section.contains("## Heading inside an HTML block"));
+        assert!(section.contains("[^note]: Footnote text."));
+        assert!(!section.contains("This must remain outside Target."));
+    }
+
+    #[test]
+    fn opening_thematic_break_does_not_hide_later_headings() {
+        let md = "---\nIntro text\n\n# Visible\nbody\n\n---\n";
+        assert_eq!(yaml_front_matter_end(md), 0);
+        assert_eq!(
+            headings(md)
+                .iter()
+                .map(|heading| heading.title.as_str())
+                .collect::<Vec<_>>(),
+            ["Visible"]
+        );
+    }
+
+    #[test]
+    fn front_matter_requires_a_top_level_mapping_key() {
+        assert_eq!(yaml_front_matter_end("---\ntitle: Texio\n---\n# Doc\n"), 21);
+        assert_eq!(yaml_front_matter_end("---\nplain scalar\n---\n# Doc\n"), 0);
+    }
+
+    #[test]
+    fn setext_fixture_handles_hash_prefixed_title() {
+        let md = include_str!("../tests/fixtures/setext.md");
+        let all = headings(md);
+        assert_eq!(
+            all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
+            ["Document title", "#Target", "Following section"]
+        );
+        let target = select_heading(&all, "#Target").unwrap();
+        assert_eq!(
+            md[target.body_start..target.end].replace("\r\n", "\n"),
+            "\nSetext body.\n\n"
+        );
+    }
+
+    #[test]
+    fn fixture_replacement_preserves_every_byte_outside_the_body() {
+        let md = include_str!("../tests/fixtures/complex-gfm.md");
+        let all = headings(md);
+        let target = select_heading(&all, "Target").unwrap();
+        let prefix = &md[..target.body_start];
+        let suffix = &md[target.end..];
+        let (output, _, normalized) =
+            replace_section(md, "Target", "Replacement body.".to_string()).unwrap();
+        assert_eq!(&output[..prefix.len()], prefix);
+        assert_eq!(
+            &output[prefix.len()..prefix.len() + normalized.len()],
+            normalized
+        );
+        assert_eq!(&output[prefix.len() + normalized.len()..], suffix);
+    }
+
+    #[test]
+    fn document_without_final_newline_is_preserved() {
+        let md = "# First\nbody\n# Last\nold";
+        assert_eq!(
+            headings(md)
+                .iter()
+                .map(|heading| heading.title.as_str())
+                .collect::<Vec<_>>(),
+            ["First", "Last"]
+        );
+        let (output, _, _) = replace_section(md, "First", "new".to_string()).unwrap();
+        assert_eq!(output, "# First\nnew\n# Last\nold");
+        let (output, _, _) = replace_section(md, "Last", "new".to_string()).unwrap();
+        assert_eq!(output, "# First\nbody\n# Last\nnew\n");
     }
 }

@@ -59,6 +59,9 @@ Current parsing is powered by `pulldown-cmark` and supports ATX and Setext
 headings while ignoring heading-like text inside fenced code blocks. Replacement
 is atomic and preserves the target file's permissions.
 
+See [Markdown support](docs/markdown-support.md) for dialect coverage, editing
+guarantees, and current limitations.
+
 ## Why Texio?
 
 AI agents frequently rewrite entire Markdown files to change one section. That
