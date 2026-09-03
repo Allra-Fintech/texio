@@ -79,10 +79,14 @@ See the [CLI contract](docs/cli-contract.md) for stdin/stdout behavior, JSON
 schemas, safety modes, compatibility policy, and exit codes.
 
 ## Why Texio?
-
 AI agents frequently rewrite entire Markdown files to change one section. That
 uses unnecessary context and can alter unrelated content. Texio provides a
 small, deterministic operation that is easier to review and automate.
+
+- Try [ten tested agent recipes](docs/recipes.md).
+- Copy the [agent instructions](docs/agent-instructions.md).
+- Read [Stop letting agents rewrite your entire README](docs/stop-rewriting-readmes.md).
+- Inspect and reproduce the [public benchmark](benchmarks/README.md).
 
 ## License
 
