@@ -1,4 +1,7 @@
-use std::{env, fs, process};
+use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
+use similar::TextDiff;
+use std::{env, fs, io::Write, path::Path, process};
+use tempfile::NamedTempFile;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Heading {
@@ -10,46 +13,37 @@ struct Heading {
 }
 
 fn headings(input: &str) -> Vec<Heading> {
-    let mut found: Vec<Heading> = Vec::new();
-    let mut offset = 0;
-    let mut fence: Option<(char, usize)> = None;
+    let options = Options::ENABLE_TABLES
+        | Options::ENABLE_FOOTNOTES
+        | Options::ENABLE_STRIKETHROUGH
+        | Options::ENABLE_TASKLISTS;
+    let mut found = Vec::new();
+    let mut current: Option<(usize, usize, String)> = None;
 
-    for line_with_end in input.split_inclusive('\n') {
-        let line = line_with_end.strip_suffix('\n').unwrap_or(line_with_end);
-        let trimmed = line.trim_start();
-
-        if let Some((marker, width)) = fence {
-            if trimmed.chars().take_while(|c| *c == marker).count() >= width {
-                fence = None;
+    for (event, range) in Parser::new_ext(input, options).into_offset_iter() {
+        match event {
+            Event::Start(Tag::Heading { level, .. }) => {
+                current = Some((heading_level(level), range.start, String::new()));
             }
-            offset += line_with_end.len();
-            continue;
-        }
-
-        let first = trimmed.chars().next();
-        if matches!(first, Some('`' | '~')) {
-            let marker = first.unwrap();
-            let width = trimmed.chars().take_while(|c| *c == marker).count();
-            if width >= 3 {
-                fence = Some((marker, width));
-                offset += line_with_end.len();
-                continue;
+            Event::Text(text) | Event::Code(text) if current.is_some() => {
+                current.as_mut().unwrap().2.push_str(&text);
             }
+            Event::SoftBreak | Event::HardBreak if current.is_some() => {
+                current.as_mut().unwrap().2.push(' ');
+            }
+            Event::End(TagEnd::Heading(_)) => {
+                if let Some((level, start, title)) = current.take() {
+                    found.push(Heading {
+                        level,
+                        title: title.trim().to_string(),
+                        start,
+                        body_start: heading_body_start(input, start),
+                        end: input.len(),
+                    });
+                }
+            }
+            _ => {}
         }
-
-        let level = line.chars().take_while(|c| *c == '#').count();
-        if (1..=6).contains(&level) && line.as_bytes().get(level) == Some(&b' ') {
-            let raw = line[level + 1..].trim();
-            let title = raw.trim_end_matches('#').trim_end().to_string();
-            found.push(Heading {
-                level,
-                title,
-                start: offset,
-                body_start: offset + line_with_end.len(),
-                end: input.len(),
-            });
-        }
-        offset += line_with_end.len();
     }
 
     for i in 0..found.len() {
@@ -58,6 +52,33 @@ fn headings(input: &str) -> Vec<Heading> {
         }
     }
     found
+}
+
+fn heading_level(level: HeadingLevel) -> usize {
+    match level {
+        HeadingLevel::H1 => 1,
+        HeadingLevel::H2 => 2,
+        HeadingLevel::H3 => 3,
+        HeadingLevel::H4 => 4,
+        HeadingLevel::H5 => 5,
+        HeadingLevel::H6 => 6,
+    }
+}
+
+fn line_end(input: &str, from: usize) -> usize {
+    input[from..]
+        .find('\n')
+        .map_or(input.len(), |relative| from + relative + 1)
+}
+
+fn heading_body_start(input: &str, start: usize) -> usize {
+    let first_end = line_end(input, start);
+    let first_line = input[start..first_end].trim_start();
+    if first_line.starts_with('#') {
+        first_end
+    } else {
+        line_end(input, first_end)
+    }
 }
 
 fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, String> {
@@ -97,15 +118,31 @@ fn fail(message: impl std::fmt::Display) -> ! {
 }
 
 fn unified_preview(path: &str, before: &str, after: &str) {
-    println!("--- {path}");
-    println!("+++ {path} (proposed)");
-    println!("@@ section replacement @@");
-    for line in before.lines() {
-        println!("-{line}");
-    }
-    for line in after.lines() {
-        println!("+{line}");
-    }
+    print!(
+        "{}",
+        TextDiff::from_lines(before, after)
+            .unified_diff()
+            .header(path, &format!("{path} (proposed)"))
+    );
+}
+
+fn atomic_write(path: &str, content: &str) -> Result<(), String> {
+    let target = Path::new(path);
+    let parent = target.parent().unwrap_or_else(|| Path::new("."));
+    let permissions = fs::metadata(target)
+        .map_err(|e| e.to_string())?
+        .permissions();
+    let mut temporary = NamedTempFile::new_in(parent).map_err(|e| e.to_string())?;
+    temporary
+        .write_all(content.as_bytes())
+        .and_then(|_| temporary.flush())
+        .map_err(|e| e.to_string())?;
+    temporary
+        .as_file()
+        .set_permissions(permissions)
+        .map_err(|e| e.to_string())?;
+    temporary.persist(target).map_err(|e| e.error.to_string())?;
+    Ok(())
 }
 
 fn main() {
@@ -195,7 +232,7 @@ fn main() {
                     &output[h.body_start..h.body_start + normalized.len()],
                 );
             } else {
-                fs::write(path, output).unwrap_or_else(|e| fail(e));
+                atomic_write(path, &output).unwrap_or_else(|e| fail(e));
             }
         }
         "--help" | "-h" => usage(),
@@ -223,6 +260,44 @@ mod tests {
             all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
             ["Real", "Next"]
         );
+    }
+
+    #[test]
+    fn supports_setext_headings() {
+        let md = "Title\n=====\nintro\n\nSection\n-------\nbody\n";
+        let all = headings(md);
+        assert_eq!(
+            all.iter()
+                .map(|h| (h.level, h.title.as_str()))
+                .collect::<Vec<_>>(),
+            [(1, "Title"), (2, "Section")]
+        );
+        let section = select_heading(&all, "Section").unwrap();
+        assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn handles_crlf_without_inventing_a_heading() {
+        let md = "# Real\r\ntext\r\n```md\r\n# Fake\r\n```\r\n## Next\r\n";
+        let all = headings(md);
+        assert_eq!(
+            all.iter().map(|h| h.title.as_str()).collect::<Vec<_>>(),
+            ["Real", "Next"]
+        );
+    }
+
+    #[test]
+    fn preserves_unrelated_bytes_during_replacement() {
+        let md = "# Top\nkeep\n## Target\nold\n## Last\nkeep too\n";
+        let all = headings(md);
+        let target = select_heading(&all, "Target").unwrap();
+        let output = format!(
+            "{}{}{}",
+            &md[..target.body_start],
+            "new\n",
+            &md[target.end..]
+        );
+        assert_eq!(output, "# Top\nkeep\n## Target\nnew\n## Last\nkeep too\n");
     }
 
     #[test]

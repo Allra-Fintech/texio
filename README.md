@@ -55,6 +55,10 @@ Texio is an early preview. The initial contract focuses on section extraction,
 heading discovery, and surgical replacement. CommonMark and GitHub Flavored
 Markdown compatibility work is ongoing.
 
+Current parsing is powered by `pulldown-cmark` and supports ATX and Setext
+headings while ignoring heading-like text inside fenced code blocks. Replacement
+is atomic and preserves the target file's permissions.
+
 ## Why Texio?
 
 AI agents frequently rewrite entire Markdown files to change one section. That
@@ -64,4 +68,3 @@ small, deterministic operation that is easier to review and automate.
 ## License
 
 MIT
-
