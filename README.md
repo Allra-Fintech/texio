@@ -28,8 +28,9 @@ texio replace README.md \
   --dry-run
 ```
 
-Apply it by removing `--dry-run`. Texio preserves content outside the selected
-section and refuses ambiguous heading matches.
+Apply it by replacing `--dry-run` with the explicit `--write` flag. Texio
+preserves content outside the selected section and refuses ambiguous heading
+matches.
 
 ## List headings for an agent
 
@@ -61,6 +62,8 @@ is atomic and preserves the target file's permissions.
 
 See [Markdown support](docs/markdown-support.md) for dialect coverage, editing
 guarantees, and current limitations.
+See the [CLI contract](docs/cli-contract.md) for stdin/stdout behavior, JSON
+schemas, safety modes, compatibility policy, and exit codes.
 
 ## Why Texio?
 
