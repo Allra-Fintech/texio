@@ -45,16 +45,21 @@ measurement and does not claim billing-token savings or general model quality.
 
 ## Agent policy validation
 
-The current Codex session followed the repository's AGENTS.md policy by
-inspecting headings, reviewing dry-run output, and applying the same section
-replacement. The demo exercises missing and ambiguous target refusals and
-verifies unchanged bytes. These scripted checks validate CLI behavior; they
-do not prove independent agent adherence or evaluate an instruction file.
+The current Codex session followed the repository's policy by inspecting
+headings, reviewing dry-run output, applying the same replacement, and checking
+the resulting diff. Six fresh Claude Code sessions then tested valid, missing,
+and duplicate targets with the copyable policy in both `AGENTS.md` and
+`CLAUDE.md` contexts.
 
-The copyable policy is vendor-neutral and can be placed in AGENTS.md or
-CLAUDE.md. No Claude runtime is available in this environment, so cross-agent
-behavior remains unverified and #32 must stay open until actual agent trials
-are recorded. This task makes no comparative agent-quality claim.
+The [cross-agent validation report](agent-validation/README.md) records the
+policy revision, outcomes, evidence, reproduction procedure, and limitations.
+All revised-policy trials inspected real headings. Both valid trials previewed
+before writing and produced exact expected bytes; all missing and duplicate
+trials stopped without writes. No trial used a generic edit tool.
+
+This evidence covers six deterministic Claude Code fixtures and the observed
+Codex workflow. It does not claim universal behavior across agents, models,
+prompts, or repositories.
 
 ## Adoption baseline
 
