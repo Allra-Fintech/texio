@@ -6,7 +6,7 @@ on:
       version:
         description: Published version without v prefix
         required: true
-        default: '0.1.1'
+        default: '0.1.2'
       homebrew:
         description: Verify published Homebrew formula too
         type: boolean
@@ -56,6 +56,10 @@ jobs:
         run: |
           cargo install --path . --locked --root "$RUNNER_TEMP/source"
           "$RUNNER_TEMP/source/bin/texio" --version
+      - name: Execute documented binary installation commands
+        shell: bash
+        run: |
+          python3 scripts/verify-install-docs.py --texio "$RUNNER_TEMP/crate/bin/texio${{ runner.os == 'Windows' && '.exe' || '' }}" --target "${{ matrix.target }}"
       - name: Verify Homebrew installation
         if: runner.os == 'macOS' && inputs.homebrew
         env:
