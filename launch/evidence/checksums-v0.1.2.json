@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/Allra-Fintech/texio/releases/tag/v0.1.2",
+  "verified_sha256": {
+    "texio-aarch64-apple-darwin.tar.gz": "0c7ad5722f5d4d14658a9bc44f17c851ddcf7f24f06f172d6b7fcad8317979b2",
+    "texio-x86_64-apple-darwin.tar.gz": "20433557c85076c9d43de5abaab59fb7f20c714256493e7e5cc9c56fb79772bc",
+    "texio-x86_64-pc-windows-msvc.zip": "db538f7e19768c5201b090c180aff943b9f703f1796cb4e18391db7c226ee1a5",
+    "texio-x86_64-unknown-linux-gnu.tar.gz": "4a9832bac85736aaddc8eeb7c8840b2d46e6746ea529b1ff874ad0dd3a3f9152"
+  }
+}
