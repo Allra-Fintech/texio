@@ -14,7 +14,7 @@ cargo install texio-cli --locked
 texio --version
 ```
 
-For an exact version, add `--version 0.1.1`. A source build may take more than
+For an exact version, add `--version 0.1.2`. A source build may take more than
 five minutes depending on the machine and network. From a source checkout,
 use `cargo install --path . --locked`.
 
@@ -32,7 +32,7 @@ The following example uses Apple Silicon. Set `target` to the matching value
 above. It installs into a user-owned directory without administrator access.
 
 ```sh
-version=0.1.1
+version=0.1.2
 target=aarch64-apple-darwin
 archive="texio-$target.tar.gz"
 download_dir=$(mktemp -d)
@@ -61,7 +61,7 @@ Run in PowerShell. This verifies the checksum before extracting the archive
 and adds the installation directory to the current session's PATH.
 
 ```powershell
-$version = '0.1.1'
+$version = '0.1.2'
 $archive = 'texio-x86_64-pc-windows-msvc.zip'
 $downloadDir = Join-Path ([IO.Path]::GetTempPath()) ([guid]::NewGuid().ToString())
 New-Item -ItemType Directory $downloadDir | Out-Null
@@ -80,8 +80,14 @@ Add that directory to your user PATH in Windows settings for future sessions.
 
 ## Homebrew
 
-The launch packaging task is preparing `Allra-Fintech/tap/texio` for both macOS
-architectures. Until its verification is recorded in the
-[launch readiness report](../launch/readiness.md), use the crate or binary
-instructions above. The unqualified command `brew install texio` is not a
-supported installation path.
+Install the published organization formula on Apple Silicon or Intel macOS:
+
+```sh
+brew install Allra-Fintech/tap/texio
+texio --version
+brew test Allra-Fintech/tap/texio
+```
+
+Use the fully qualified formula name above. Both macOS architectures passed
+[installation and safe-edit tests](https://github.com/Allra-Fintech/homebrew-tap/actions/runs/34331695494)
+for the initial v0.1.1 formula. The formula is updated alongside releases.
