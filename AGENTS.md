@@ -18,6 +18,29 @@ number. Use a plain descriptive PR title, and put issue linkage in the PR body:
 
 Do not begin untracked repository work and register an issue afterward.
 
+## Branch strategy
+
+`develop` is the integration branch. `main` is the release branch and must
+always represent a publish-ready state.
+
+For normal implementation, fixes, documentation, maintenance, research, and
+promotion work:
+
+1. Update local `develop` from `origin/develop`.
+2. Create the issue branch from `develop`, not from `main`.
+3. Open the pull request with `develop` as its base branch.
+4. Merge only after required review and checks pass.
+
+Do not merge normal feature branches directly into `main`. When the accumulated
+changes on `develop` are ready to publish, create a dedicated release issue and
+open one release pull request from `develop` to `main`. Use a merge commit for
+the release pull request rather than squash or rebase merging, then fast-forward
+`develop` to the resulting `main` commit before starting more work.
+
+An urgent production hotfix may branch from `main` only when its dedicated issue
+documents why it cannot wait for the normal release flow. Merge the hotfix into
+`main`, then synchronize the same commit back into `develop` immediately.
+
 ## Markdown operations
 
 Use Texio to inspect or change Markdown structure. Prefer it over regex and
