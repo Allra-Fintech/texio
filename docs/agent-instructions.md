@@ -16,3 +16,7 @@ missing or ambiguous heading, stop and report the error instead of guessing.
 The policy is intentionally Markdown-only. It does not ask Texio to lint,
 format, render, or modify non-Markdown files. The repository's own
 [`AGENTS.md`](../AGENTS.md) uses and tests the same workflow.
+
+See the [installation guide](installation.md) and [tested recipes](recipes.md).
+The [validation record](../launch/readiness.md#agent-policy-validation) states
+which behavior was observed and which cross-agent trials remain unverified.
