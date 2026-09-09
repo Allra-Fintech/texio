@@ -1,0 +1,47 @@
+{
+  "version": "0.1.2",
+  "checks": {
+    "crate_publication": {
+      "conclusion": "success",
+      "headSha": "2c56fe6042b38ee1b1fc4424ed40c134a6b1cfac",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:04:37Z",
+      "url": "https://github.com/Allra-Fintech/texio/actions/runs/34332614524"
+    },
+    "candidate_release_dry_run": {
+      "conclusion": "success",
+      "headSha": "a0a5e82bdc0c9dc47496eba89c2b60275d4ddaa4",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:00:50Z",
+      "url": "https://github.com/Allra-Fintech/texio/actions/runs/34331842881"
+    },
+    "release_pr_ci": {
+      "conclusion": "success",
+      "headSha": "10bd671d2ac73b8841d6aedae1c4cae49dad91db",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:03:13Z",
+      "url": "https://github.com/Allra-Fintech/texio/actions/runs/34332390612"
+    },
+    "tagged_release": {
+      "conclusion": "success",
+      "headSha": "2c56fe6042b38ee1b1fc4424ed40c134a6b1cfac",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:08:43Z",
+      "url": "https://github.com/Allra-Fintech/texio/actions/runs/34332607844"
+    },
+    "public_installation": {
+      "conclusion": "success",
+      "headSha": "2c56fe6042b38ee1b1fc4424ed40c134a6b1cfac",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:11:27Z",
+      "url": "https://github.com/Allra-Fintech/texio/actions/runs/34333101992"
+    },
+    "homebrew_both_architectures": {
+      "conclusion": "success",
+      "headSha": "a51bad06c427811f78466fa0fed6fde578990c5c",
+      "status": "completed",
+      "updatedAt": "2026-09-09T09:11:01Z",
+      "url": "https://github.com/Allra-Fintech/homebrew-tap/actions/runs/34333146721"
+    }
+  }
+}

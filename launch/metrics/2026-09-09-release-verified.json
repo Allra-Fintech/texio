@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "repository": "Allra-Fintech/texio",
+  "started_at": "2026-09-09T09:12:27.477683+00:00",
+  "note": "Pre-promotion snapshot after v0.1.2 release and installation verification. Includes maintainer/CI archive, checksum, crate, and Homebrew traffic. External installs, independent agent trials, and external adoption remain unmeasured.",
+  "github": {
+    "source": "https://api.github.com/repos/Allra-Fintech/texio",
+    "stars": 0,
+    "forks": 0,
+    "subscribers": 0,
+    "issues_open": {
+      "count": 12,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Aissue+is%3Aopen&per_page=1"
+    },
+    "issues_closed": {
+      "count": 20,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Aissue+is%3Aclosed&per_page=1"
+    },
+    "prs_open": {
+      "count": 0,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Apr+is%3Aopen&per_page=1"
+    },
+    "prs_closed": {
+      "count": 17,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Apr+is%3Aclosed&per_page=1"
+    }
+  },
+  "releases": [
+    {
+      "tag": "v0.1.2",
+      "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/385367897",
+      "published_at": "2026-09-09T09:08:40Z",
+      "assets": [
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401194",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz.sha256",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401191",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401198",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz.sha256",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401193",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401192",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip.sha256",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401202",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401207",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz.sha256",
+          "downloads": 0,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401212",
+          "kind": "checksum"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.1",
+      "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/381954531",
+      "published_at": "2026-09-03T11:13:17Z",
+      "assets": [
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653144",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz.sha256",
+          "downloads": 3,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653146",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz",
+          "downloads": 2,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653148",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653143",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653142",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653152",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653156",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653155",
+          "kind": "checksum"
+        }
+      ]
+    }
+  ],
+  "crates_io": {
+    "source": "https://crates.io/api/v1/crates/texio-cli",
+    "available": true,
+    "downloads": 0,
+    "versions": [
+      {
+        "version": "0.1.2",
+        "downloads": 0,
+        "yanked": false
+      },
+      {
+        "version": "0.1.1",
+        "downloads": 0,
+        "yanked": false
+      }
+    ]
+  },
+  "discussions": {
+    "source": "https://github.com/Allra-Fintech/texio/discussions",
+    "count": 1
+  },
+  "evidence_ledger": {
+    "verified_external_installs": null,
+    "independent_agent_trials": null,
+    "external_repository_adoptions": null,
+    "substantive_feedback": null,
+    "note": "Not measured by API counts. Record verified evidence separately; null does not mean zero."
+  },
+  "limitations": [
+    "Downloads include maintainer and CI verification, retries and bots; they are not unique installs.",
+    "Checksum downloads are separate from binary downloads. GitHub source archives are not counted.",
+    "Stars, forks, issues and discussions do not establish adoption or substantive feedback.",
+    "Endpoints are collected sequentially and may update at different times. No personal tracking is collected."
+  ],
+  "completed_at": "2026-09-09T09:12:32.093871+00:00"
+}
