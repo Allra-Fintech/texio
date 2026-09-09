@@ -50,16 +50,6 @@ Regex baseline: (?ms)(^## Target\n).*?(?=^## |\Z)
  This must stay byte-for-byte identical.
 
 FAIL (expected): regex treats the heading inside the fence as a boundary.
-Policy scenario: AGENTS.md
-$ texio --error-format json replace document.md --section Repeated --text 'Updated safely.
-' --dry-run
-{"error":{"code":"ambiguous_section","message":"ambiguous section: Repeated (2 matches)"}}
-PASS: refused unsafe target; no write attempted.
-$ texio --error-format json replace document.md --section Missing --text 'Updated safely.
-' --dry-run
-{"error":{"code":"section_not_found","message":"section not found: Missing"}}
-PASS: refused unsafe target; no write attempted.
-Policy scenario: CLAUDE.md
 $ texio --error-format json replace document.md --section Repeated --text 'Updated safely.
 ' --dry-run
 {"error":{"code":"ambiguous_section","message":"ambiguous section: Repeated (2 matches)"}}

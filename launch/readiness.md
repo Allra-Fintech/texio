@@ -38,11 +38,14 @@ reproducible terminal demo, not an edited video.
 
 The current Codex session followed the repository's AGENTS.md policy by
 inspecting headings, reviewing dry-run output, and applying the same section
-replacement. The demo repeats missing and ambiguous target scenarios for the
-same vendor-neutral policy in AGENTS.md and CLAUDE.md contexts. These scripted
-scenarios validate CLI behavior; they do not prove independent agent adherence.
-No Claude runtime is available in this environment, so cross-agent behavior
-remains unverified and #32 must stay open until actual agent trials are recorded.
+replacement. The demo exercises missing and ambiguous target refusals and
+verifies unchanged bytes. These scripted checks validate CLI behavior; they
+do not prove independent agent adherence or evaluate an instruction file.
+
+The copyable policy is vendor-neutral and can be placed in AGENTS.md or
+CLAUDE.md. No Claude runtime is available in this environment, so cross-agent
+behavior remains unverified and #32 must stay open until actual agent trials
+are recorded. This task makes no comparative agent-quality claim.
 
 ## Adoption baseline
 

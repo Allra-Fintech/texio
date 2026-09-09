@@ -45,15 +45,13 @@ def main():
         print("".join(difflib.unified_diff(expected.decode().splitlines(True), fragile.splitlines(True), fromfile="expected", tofile="regex")))
         print("FAIL (expected): regex treats the heading inside the fence as a boundary.")
         duplicate = (root / "benchmarks/cases/duplicate/input.md").read_text().encode()
-        for context in ("AGENTS.md", "CLAUDE.md"):
-            print("Policy scenario: " + context)
-            path.write_bytes(duplicate)
-            for section, code in (("Repeated", 5), ("Missing", 4)):
-                result = run("--error-format", "json", "replace", path, "--section", section, "--text", replacement, "--dry-run")
-                assert result.returncode == code, result.returncode
-                json.loads(result.stderr)
-                assert path.read_bytes() == duplicate
-                print("PASS: refused unsafe target; no write attempted.")
+        path.write_bytes(duplicate)
+        for section, code in (("Repeated", 5), ("Missing", 4)):
+            result = run("--error-format", "json", "replace", path, "--section", section, "--text", replacement, "--dry-run")
+            assert result.returncode == code, result.returncode
+            json.loads(result.stderr)
+            assert path.read_bytes() == duplicate
+            print("PASS: refused unsafe target; no write attempted.")
     print("All launch demonstration checks passed.")
 
 
