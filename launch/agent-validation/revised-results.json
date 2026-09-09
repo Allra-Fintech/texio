@@ -1,0 +1,581 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-09T22:54:49.848177+00:00",
+  "setup": {
+    "claude_version": "2.1.266 (Claude Code)",
+    "texio_version": "texio 0.1.2",
+    "texio_sha256": "a9f4cc78215a5eceb44aadbb0b2c11f2b5bd9fa53e88c751e1869497753d3256",
+    "policy": "## Markdown edits\n\nUse Texio for structural Markdown inspection and section replacement.\n\n1. Inspect real headings with `texio headings FILE --json`, then inspect the\n   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n   from raw text: heading-like text inside a code fence is not a section.\n2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n   inspect the version-control diff. Preserve every byte outside the target body.\n\nIf a target is missing or ambiguous, stop and report the error without writing\nor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\ninvent flags. Never use regex or a whole-file rewrite when Texio can target the\nsection. Texio operations here are Markdown-only.\n",
+    "invocation": [
+      "claude",
+      "-p",
+      "--verbose",
+      "--output-format",
+      "stream-json",
+      "--no-session-persistence",
+      "--setting-sources",
+      "",
+      "--strict-mcp-config",
+      "--mcp-config",
+      "{\"mcpServers\":{}}",
+      "--disable-slash-commands",
+      "--permission-mode",
+      "dontAsk",
+      "--tools",
+      "Read,Bash,Edit,Write",
+      "--allowedTools",
+      "Read",
+      "Edit",
+      "Write",
+      "Bash(texio *)",
+      "Bash(git diff*)",
+      "Bash(pwd)",
+      "Bash(ls*)",
+      "--max-budget-usd",
+      "3"
+    ],
+    "limits": "Three-dollar cap and 240-second timeout per session; no model override."
+  },
+  "trials": [
+    {
+      "name": "agents-valid",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow AGENTS.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "after": "# Trial\n\n## Installation\nInstall Texio with Cargo.\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "expected": "# Trial\n\n## Installation\nInstall Texio with Cargo.\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "before_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "after_sha256": "4632933b00f27ecfb4656bfb05b22ae7917cfa0248a9d05b4248c11ab09ff5fb",
+      "exact_expected_bytes": true,
+      "write_calls": 1,
+      "headings_inspected": true,
+      "section_inspected": true,
+      "preview_before_write": true,
+      "generic_edit_calls": 0,
+      "permission_denials": [
+        {
+          "tool_name": "Bash",
+          "tool_use_id": "toolu_0189gAujpQzpxwRkMCW9jFmK",
+          "tool_input": {
+            "command": "git -C TRIAL_ROOT/agents-valid diff -- document.md",
+            "description": "Show version-control diff for document.md"
+          }
+        }
+      ],
+      "session_result": "success",
+      "assistant_statements": [
+        "I'll start by reading AGENTS.md for instructions.",
+        "Now I'll follow the Texio workflow: inspect headings, inspect the target section, preview, then apply.",
+        "\"Installation\" is a real heading and unambiguous. Let me inspect the target section.",
+        "Now let's preview the replacement with a dry run.",
+        "The dry-run confirms Texio treats the entire subtree under \"Installation\" (including the nested \"### Nested note\" subsection) as part of its body \u2014 this matches the AGENTS.md guidance to trust Texio's boundaries rather than infer from raw text. This is the exact, correct replacement. Applying it now.",
+        "The replacement is applied correctly and everything outside the target body is byte-for-byte preserved (the `# Trial` heading, `## Installation`/`## Usage` heading lines, and the entire Usage section content).\n\n**Outcome:**\n- Used `texio headings`, `texio section`, `texio replace --dry-run`, then `texio replace --write` per AGENTS.md workflow.\n- Texio's section boundary for \"Installation\" spans everything up to the next `##`-level heading, which includes the nested `### Nested note` subsection and surrounding blank lines \u2014 this entire body was replaced with `Install Texio with Cargo.\\n`, per Texio's (not my own) boundary detection.\n- The `## Usage` section and everything before `## Installation` are unchanged."
+      ],
+      "final_response": "The replacement is applied correctly and everything outside the target body is byte-for-byte preserved (the `# Trial` heading, `## Installation`/`## Usage` heading lines, and the entire Usage section content).\n\n**Outcome:**\n- Used `texio headings`, `texio section`, `texio replace --dry-run`, then `texio replace --write` per AGENTS.md workflow.\n- Texio's section boundary for \"Installation\" spans everything up to the next `##`-level heading, which includes the nested `### Nested note` subsection and surrounding blank lines \u2014 this entire body was replaced with `Install Texio with Cargo.\\n`, per Texio's (not my own) boundary detection.\n- The `## Usage` section and everything before `## Installation` are unchanged.",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la TRIAL_ROOT/agents-valid",
+            "description": "List files in working directory"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-valid/AGENTS.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-valid/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tOld instructions.\n6\t\n7\t```md\n8\t## Example heading\n9\t```\n10\t\n11\t### Nested note\n12\t\n13\tOld note.\n14\t\n15\t## Usage\n16\t\n17\tKeep this exactly.  \n18\t\n19\t- [x] untouched\n20\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-valid/prompt.txt"
+          },
+          "is_error": false,
+          "output": "1\tRead and follow AGENTS.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n2\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio headings document.md --json",
+            "description": "Inspect document headings via Texio"
+          },
+          "is_error": false,
+          "output": "[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":3,\"title\":\"Nested note\"},{\"level\":2,\"title\":\"Usage\"}]"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio section document.md \"Installation\"",
+            "description": "Inspect the Installation section content"
+          },
+          "is_error": false,
+          "output": "## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace --help",
+            "description": "Check texio replace command help"
+          },
+          "is_error": false,
+          "output": "Replace one section body\n\nUsage: texio replace [OPTIONS] --section <SECTION> <--from <FROM>|--text <TEXT>> <--write|--dry-run|--stdout> <FILE>\n\nArguments:\n  <FILE>  Markdown file, or - for stdin with --stdout/--dry-run\n\nOptions:\n      --error-format <ERROR_FORMAT>  Emit runtime errors as text or JSON on stderr [default: text] [possible values: text, json]\n      --section <SECTION>            \n      --from <FROM>                  Read replacement text from a file, or - for stdin\n      --text <TEXT>                  \n      --write                        Atomically update FILE\n      --dry-run                      Print a unified diff without changing FILE\n      --stdout                       Print the updated document without changing FILE\n  -h, --help                         Print help"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace document.md --section \"Installation\" --text \"Install Texio with Cargo.\" --dry-run",
+            "description": "Preview replacement of Installation section body"
+          },
+          "is_error": false,
+          "output": "--- document.md\n+++ document.md (proposed)\n@@ -1,11 +1 @@\n-\n-Old instructions.\n-\n-```md\n-## Example heading\n-```\n-\n-### Nested note\n-\n-Old note.\n-\n+Install Texio with Cargo."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace document.md --section \"Installation\" --text \"Install Texio with Cargo.\" --write",
+            "description": "Apply replacement of Installation section body"
+          },
+          "is_error": false,
+          "output": "[This command modified 1 file you've previously read: document.md. Call Read before editing.]"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-valid/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\tInstall Texio with Cargo.\n5\t## Usage\n6\t\n7\tKeep this exactly.  \n8\t\n9\t- [x] untouched\n10\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "git -C TRIAL_ROOT/agents-valid diff -- document.md",
+            "description": "Show version-control diff for document.md"
+          },
+          "is_error": true,
+          "output": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "git diff -- document.md",
+            "description": "Show version-control diff for document.md"
+          },
+          "is_error": false,
+          "output": "diff --git a/document.md b/document.md\nindex 1663ca7..bdf20e7 100644\n--- a/document.md\n+++ b/document.md\n@@ -1,17 +1,7 @@\n # Trial\n \n ## Installation\n-\n-Old instructions.\n-\n-```md\n-## Example heading\n-```\n-\n-### Nested note\n-\n-Old note.\n-\n+Install Texio with Cargo.\n ## Usage\n \n Keep this exactly."
+        }
+      ]
+    },
+    {
+      "name": "agents-missing",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow AGENTS.md. In document.md, replace the body of the section named \"Does Not Exist\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "after": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "expected": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "before_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "after_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "exact_expected_bytes": true,
+      "write_calls": 0,
+      "headings_inspected": true,
+      "section_inspected": false,
+      "preview_before_write": false,
+      "generic_edit_calls": 0,
+      "permission_denials": [],
+      "session_result": "success",
+      "assistant_statements": [
+        "There is no section named \"Does Not Exist\" in document.md (real headings are only Trial, Installation, Nested note, and Usage \u2014 \"Example heading\" is inside a code fence, not a real heading).\n\nPer AGENTS.md's instruction to stop and report the error without writing or guessing when a target is missing, I'm not making any changes.\n\n**Outcome:** The section \"Does Not Exist\" does not exist in `document.md`. No edits were made."
+      ],
+      "final_response": "There is no section named \"Does Not Exist\" in document.md (real headings are only Trial, Installation, Nested note, and Usage \u2014 \"Example heading\" is inside a code fence, not a real heading).\n\nPer AGENTS.md's instruction to stop and report the error without writing or guessing when a target is missing, I'm not making any changes.\n\n**Outcome:** The section \"Does Not Exist\" does not exist in `document.md`. No edits were made.",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la TRIAL_ROOT/agents-missing",
+            "description": "List directory contents"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-missing/AGENTS.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-missing/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tOld instructions.\n6\t\n7\t```md\n8\t## Example heading\n9\t```\n10\t\n11\t### Nested note\n12\t\n13\tOld note.\n14\t\n15\t## Usage\n16\t\n17\tKeep this exactly.  \n18\t\n19\t- [x] untouched\n20\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio headings document.md --json",
+            "description": "List real headings in document.md via Texio"
+          },
+          "is_error": false,
+          "output": "[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":3,\"title\":\"Nested note\"},{\"level\":2,\"title\":\"Usage\"}]"
+        }
+      ]
+    },
+    {
+      "name": "agents-duplicate",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow AGENTS.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "after": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "expected": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "before_sha256": "8e99069e02367a69ae60599748c9113a6c0bb568ddf03753ce8dc5d338cac762",
+      "after_sha256": "8e99069e02367a69ae60599748c9113a6c0bb568ddf03753ce8dc5d338cac762",
+      "exact_expected_bytes": true,
+      "write_calls": 0,
+      "headings_inspected": true,
+      "section_inspected": true,
+      "preview_before_write": false,
+      "generic_edit_calls": 0,
+      "permission_denials": [],
+      "session_result": "success",
+      "assistant_statements": [
+        "document.md\uc5d0 \"Installation\" \ud5e4\ub529(\ub808\ubca8 2)\uc774 \ub450 \uac1c \uc874\uc7ac\ud574 \ub300\uc0c1\uc774 \ubaa8\ud638\ud569\ub2c8\ub2e4.\n\n- `texio headings document.md --json` \u2192 `Installation`\uc774 2\uac1c \ud655\uc778\ub428\n- `texio section document.md \"Installation\"` \u2192 `texio: ambiguous section: Installation (2 matches)` (exit code 5)\n\nAGENTS.md \uc9c0\uce68(\"\ub300\uc0c1\uc774 \ubaa8\ud638\ud558\uba74 \uc911\ub2e8\ud558\uace0 \uc624\ub958\ub97c \ubcf4\uace0\ud558\uba70, \uc4f0\uae30\ub098 \ucd94\uce21\uc744 \ud558\uc9c0 \uc54a\ub294\ub2e4\")\uc5d0 \ub530\ub77c \uc791\uc5c5\uc744 \uc911\ub2e8\ud588\uc2b5\ub2c8\ub2e4. document.md\ub294 \ubcc0\uacbd\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \uc9c4\ud589\ud558\ub824\uba74 \uc5b4\ub290 \"Installation\" \uc139\uc158(1\ubc88\uc9f8 \"First.\" \ub610\ub294 2\ubc88\uc9f8 \"Second.\")\uc744 \ub300\uc0c1\uc73c\ub85c \ud560\uc9c0 \uc54c\ub824\uc8fc\uc138\uc694."
+      ],
+      "final_response": "document.md\uc5d0 \"Installation\" \ud5e4\ub529(\ub808\ubca8 2)\uc774 \ub450 \uac1c \uc874\uc7ac\ud574 \ub300\uc0c1\uc774 \ubaa8\ud638\ud569\ub2c8\ub2e4.\n\n- `texio headings document.md --json` \u2192 `Installation`\uc774 2\uac1c \ud655\uc778\ub428\n- `texio section document.md \"Installation\"` \u2192 `texio: ambiguous section: Installation (2 matches)` (exit code 5)\n\nAGENTS.md \uc9c0\uce68(\"\ub300\uc0c1\uc774 \ubaa8\ud638\ud558\uba74 \uc911\ub2e8\ud558\uace0 \uc624\ub958\ub97c \ubcf4\uace0\ud558\uba70, \uc4f0\uae30\ub098 \ucd94\uce21\uc744 \ud558\uc9c0 \uc54a\ub294\ub2e4\")\uc5d0 \ub530\ub77c \uc791\uc5c5\uc744 \uc911\ub2e8\ud588\uc2b5\ub2c8\ub2e4. document.md\ub294 \ubcc0\uacbd\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \uc9c4\ud589\ud558\ub824\uba74 \uc5b4\ub290 \"Installation\" \uc139\uc158(1\ubc88\uc9f8 \"First.\" \ub610\ub294 2\ubc88\uc9f8 \"Second.\")\uc744 \ub300\uc0c1\uc73c\ub85c \ud560\uc9c0 \uc54c\ub824\uc8fc\uc138\uc694.",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la TRIAL_ROOT/agents-duplicate",
+            "description": "List directory contents"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-duplicate/AGENTS.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-duplicate/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tFirst.\n6\t\n7\t## Installation\n8\t\n9\tSecond.\n10\t\n11\t## Usage\n12\t\n13\tKeep this exactly.\n14\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/agents-duplicate/prompt.txt"
+          },
+          "is_error": false,
+          "output": "1\tRead and follow AGENTS.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n2\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio headings document.md --json",
+            "description": "Inspect document headings with Texio"
+          },
+          "is_error": false,
+          "output": "[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Usage\"}]"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio section document.md \"Installation\"",
+            "description": "Inspect target section with Texio"
+          },
+          "is_error": true,
+          "output": "Exit code 5\ntexio: ambiguous section: Installation (2 matches)"
+        }
+      ]
+    },
+    {
+      "name": "claude-valid",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow CLAUDE.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "after": "# Trial\n\n## Installation\nInstall Texio with Cargo.\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "expected": "# Trial\n\n## Installation\nInstall Texio with Cargo.\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "before_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "after_sha256": "4632933b00f27ecfb4656bfb05b22ae7917cfa0248a9d05b4248c11ab09ff5fb",
+      "exact_expected_bytes": true,
+      "write_calls": 1,
+      "headings_inspected": true,
+      "section_inspected": true,
+      "preview_before_write": true,
+      "generic_edit_calls": 0,
+      "permission_denials": [],
+      "session_result": "success",
+      "assistant_statements": [
+        "I'll follow CLAUDE.md's workflow using Texio to inspect and replace the section.",
+        "This will replace the whole section body (including the nested subsection, per Texio's section semantics shown above). Let me preview with `--dry-run` before applying.",
+        "The section body includes the nested `### Nested note` subsection, since Texio treats it as part of \"Installation\" (nested under it). This matches CLAUDE.md's guidance to trust Texio's section boundaries rather than inferring them manually. Proceeding to apply.",
+        "Replacement complete. Summary:\n\n- Used `texio headings`, `texio section`, then `texio replace --dry-run` \u2192 `--write` per CLAUDE.md workflow.\n- The \"Installation\" section (as Texio delineates it) included the nested `### Nested note` subsection, so that content was replaced along with the old instructions.\n- Final `## Installation` body is exactly: `Install Texio with Cargo.`\n- Note: Texio's replace also removed the blank lines that previously surrounded the section body (between the heading and content, and before `## Usage`) \u2014 this is Texio's own formatting behavior on `--write`, not a manual edit, so it wasn't something I could adjust without violating the \"trust Texio, don't hand-edit\" rule in CLAUDE.md.\n- `## Usage` section and everything else is untouched (verified via `git diff`)."
+      ],
+      "final_response": "Replacement complete. Summary:\n\n- Used `texio headings`, `texio section`, then `texio replace --dry-run` \u2192 `--write` per CLAUDE.md workflow.\n- The \"Installation\" section (as Texio delineates it) included the nested `### Nested note` subsection, so that content was replaced along with the old instructions.\n- Final `## Installation` body is exactly: `Install Texio with Cargo.`\n- Note: Texio's replace also removed the blank lines that previously surrounded the section body (between the heading and content, and before `## Usage`) \u2014 this is Texio's own formatting behavior on `--write`, not a manual edit, so it wasn't something I could adjust without violating the \"trust Texio, don't hand-edit\" rule in CLAUDE.md.\n- `## Usage` section and everything else is untouched (verified via `git diff`).",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la TRIAL_ROOT/claude-valid",
+            "description": "List directory contents"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-valid/CLAUDE.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-valid/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tOld instructions.\n6\t\n7\t```md\n8\t## Example heading\n9\t```\n10\t\n11\t### Nested note\n12\t\n13\tOld note.\n14\t\n15\t## Usage\n16\t\n17\tKeep this exactly.  \n18\t\n19\t- [x] untouched\n20\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio headings document.md --json",
+            "description": "Inspect document headings with Texio"
+          },
+          "is_error": false,
+          "output": "[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":3,\"title\":\"Nested note\"},{\"level\":2,\"title\":\"Usage\"}]"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio section document.md \"Installation\"",
+            "description": "Inspect Installation section content"
+          },
+          "is_error": false,
+          "output": "## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace --help",
+            "description": "Show texio replace command help"
+          },
+          "is_error": false,
+          "output": "Replace one section body\n\nUsage: texio replace [OPTIONS] --section <SECTION> <--from <FROM>|--text <TEXT>> <--write|--dry-run|--stdout> <FILE>\n\nArguments:\n  <FILE>  Markdown file, or - for stdin with --stdout/--dry-run\n\nOptions:\n      --error-format <ERROR_FORMAT>  Emit runtime errors as text or JSON on stderr [default: text] [possible values: text, json]\n      --section <SECTION>            \n      --from <FROM>                  Read replacement text from a file, or - for stdin\n      --text <TEXT>                  \n      --write                        Atomically update FILE\n      --dry-run                      Print a unified diff without changing FILE\n      --stdout                       Print the updated document without changing FILE\n  -h, --help                         Print help"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace document.md --section \"Installation\" --text \"Install Texio with Cargo.\" --dry-run",
+            "description": "Preview replacement of Installation section body"
+          },
+          "is_error": false,
+          "output": "--- document.md\n+++ document.md (proposed)\n@@ -1,11 +1 @@\n-\n-Old instructions.\n-\n-```md\n-## Example heading\n-```\n-\n-### Nested note\n-\n-Old note.\n-\n+Install Texio with Cargo."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio replace document.md --section \"Installation\" --text \"Install Texio with Cargo.\" --write",
+            "description": "Apply replacement of Installation section body"
+          },
+          "is_error": false,
+          "output": "[This command modified 1 file you've previously read: document.md. Call Read before editing.]"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "git diff -- document.md",
+            "description": "Show version-control diff for document.md"
+          },
+          "is_error": false,
+          "output": "diff --git a/document.md b/document.md\nindex 1663ca7..bdf20e7 100644\n--- a/document.md\n+++ b/document.md\n@@ -1,17 +1,7 @@\n # Trial\n \n ## Installation\n-\n-Old instructions.\n-\n-```md\n-## Example heading\n-```\n-\n-### Nested note\n-\n-Old note.\n-\n+Install Texio with Cargo.\n ## Usage\n \n Keep this exactly."
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-valid/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\tInstall Texio with Cargo.\n5\t## Usage\n6\t\n7\tKeep this exactly.  \n8\t\n9\t- [x] untouched\n10\t"
+        }
+      ]
+    },
+    {
+      "name": "claude-missing",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow CLAUDE.md. In document.md, replace the body of the section named \"Does Not Exist\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "after": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "expected": "# Trial\n\n## Installation\n\nOld instructions.\n\n```md\n## Example heading\n```\n\n### Nested note\n\nOld note.\n\n## Usage\n\nKeep this exactly.  \n\n- [x] untouched\n",
+      "before_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "after_sha256": "0eb43be29ac6421e3b3cea0684c5249a8537f7c57db18fe4c79d5f08eb6bbe99",
+      "exact_expected_bytes": true,
+      "write_calls": 0,
+      "headings_inspected": true,
+      "section_inspected": false,
+      "preview_before_write": false,
+      "generic_edit_calls": 0,
+      "permission_denials": [],
+      "session_result": "success",
+      "assistant_statements": [
+        "I'll start by reading CLAUDE.md and checking the directory contents.",
+        "CLAUDE.md requires inspecting real headings with texio before touching anything. Let me check that.",
+        "The real headings in `document.md` are: **Trial**, **Installation**, **Nested note**, and **Usage**. There is no heading named \"Does Not Exist\" (the text that looks like a heading, `## Example heading`, is inside a code fence and doesn't count per CLAUDE.md's instructions).\n\nPer CLAUDE.md: \"If a target is missing or ambiguous, stop and report the error without writing or guessing.\"\n\n**Outcome:** No changes were made. The section \"Does Not Exist\" is not present in `document.md` \u2014 the actual top-level headings are Trial, Installation, Nested note, and Usage. Since the target section doesn't exist, I stopped without writing or guessing, as instructed."
+      ],
+      "final_response": "The real headings in `document.md` are: **Trial**, **Installation**, **Nested note**, and **Usage**. There is no heading named \"Does Not Exist\" (the text that looks like a heading, `## Example heading`, is inside a code fence and doesn't count per CLAUDE.md's instructions).\n\nPer CLAUDE.md: \"If a target is missing or ambiguous, stop and report the error without writing or guessing.\"\n\n**Outcome:** No changes were made. The section \"Does Not Exist\" is not present in `document.md` \u2014 the actual top-level headings are Trial, Installation, Nested note, and Usage. Since the target section doesn't exist, I stopped without writing or guessing, as instructed.",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la TRIAL_ROOT/claude-missing",
+            "description": "List files in working directory"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-missing/CLAUDE.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-missing/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tOld instructions.\n6\t\n7\t```md\n8\t## Example heading\n9\t```\n10\t\n11\t### Nested note\n12\t\n13\tOld note.\n14\t\n15\t## Usage\n16\t\n17\tKeep this exactly.  \n18\t\n19\t- [x] untouched\n20\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-missing/prompt.txt"
+          },
+          "is_error": false,
+          "output": "1\tRead and follow CLAUDE.md. In document.md, replace the body of the section named \"Does Not Exist\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n2\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "which texio && texio headings document.md --json",
+            "description": "Locate texio and inspect document headings"
+          },
+          "is_error": false,
+          "output": "/privateTEXIO_BIN/texio\n[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":3,\"title\":\"Nested note\"},{\"level\":2,\"title\":\"Usage\"}]"
+        }
+      ]
+    },
+    {
+      "name": "claude-duplicate",
+      "models": [
+        "claude-sonnet-5"
+      ],
+      "prompt": "Read and follow CLAUDE.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n",
+      "before": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "after": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "expected": "# Trial\n\n## Installation\n\nFirst.\n\n## Installation\n\nSecond.\n\n## Usage\n\nKeep this exactly.\n",
+      "before_sha256": "8e99069e02367a69ae60599748c9113a6c0bb568ddf03753ce8dc5d338cac762",
+      "after_sha256": "8e99069e02367a69ae60599748c9113a6c0bb568ddf03753ce8dc5d338cac762",
+      "exact_expected_bytes": true,
+      "write_calls": 0,
+      "headings_inspected": true,
+      "section_inspected": true,
+      "preview_before_write": false,
+      "generic_edit_calls": 0,
+      "permission_denials": [],
+      "session_result": "success",
+      "assistant_statements": [
+        "I'll start by reading CLAUDE.md to follow its instructions.",
+        "document.md has two sections both named \"Installation\", which makes the target ambiguous. Let me confirm this with Texio directly as CLAUDE.md instructs, rather than relying on my own reading of the raw text.",
+        "Texio confirms the target is ambiguous: `document.md` has two `## Installation` headings, and `texio section` errors with \"ambiguous section: Installation (2 matches)\".\n\nPer CLAUDE.md's instruction to stop and report without writing or guessing when a target is ambiguous, I did not make any edit.\n\n**Outcome:** No changes made. `document.md` contains two headings named \"Installation\" (lines 3 and 7), so the target section is ambiguous per `texio section document.md \"Installation\"` (exit code 5: \"ambiguous section: Installation (2 matches)\"). Please clarify which occurrence to replace (e.g., by position or by disambiguating content), and I'll proceed."
+      ],
+      "final_response": "Texio confirms the target is ambiguous: `document.md` has two `## Installation` headings, and `texio section` errors with \"ambiguous section: Installation (2 matches)\".\n\nPer CLAUDE.md's instruction to stop and report without writing or guessing when a target is ambiguous, I did not make any edit.\n\n**Outcome:** No changes made. `document.md` contains two headings named \"Installation\" (lines 3 and 7), so the target section is ambiguous per `texio section document.md \"Installation\"` (exit code 5: \"ambiguous section: Installation (2 matches)\"). Please clarify which occurrence to replace (e.g., by position or by disambiguating content), and I'll proceed.",
+      "tool_calls": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls -la",
+            "description": "List files in current directory"
+          },
+          "is_error": false
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-duplicate/CLAUDE.md"
+          },
+          "is_error": false,
+          "output": "1\t## Markdown edits\n2\t\n3\tUse Texio for structural Markdown inspection and section replacement.\n4\t\n5\t1. Inspect real headings with `texio headings FILE --json`, then inspect the\n6\t   target with `texio section FILE \"HEADING\"`. Do not infer section boundaries\n7\t   from raw text: heading-like text inside a code fence is not a section.\n8\t2. Preview with `texio replace FILE --section \"HEADING\" --text \"BODY\" --dry-run`\n9\t   or use `--from BODY_FILE` instead of `--text \"BODY\"`. Inspect the diff.\n10\t3. Apply the identical replacement with `--write` instead of `--dry-run`, then\n11\t   inspect the version-control diff. Preserve every byte outside the target body.\n12\t\n13\tIf a target is missing or ambiguous, stop and report the error without writing\n14\tor guessing. If command syntax is unclear, use `texio COMMAND --help`; do not\n15\tinvent flags. Never use regex or a whole-file rewrite when Texio can target the\n16\tsection. Texio operations here are Markdown-only.\n17\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-duplicate/document.md"
+          },
+          "is_error": false,
+          "output": "1\t# Trial\n2\t\n3\t## Installation\n4\t\n5\tFirst.\n6\t\n7\t## Installation\n8\t\n9\tSecond.\n10\t\n11\t## Usage\n12\t\n13\tKeep this exactly.\n14\t"
+        },
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "TRIAL_ROOT/claude-duplicate/prompt.txt"
+          },
+          "is_error": false,
+          "output": "1\tRead and follow CLAUDE.md. In document.md, replace the body of the section named \"Installation\" with exactly \"Install Texio with Cargo.\" followed by a newline. Keep the rest of the document unchanged. Report the outcome. Work only in this directory; Texio is installed on PATH.\n2\t"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio headings document.md --json",
+            "description": "Inspect document headings via Texio"
+          },
+          "is_error": false,
+          "output": "[{\"level\":1,\"title\":\"Trial\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Usage\"}]"
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "texio section document.md \"Installation\"",
+            "description": "Inspect the Installation section via Texio"
+          },
+          "is_error": true,
+          "output": "Exit code 5\ntexio: ambiguous section: Installation (2 matches)"
+        }
+      ]
+    }
+  ]
+}
