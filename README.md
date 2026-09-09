@@ -10,12 +10,38 @@ unnecessary changes.
 
 ## Extract a Markdown section
 
-```console
-$ texio section README.md "Installation"
-## Installation
+Install from [crates.io](https://crates.io/crates/texio-cli) with a current stable
+Rust toolchain, or use the [platform-specific binary instructions](docs/installation.md).
 
-brew install texio
+```sh
+cargo install texio-cli --locked
+texio --version
 ```
+
+Create a small document and inspect its structure:
+
+```sh
+printf '# Demo\n\n## Installation\nold command\n\n## Usage\nkeep this\n' > demo.md
+texio headings demo.md --json
+texio section demo.md Installation
+```
+
+Preview one section change, then apply the same change after checking the diff:
+
+```sh
+texio replace demo.md --section Installation --text 'cargo install texio-cli --locked' --dry-run
+texio replace demo.md --section Installation --text 'cargo install texio-cli --locked' --write
+texio section demo.md Installation
+```
+
+The preview leaves the file unchanged; the write preserves the Usage section.
+Copy the [agent policy](docs/agent-instructions.md) for future edits. Missing or
+duplicate headings cause an error rather than selecting a guessed target.
+
+The [four-fixture benchmark](benchmarks/README.md) measured 82.8% fewer
+context-proxy tokens versus an idealized whole-file rewrite. This is not a
+model-token or billing measurement. A source build can take longer than five
+minutes; use a binary archive for the fastest first edit.
 
 ## Replace one section safely
 
@@ -43,25 +69,19 @@ texio headings README.md --json
 ```
 
 ## Installation
-Texio requires a current stable Rust toolchain. Install the published crate:
+
+Install the published crate with a current stable Rust toolchain:
 
 ```sh
 cargo install texio-cli --locked
 texio --version
 ```
 
-To install from a checkout instead:
+From a checkout, use `cargo install --path . --locked`.
 
-```sh
-cargo install --path . --locked
-```
-
-Tagged releases also provide checksum-protected archives for Linux x86-64,
-Windows x86-64, Intel macOS, and Apple Silicon macOS. Download the archive and
-its adjacent `.sha256` file from [GitHub Releases](https://github.com/Allra-Fintech/texio/releases),
-verify the checksum, then place `texio` (or `texio.exe`) on your `PATH`.
-
-The Homebrew formula will be published after the first stable binary release.
+For Linux x86-64, Windows x86-64, Intel macOS, and Apple Silicon macOS,
+follow the [binary installation and checksum instructions](docs/installation.md).
+The same page documents the organization Homebrew tap and platform limits.
 
 ## Status
 

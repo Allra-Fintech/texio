@@ -1,0 +1,66 @@
+name: Verify public installation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Published version without v prefix
+        required: true
+        default: '0.1.1'
+      homebrew:
+        description: Verify published Homebrew formula too
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+          - os: macos-14
+            target: aarch64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install from crates.io into an empty prefix
+        shell: bash
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          cargo install texio-cli --locked --version "$VERSION" --root "$RUNNER_TEMP/crate"
+          "$RUNNER_TEMP/crate/bin/texio" --version | grep -Fx "texio $VERSION"
+          python3 scripts/launch-demo.py --texio "$RUNNER_TEMP/crate/bin/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
+      - name: Download and verify public archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          mkdir "$RUNNER_TEMP/archive"
+          gh release download "v$VERSION" --repo Allra-Fintech/texio --pattern "texio-$TARGET.*" --dir "$RUNNER_TEMP/archive"
+          python3 scripts/verify-archive.py "$RUNNER_TEMP/archive" "$VERSION"
+      - name: Install from checkout
+        shell: bash
+        run: |
+          cargo install --path . --locked --root "$RUNNER_TEMP/source"
+          "$RUNNER_TEMP/source/bin/texio" --version
+      - name: Verify Homebrew installation
+        if: runner.os == 'macOS' && inputs.homebrew
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          brew install Allra-Fintech/tap/texio
+          texio --version | grep -Fx "texio $VERSION"
+          brew test Allra-Fintech/tap/texio
