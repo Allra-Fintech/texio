@@ -1,0 +1,61 @@
+texio 0.1.1
+binary_sha256=518e7241297ecf362c38031d14876d335085d0a9e636abe73be108b7d88e5b0d
+$ texio headings document.md --json
+[{"level":1,"title":"Document"},{"level":2,"title":"Target"},{"level":3,"title":"Nested"},{"level":2,"title":"After"}]
+$ texio replace document.md --section Target --text 'Updated safely.
+' --dry-run
+--- document.md
++++ document.md (proposed)
+@@ -1,17 +1 @@
+-
+-Old body with [a link](https://example.com).
+-
+-| Feature | Kept |
+-| --- | --- |
+-| Tables | yes |
+-
+-- [x] Task list
+-
+-```md
+-## Not a boundary
+-```
+-
+-### Nested
+-
+-Nested body.
+-
++Updated safely.
+$ texio replace document.md --section Target --text 'Updated safely.
+' --write
+PASS: preview did not write; applied edit preserved all unrelated bytes.
+Regex baseline: (?ms)(^## Target\n).*?(?=^## |\Z)
+--- expected
++++ regex
+@@ -5,7 +5,16 @@
+ # Document
+ 
+ ## Target
++
+ Updated safely.
++
++## Not a boundary
++```
++
++### Nested
++
++Nested body.
++
+ ## After
+ 
+ This must stay byte-for-byte identical.
+
+FAIL (expected): regex treats the heading inside the fence as a boundary.
+$ texio --error-format json replace document.md --section Repeated --text 'Updated safely.
+' --dry-run
+{"error":{"code":"ambiguous_section","message":"ambiguous section: Repeated (2 matches)"}}
+PASS: refused unsafe target; no write attempted.
+$ texio --error-format json replace document.md --section Missing --text 'Updated safely.
+' --dry-run
+{"error":{"code":"section_not_found","message":"section not found: Missing"}}
+PASS: refused unsafe target; no write attempted.
+All launch demonstration checks passed.

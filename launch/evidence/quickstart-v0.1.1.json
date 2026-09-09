@@ -1,0 +1,14 @@
+{
+  "version": "0.1.1",
+  "platform": "Apple Silicon macOS",
+  "elapsed_seconds_after_install": 0.019,
+  "install_build_seconds_reported_by_cargo": 9.77,
+  "limitation": "Automated command execution, not a timed novice usability study; network time excluded.",
+  "outputs": [
+    "texio 0.1.1\n",
+    "[{\"level\":1,\"title\":\"Demo\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Usage\"}]\n",
+    "## Installation\nold command\n\n",
+    "--- WORKDIR/demo.md\n+++ WORKDIR/demo.md (proposed)\n@@ -1,2 +1 @@\n-old command\n-\n+cargo install texio-cli --locked\n",
+    "## Installation\ncargo install texio-cli --locked\n"
+  ]
+}

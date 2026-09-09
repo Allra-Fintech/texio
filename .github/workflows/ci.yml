@@ -22,6 +22,11 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test
+      - name: Verify launch demonstration
+        shell: bash
+        run: |
+          cargo build --locked
+          python3 scripts/launch-demo.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
       - name: Reproduce benchmark
         if: runner.os == 'Linux'
         run: |
