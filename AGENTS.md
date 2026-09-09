@@ -34,12 +34,18 @@ promotion work:
 Do not merge normal feature branches directly into `main`. When the accumulated
 changes on `develop` are ready to publish, create a dedicated release issue and
 open one release pull request from `develop` to `main`. Use a merge commit for
-the release pull request rather than squash or rebase merging, then fast-forward
-`develop` to the resulting `main` commit before starting more work.
+the release pull request rather than squash or rebase merging.
+
+After a release, continue new work from the unchanged `develop` branch. Do not
+merge `main` back into `develop`, create a synchronization pull request, or
+fast-forward `develop` to the release merge commit. The release merge commit is
+part of `main` history only; its second parent already records the exact
+`develop` commit that was released.
 
 An urgent production hotfix may branch from `main` only when its dedicated issue
-documents why it cannot wait for the normal release flow. Merge the hotfix into
-`main`, then synchronize the same commit back into `develop` immediately.
+documents why it cannot wait for the normal release flow. After merging the
+hotfix into `main`, open a separate pull request that applies the equivalent
+change to `develop` without merging the `main` branch or its release history.
 
 ## Markdown operations
 
