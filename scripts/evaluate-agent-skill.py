@@ -78,24 +78,47 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def successful_claude_tool_uses(events):
+    """Return Claude tool requests that have a successful matching result."""
+    requests = {}
+    successful = set()
+    for event in events:
+        if event.get("type") == "assistant":
+            for block in event.get("message", {}).get("content", []):
+                if block.get("type") == "tool_use" and block.get("id"):
+                    requests[block["id"]] = block
+        elif event.get("type") == "user":
+            for block in event.get("message", {}).get("content", []):
+                tool_use_id = block.get("tool_use_id")
+                if (
+                    block.get("type") == "tool_result"
+                    and tool_use_id in requests
+                    and not block.get("is_error", False)
+                ):
+                    successful.add(tool_use_id)
+    return [requests[tool_use_id] for tool_use_id in successful]
+
+
 def command_calls(agent, events):
-    """Extract completed shell commands from one agent event stream."""
+    """Extract successful shell commands from one agent event stream."""
     calls = []
     if agent == "claude":
-        for event in events:
-            if event.get("type") != "assistant":
-                continue
-            for block in event.get("message", {}).get("content", []):
-                if block.get("type") == "tool_use" and block.get("name") == "Bash":
-                    command = block.get("input", {}).get("command")
-                    if command:
-                        calls.append(command)
+        for block in successful_claude_tool_uses(events):
+            if block.get("name") == "Bash":
+                command = block.get("input", {}).get("command")
+                if command:
+                    calls.append(command)
     else:
         for event in events:
             if event.get("type") != "item.completed":
                 continue
             item = event.get("item", {})
-            if item.get("type") == "command_execution" and item.get("command"):
+            if (
+                item.get("type") == "command_execution"
+                and item.get("status") == "completed"
+                and item.get("exit_code") == 0
+                and item.get("command")
+            ):
                 calls.append(item["command"])
     return calls
 
@@ -104,12 +127,9 @@ def skill_loaded(agent, events):
     """Report whether the agent loaded the Texio skill during the trial."""
     if agent == "claude":
         return any(
-            block.get("type") == "tool_use"
-            and block.get("name") == "Skill"
+            block.get("name") == "Skill"
             and block.get("input", {}).get("skill") == "texio-markdown"
-            for event in events
-            if event.get("type") == "assistant"
-            for block in event.get("message", {}).get("content", [])
+            for block in successful_claude_tool_uses(events)
         )
     return any("texio-markdown/SKILL.md" in command for command in command_calls(agent, events))
 
