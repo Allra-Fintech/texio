@@ -73,11 +73,13 @@ CASES = (
 )
 
 
-def sha256(text):
-    return hashlib.sha256(text.encode()).hexdigest()
+def sha256(data):
+    """Return the SHA-256 digest of exact bytes."""
+    return hashlib.sha256(data).hexdigest()
 
 
 def command_calls(agent, events):
+    """Extract completed shell commands from one agent event stream."""
     calls = []
     if agent == "claude":
         for event in events:
@@ -99,6 +101,7 @@ def command_calls(agent, events):
 
 
 def skill_loaded(agent, events):
+    """Report whether the agent loaded the Texio skill during the trial."""
     if agent == "claude":
         return any(
             block.get("type") == "tool_use"
@@ -112,9 +115,11 @@ def skill_loaded(agent, events):
 
 
 def model_names(events):
+    """Collect model identifiers disclosed by agent events."""
     names = set()
 
     def visit(value):
+        """Traverse nested event values looking for model fields."""
         if isinstance(value, dict):
             for key, item in value.items():
                 if key == "model" and isinstance(item, str):
@@ -154,7 +159,7 @@ report = {
         [agent_command, "--version"], text=True
     ).strip(),
     "texio_version": subprocess.check_output([str(texio), "--version"], text=True).strip(),
-    "skill_sha256": sha256((skill / "SKILL.md").read_text()),
+    "skill_sha256": sha256((skill / "SKILL.md").read_bytes()),
     "trials": [],
 }
 
@@ -165,7 +170,7 @@ for case in CASES:
     installed.mkdir(parents=True)
     shutil.copytree(skill, installed / skill.name)
     target = work / case["file"]
-    target.write_text(case["before"])
+    target.write_bytes(case["before"].encode())
     subprocess.run(["git", "init", "-q", str(work)], check=True)
     subprocess.run(["git", "-C", str(work), "add", "."], check=True)
     subprocess.run(
@@ -206,20 +211,25 @@ for case in CASES:
         )
         for command in calls
     ]
-    after = target.read_text()
+    after = target.read_bytes()
+    expected = case["expected"].encode()
     used_texio = any("texio " in command for command in calls)
+    loaded_skill = skill_loaded(args.agent, events)
     report["trials"].append(
         {
             "name": case["name"],
             "prompt": case["prompt"],
             "expect_texio": case["expect_texio"],
-            "skill_loaded": skill_loaded(args.agent, events),
+            "skill_loaded": loaded_skill,
             "used_texio": used_texio,
-            "selection_expected": used_texio == case["expect_texio"],
-            "exact_expected_bytes": after == case["expected"],
-            "before_sha256": sha256(case["before"]),
+            "selection_expected": (
+                loaded_skill == case["expect_texio"]
+                and used_texio == case["expect_texio"]
+            ),
+            "exact_expected_bytes": after == expected,
+            "before_sha256": sha256(case["before"].encode()),
             "after_sha256": sha256(after),
-            "expected_sha256": sha256(case["expected"]),
+            "expected_sha256": sha256(expected),
             "process_exit": completed.returncode,
             "models": model_names(events),
             "commands": calls,
@@ -227,7 +237,7 @@ for case in CASES:
     )
     print(
         case["name"], "selected=" + str(used_texio),
-        "exact=" + str(after == case["expected"]),
+        "exact=" + str(after == expected),
         "exit=" + str(completed.returncode), flush=True,
     )
 
