@@ -91,3 +91,19 @@ brew test Allra-Fintech/tap/texio
 Use the fully qualified formula name above. Both macOS architectures passed
 [installation and safe-edit tests](https://github.com/Allra-Fintech/homebrew-tap/actions/runs/34331695494)
 for the initial v0.1.1 formula. The formula is updated alongside releases.
+
+## Install the agent skill
+
+After installing the `texio` executable, install its agent skill from this
+repository:
+
+```sh
+npx skills add Allra-Fintech/texio --skill texio-markdown
+```
+
+Choose the agent hosts and installation scope when prompted. The skill teaches
+agents to select Texio for heading-scoped Markdown inspection and edits while
+leaving unrelated files and Markdown tasks alone. Verify the installation by
+asking a fresh agent session to update one named section of a Markdown file
+without mentioning Texio. See the
+[Codex and Claude Code selection results](../launch/agent-validation/skill-selection.md).

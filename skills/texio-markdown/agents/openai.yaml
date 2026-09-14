@@ -1,0 +1,7 @@
+interface:
+  display_name: "Texio Markdown"
+  short_description: "Safely inspect and edit Markdown sections"
+  default_prompt: "Use $texio-markdown to update a named Markdown section while preserving unrelated content."
+
+policy:
+  allow_implicit_invocation: true
