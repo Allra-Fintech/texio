@@ -106,6 +106,8 @@ small, deterministic operation that is easier to review and automate.
 
 - Try [ten tested agent recipes](docs/recipes.md).
 - Copy the [agent instructions](docs/agent-instructions.md).
+- Install the [agent skill](skills/texio-markdown/SKILL.md) and review its
+  [automatic-selection evidence](launch/agent-validation/skill-selection.md).
 - Read [Stop letting agents rewrite your entire README](docs/stop-rewriting-readmes.md).
 - Inspect and reproduce the [public benchmark](benchmarks/README.md).
 

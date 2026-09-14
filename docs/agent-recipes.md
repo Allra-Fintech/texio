@@ -24,5 +24,5 @@ texio headings README.md --json
 texio replace README.md --section "Installation" --from installation.md --dry-run
 ```
 
-Review the preview, then repeat without `--dry-run`.
-
+Review the preview, then repeat the command with `--write` instead of
+`--dry-run`.
