@@ -6,6 +6,7 @@
       "repository": "open-toolchain/tekton-catalog",
       "commit": "f7b166bc5556fc11ecbbae1e350153cf883af95d",
       "contact_route": "https://github.com/open-toolchain/tekton-catalog/issues/new",
+      "contribution_rules_url": "https://github.com/open-toolchain/tekton-catalog/blob/f7b166bc5556fc11ecbbae1e350153cf883af95d/README.md#criteria-for-code-submission",
       "existing_issue_search_result": "no_matching_issue_found",
       "proposal_order": 1,
       "implementation_pr_allowed_now": false,
