@@ -1,6 +1,6 @@
 {
   "observed_on": "2026-09-15",
-  "status": "drafts_prepared_not_sent",
+  "status": "outreach_started",
   "targets": [
     {
       "repository": "open-toolchain/tekton-catalog",
@@ -9,10 +9,21 @@
       "contribution_rules_url": "https://github.com/open-toolchain/tekton-catalog/blob/f7b166bc5556fc11ecbbae1e350153cf883af95d/README.md#criteria-for-code-submission",
       "existing_issue_search": {
         "scope": "open_and_closed",
-        "query": "README generator",
-        "command": "gh issue list --repo open-toolchain/tekton-catalog --state all --search 'README generator' --limit 20",
+        "queries": [
+          "texio",
+          "\"missing heading\"",
+          "update_readme.py"
+        ],
+        "commands": [
+          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog texio in:title,body'",
+          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog \"missing heading\" in:title,body'",
+          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog update_readme.py in:title,body'"
+        ],
         "matches": []
       },
+      "outreach_status": "sent_awaiting_response",
+      "proposal_url": "https://github.com/open-toolchain/tekton-catalog/issues/285",
+      "proposal_created_at": "2026-09-15T23:05:31Z",
       "proposal_order": 1,
       "implementation_pr_allowed_now": false,
       "blocking_condition": "Publish stable pilot evidence and obtain maintainer interest before adding a CI dependency."
