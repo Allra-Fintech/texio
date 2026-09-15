@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-15",
+  "texio_version": "0.1.2",
+  "pilots": [
+    {
+      "repository": "dbt-labs/dbt-mcp",
+      "commit": "231970bc2658696a3eff228052e38a6208ff15a2",
+      "file": "README.md",
+      "section": "Tools",
+      "heading_count": 1,
+      "dry_run_changed_file": false,
+      "write_changed_file": true,
+      "outside_section_bytes_preserved": true,
+      "before_sha256": "4c9388c743cfbbab5cd049cf8e68886a07ab72a4670156a5c4d78c37b2896c06",
+      "after_sha256": "fdcb66634def6d731b732341caafb542679f50122d94bbb7cdef8194306dbbc8",
+      "dry_run_preview_lines": 9
+    },
+    {
+      "repository": "open-toolchain/tekton-catalog",
+      "commit": "f7b166bc5556fc11ecbbae1e350153cf883af95d",
+      "file": "git/README.md",
+      "section": "Available tasks",
+      "heading_count": 1,
+      "dry_run_changed_file": false,
+      "write_changed_file": true,
+      "outside_section_bytes_preserved": true,
+      "before_sha256": "1094bcd4582cfe530472d1738debe942e2474f811b3e9a407622b913c8ab2710",
+      "after_sha256": "654d838a84dca1bc1157f913230c1e11e819f61b73d641c6fbf78d9327468be1",
+      "dry_run_preview_lines": 7
+    },
+    {
+      "repository": "LFL-Lab/SQuADDS",
+      "commit": "185f4e6cb013bb1e0421dc780e3df750b1befca7",
+      "file": "README.md",
+      "section": "Contributors",
+      "heading_count": 1,
+      "dry_run_changed_file": false,
+      "write_changed_file": true,
+      "outside_section_bytes_preserved": true,
+      "before_sha256": "5b18202325297dc347520d4381444f29f42530c8359b55dfe0cda79c5c0053cb",
+      "after_sha256": "3ce06daeae979d09831777f460b44137c742e48c1b95b9e601e7b85111df1703",
+      "dry_run_preview_lines": 8
+    }
+  ],
+  "safety_checks": {
+    "missing_heading_exit": 4,
+    "missing_heading_unchanged": true,
+    "duplicate_heading_exit": 5,
+    "duplicate_heading_unchanged": true
+  },
+  "limitations": [
+    "Trials used representative temporary additions, not proposed upstream content.",
+    "Upstream generators and their full dependency graphs were not executed.",
+    "No maintainer was contacted and no external pull request was opened."
+  ]
+}
