@@ -1,14 +1,13 @@
 # Maintainer outreach packages
 
 Prepared on 2026-09-15 for issue #79 and parent issue #36. The three upstream
-files still matched the exact commits used by the reproducible pilot. The first
-maintainer proposal was sent to Tekton Catalog after a fresh duplicate search;
-no external implementation pull request has been opened.
+files still matched the exact commits used by the reproducible pilot. All three
+maintainer proposals were sent after current-code checks and followed by
+timestamped duplicate-issue rechecks. No external implementation pull request
+has been opened.
 
-Send these proposals one at a time, starting with Tekton Catalog. Publish the
-[pilot report](workflow-pilots.md) on Texio's `main` branch first so its links
-are stable. Recheck the target repository and search its issues again
-immediately before contact.
+The proposals were sent one at a time, starting with Tekton Catalog, after the
+[pilot report](workflow-pilots.md) had stable links on Texio's `main` branch.
 
 ## Open-Toolchain Tekton Catalog
 
@@ -45,6 +44,10 @@ The repository has issues enabled and no contribution guide or issue template.
 without writing. **Tradeoff:** a Rust binary becomes a pinned CI dependency.
 
 ## SQuADDS
+
+**Status:** Proposal opened on 2026-09-15 at
+[`LFL-Lab/SQuADDS#68`](https://github.com/LFL-Lab/SQuADDS/issues/68).
+Awaiting a maintainer response; this is outreach, not adoption.
 
 **Route:** Open a
 [General Issue](https://github.com/LFL-Lab/SQuADDS/issues/new?template=GENERAL_ISSUE.md).
@@ -97,6 +100,10 @@ each body an explicit boundary. **Tradeoff:** installation time and a new CI
 binary must justify the narrower write surface.
 
 ## dbt MCP
+
+**Status:** Proposal opened on 2026-09-15 at
+[`dbt-labs/dbt-mcp#887`](https://github.com/dbt-labs/dbt-mcp/issues/887).
+Awaiting a maintainer response; this is outreach, not adoption.
 
 **Route:** Use the repository's
 [feature request](https://github.com/dbt-labs/dbt-mcp/issues/new?template=feature_request.yml).
