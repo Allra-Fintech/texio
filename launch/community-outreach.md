@@ -40,7 +40,7 @@ ready-to-paste personal story.
 - One-sentence description: Texio is a Rust CLI that previews and applies one
   named Markdown-section replacement while preserving the rest of the file.
 - Repository: <https://github.com/Allra-Fintech/texio>.
-- Install: `cargo install texio-cli --locked`.
+- Install: `cargo install texio-cli --version 0.1.2 --locked`.
 - Small example: `texio replace README.md --section Installation --text 'new' --dry-run`.
 - Context: useful in repository scripts and agent instructions when a missing or
   duplicate heading should stop the edit instead of guessing.
@@ -54,7 +54,7 @@ ready-to-paste personal story.
   `## Installation` string inside a fenced example.
 - Compare a disclosed regex proxy with Texio's parsed heading list, dry-run, and
   exact write. Link the raw four-fixture benchmark and explain its limits.
-- Include both discovery paths: `cargo install texio-cli --locked` and
+- Include both discovery paths: `cargo install texio-cli --version 0.1.2 --locked` and
   `npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown`.
 - Use `#showdev`; do not use `#opensource` for a single-project announcement.
 - The publisher must choose DEV's current AI-disclosure tier and personally
@@ -74,14 +74,17 @@ ready-to-paste personal story.
 Every published item should include or link to this verified sequence:
 
 ```sh
-cargo install texio-cli --locked
+cargo install texio-cli --version 0.1.2 --locked
 printf '# Demo\n\n## Installation\nold\n\n## Usage\nkeep\n' > demo.md
 texio headings demo.md --json
+texio section demo.md Usage > usage.before
 texio replace demo.md --section Installation --text 'new' --dry-run
 texio replace demo.md --section Installation --text 'new' --write
-texio section demo.md Installation
+texio section demo.md Usage > usage.after
+cmp usage.before usage.after
 ```
 
-After publication, record the URL, UTC timestamp, channel, exact version, and
-substantive feedback in the adoption evidence ledger under issue #8. Treat
-views and votes as attention signals, not proof of adoption.
+After publication, write the documented compact public outcome fields to
+`launch/metrics/evidence.jsonl`. Record the channel and substantive public
+feedback in issue #8. Treat views and votes as attention signals, not proof of
+adoption; never copy private replies or personal data into either public record.

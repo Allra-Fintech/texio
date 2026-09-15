@@ -20,15 +20,17 @@ need to weigh installation time and dependency policy against the safety gain.
 
 ## Reproduction pattern
 
-For each repository, the generated section body was written to a temporary
-file and applied to a clean copy of its README:
+For each repository, set `DOC` to the recorded file path, write the generated
+section body to a temporary file, and apply it to a clean copy. The dbt MCP and
+SQuADDS pilots use `README.md`; Tekton Catalog uses `git/README.md`.
 
 ```sh
-texio headings README.md --json
-texio section README.md "TARGET"
-texio replace README.md --section "TARGET" --from generated.md --dry-run
-texio replace README.md --section "TARGET" --from generated.md --write
-git diff -- README.md
+DOC="${DOC:-README.md}"
+texio headings "$DOC" --json
+texio section "$DOC" "TARGET"
+texio replace "$DOC" --section "TARGET" --from generated.md --dry-run
+texio replace "$DOC" --section "TARGET" --from generated.md --write
+git diff -- "$DOC"
 ```
 
 The dry-run left the input unchanged. After the write, the bytes before and
