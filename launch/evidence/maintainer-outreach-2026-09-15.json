@@ -1,0 +1,39 @@
+{
+  "observed_on": "2026-09-15",
+  "status": "drafts_prepared_not_sent",
+  "targets": [
+    {
+      "repository": "open-toolchain/tekton-catalog",
+      "commit": "f7b166bc5556fc11ecbbae1e350153cf883af95d",
+      "contact_route": "https://github.com/open-toolchain/tekton-catalog/issues/new",
+      "existing_issue_search_result": "no_matching_issue_found",
+      "proposal_order": 1,
+      "implementation_pr_allowed_now": false,
+      "blocking_condition": "Publish stable pilot evidence and obtain maintainer interest before adding a CI dependency."
+    },
+    {
+      "repository": "LFL-Lab/SQuADDS",
+      "commit": "185f4e6cb013bb1e0421dc780e3df750b1befca7",
+      "contact_route": "https://github.com/LFL-Lab/SQuADDS/issues/new?template=GENERAL_ISSUE.md",
+      "contribution_guide": "https://github.com/LFL-Lab/SQuADDS/blob/185f4e6cb013bb1e0421dc780e3df750b1befca7/CONTRIBUTING.md",
+      "existing_issue_search_result": "no_matching_issue_found",
+      "proposal_order": 2,
+      "implementation_pr_allowed_now": false,
+      "blocking_condition": "Publish stable pilot evidence and obtain maintainer interest before changing a push-to-master workflow."
+    },
+    {
+      "repository": "dbt-labs/dbt-mcp",
+      "commit": "231970bc2658696a3eff228052e38a6208ff15a2",
+      "contact_route": "https://github.com/dbt-labs/dbt-mcp/issues/new?template=feature_request.yml",
+      "contribution_guide": "https://github.com/dbt-labs/dbt-mcp/blob/231970bc2658696a3eff228052e38a6208ff15a2/CONTRIBUTING.md",
+      "existing_issue_search_result": "no_matching_issue_found",
+      "proposal_order": 3,
+      "implementation_pr_allowed_now": false,
+      "blocking_condition": "Maintainers must first accept the tradeoff of a non-Python documentation-build dependency."
+    }
+  ],
+  "pilot_report": "launch/workflow-pilots.md",
+  "tracking_issue": 79,
+  "parent_issue": 36,
+  "adoption_tracker_issue": 8
+}
