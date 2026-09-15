@@ -64,7 +64,7 @@ ready-to-paste personal story.
 
 | Community | Decision | Reason |
 | --- | --- | --- |
-| `r/rust` | Human-authored option only | Texio is relevant because it is written in Rust, but project posts must be Rust-primary, self-promotion is limited, and low-effort or AI-generated text is actively removed. Use only for a technically detailed Rust implementation story written by the maintainer. |
+| `r/rust` | Human-authored option only | Texio is relevant because it is written in Rust, but project posts must be Rust-primary, self-promotion is limited, and low-effort submissions, including work produced mainly by AI with minimal human intervention, may be removed. Use only for a technically detailed Rust implementation story written by the maintainer. |
 | Rust Users Forum | Hold | The Terms reject machine-generated or traffic-driving spam. The announcements category is valid, but moderators muted it by default on 2026-09-10 after declining quality, reducing likely visibility. |
 | Lobsters | Hold | Self-promotion should be under one quarter of a member's activity, new accounts have submission limits, and content without meaningful human authorship is treated as spam. Use only through an established, participating account. |
 | `r/commandline` | Exclude | Its current rules prohibit generative-AI-related projects except already-popular projects and prohibit AI-generated titles or post text. Texio's agent positioning makes it a poor fit. |

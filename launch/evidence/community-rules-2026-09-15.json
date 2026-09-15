@@ -55,7 +55,7 @@
         "https://www.reddit.com/r/rust/comments/1qptoes/request_for_comments_moderating_aigenerated/",
         "https://www.reddit.com/r/rust/comments/1ryfdb3/removed/"
       ],
-      "reason": "Posts must be primarily about Rust, self-promotion is limited, and low-effort or AI-generated submissions face removal."
+      "reason": "Posts must be primarily about Rust, self-promotion is limited, and low-effort submissions, including those primarily produced by AI with minimal human intervention, may face removal."
     },
     {
       "community": "Rust Users Forum",
