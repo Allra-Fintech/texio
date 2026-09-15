@@ -39,7 +39,7 @@ and AI-edited submission text.
 ## Reproducible try-it path
 
 ```sh
-cargo install texio-cli --locked
+cargo install texio-cli --version 0.1.2 --locked
 printf '# Demo\n\n## Installation\nold\n\n## Usage\nkeep\n' > demo.md
 texio headings demo.md --json
 texio replace demo.md --section Installation --text 'new' --dry-run
@@ -49,7 +49,7 @@ texio replace demo.md --section Installation --text 'new' --write
 Agent skill:
 
 ```sh
-npx skills add Allra-Fintech/texio --skill texio-markdown
+npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown
 ```
 
 ## Points worth discussing
