@@ -27,7 +27,7 @@ ready-to-paste personal story.
   section; a heading-like line inside a code fence can break a regex approach.
 - Demonstration: run `texio headings demo.md --json`, preview the `Installation`
   replacement, apply it, then show that `Usage` stayed byte-for-byte unchanged.
-- Agent path: `npx skills add Allra-Fintech/texio --skill texio-markdown`.
+- Agent path: `npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown`.
 - Evidence: fresh Codex and Claude Code trials selected the skill for named
   Markdown-section work; the checked-in mechanics benchmark passed 4/4 fixtures.
 - Ask: which agent hosts and Markdown failure cases should be tested next?
@@ -55,7 +55,7 @@ ready-to-paste personal story.
 - Compare a disclosed regex proxy with Texio's parsed heading list, dry-run, and
   exact write. Link the raw four-fixture benchmark and explain its limits.
 - Include both discovery paths: `cargo install texio-cli --locked` and
-  `npx skills add Allra-Fintech/texio --skill texio-markdown`.
+  `npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown`.
 - Use `#showdev`; do not use `#opensource` for a single-project announcement.
 - The publisher must choose DEV's current AI-disclosure tier and personally
   verify the prose, commands, and results. Do not use generated comments.

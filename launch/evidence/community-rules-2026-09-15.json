@@ -85,6 +85,6 @@
     }
   ],
   "shared_install_command": "cargo install texio-cli --locked",
-  "agent_skill_command": "npx skills add Allra-Fintech/texio --skill texio-markdown",
+  "agent_skill_command": "npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown",
   "repository": "https://github.com/Allra-Fintech/texio"
 }
