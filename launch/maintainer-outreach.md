@@ -1,8 +1,9 @@
 # Maintainer outreach packages
 
 Prepared on 2026-09-15 for issue #79 and parent issue #36. The three upstream
-files still matched the exact commits used by the reproducible pilot. No
-maintainer message or external pull request has been sent.
+files still matched the exact commits used by the reproducible pilot. The first
+maintainer proposal was sent to Tekton Catalog after a fresh duplicate search;
+no external implementation pull request has been opened.
 
 Send these proposals one at a time, starting with Tekton Catalog. Publish the
 [pilot report](workflow-pilots.md) on Texio's `main` branch first so its links
@@ -10,6 +11,10 @@ are stable. Recheck the target repository and search its issues again
 immediately before contact.
 
 ## Open-Toolchain Tekton Catalog
+
+**Status:** Proposal opened on 2026-09-15 at
+[`open-toolchain/tekton-catalog#285`](https://github.com/open-toolchain/tekton-catalog/issues/285).
+Awaiting a maintainer response; this is outreach, not adoption.
 
 **Route:** Open a normal
 [GitHub issue](https://github.com/open-toolchain/tekton-catalog/issues/new).

@@ -40,13 +40,20 @@ negative delta requires investigation rather than being treated as adoption.
 Record external evidence in `evidence.jsonl`, one JSON object per event:
 
 ```json
-{"observed_at":"UTC timestamp","kind":"verified_install|agent_trial|adoption|feedback|defect","source_url":"public evidence URL","repository":"owner/repo when relevant","version":"observed version","outcome":"concrete result","independent":true}
+{"observed_at":"UTC timestamp","kind":"outreach|verified_install|agent_trial|adoption|feedback|defect","source_url":"public evidence URL","repository":"owner/repo when relevant","version":"observed version","outcome":"concrete result","independent":true}
 ```
 
-The ledger starts empty because no external evidence has been verified by this
-task. Empty means unmeasured, not zero adoption. Do not record email addresses,
-IP addresses, access tokens, private conversations, or personal identifiers.
-Use public repository/source links only where needed to substantiate an event.
+Use `outreach` for a public maintainer proposal or community publication that
+is awaiting a disposition. Set `independent` to `false` for project-authored
+outreach. Opening a proposal does not count as adoption or substantive
+feedback; add a later event only when a public response or merged change
+supports it.
+
+The ledger starts with project-authored outreach and adds external evidence as
+it is verified. An absent event means unmeasured, not zero adoption. Do not
+record email addresses, IP addresses, access tokens, private conversations, or
+personal identifiers. Use public repository/source links only where needed to
+substantiate an event.
 
 ## Interpretation and launch targets
 
