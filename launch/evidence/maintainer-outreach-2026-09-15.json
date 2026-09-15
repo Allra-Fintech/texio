@@ -1,6 +1,6 @@
 {
   "observed_on": "2026-09-15",
-  "status": "outreach_started",
+  "status": "all_proposals_sent_awaiting_responses",
   "targets": [
     {
       "repository": "open-toolchain/tekton-catalog",
@@ -52,10 +52,38 @@
       "contribution_guide": "https://github.com/LFL-Lab/SQuADDS/blob/185f4e6cb013bb1e0421dc780e3df750b1befca7/CONTRIBUTING.md",
       "existing_issue_search": {
         "scope": "open_and_closed",
-        "query": "contributors README workflow",
-        "command": "gh issue list --repo LFL-Lab/SQuADDS --state all --search 'contributors README workflow' --limit 20",
-        "matches": []
+        "predates_proposal": false,
+        "proposal_issue_excluded": 68,
+        "runs": [
+          {
+            "execution_order": 1,
+            "searched_at": "2026-09-15T23:41:20Z",
+            "query": "texio",
+            "command": "gh api -X GET search/issues -f q='repo:LFL-Lab/SQuADDS texio in:title,body'",
+            "raw_matches": [68],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 2,
+            "searched_at": "2026-09-15T23:41:20Z",
+            "query": "\"contributors README workflow\"",
+            "command": "gh api -X GET search/issues -f q='repo:LFL-Lab/SQuADDS \"contributors README workflow\" in:title,body'",
+            "raw_matches": [],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 3,
+            "searched_at": "2026-09-15T23:41:21Z",
+            "query": "update_contributors.py",
+            "command": "gh api -X GET search/issues -f q='repo:LFL-Lab/SQuADDS update_contributors.py in:title,body'",
+            "raw_matches": [],
+            "matches_excluding_proposal": []
+          }
+        ]
       },
+      "outreach_status": "sent_awaiting_response",
+      "proposal_url": "https://github.com/LFL-Lab/SQuADDS/issues/68",
+      "proposal_created_at": "2026-09-15T23:39:46Z",
       "proposal_order": 2,
       "implementation_pr_allowed_now": false,
       "blocking_condition": "Publish stable pilot evidence and obtain maintainer interest before changing a push-to-master workflow."
@@ -67,10 +95,38 @@
       "contribution_guide": "https://github.com/dbt-labs/dbt-mcp/blob/231970bc2658696a3eff228052e38a6208ff15a2/CONTRIBUTING.md",
       "existing_issue_search": {
         "scope": "open_and_closed",
-        "query": "README generated docs regex",
-        "command": "gh issue list --repo dbt-labs/dbt-mcp --state all --search 'README generated docs regex' --limit 20",
-        "matches": []
+        "predates_proposal": false,
+        "proposal_issue_excluded": 887,
+        "runs": [
+          {
+            "execution_order": 1,
+            "searched_at": "2026-09-15T23:41:21Z",
+            "query": "texio",
+            "command": "gh api -X GET search/issues -f q='repo:dbt-labs/dbt-mcp texio in:title,body'",
+            "raw_matches": [887],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 2,
+            "searched_at": "2026-09-15T23:41:22Z",
+            "query": "\"README generated docs\"",
+            "command": "gh api -X GET search/issues -f q='repo:dbt-labs/dbt-mcp \"README generated docs\" in:title,body'",
+            "raw_matches": [887],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 3,
+            "searched_at": "2026-09-15T23:41:22Z",
+            "query": "generate_docs.py regex",
+            "command": "gh api -X GET search/issues -f q='repo:dbt-labs/dbt-mcp generate_docs.py regex in:title,body'",
+            "raw_matches": [887],
+            "matches_excluding_proposal": []
+          }
+        ]
       },
+      "outreach_status": "sent_awaiting_response",
+      "proposal_url": "https://github.com/dbt-labs/dbt-mcp/issues/887",
+      "proposal_created_at": "2026-09-15T23:40:53Z",
       "proposal_order": 3,
       "implementation_pr_allowed_now": false,
       "blocking_condition": "Maintainers must first accept the tradeoff of a non-Python documentation-build dependency."
