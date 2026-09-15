@@ -5,6 +5,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -96,7 +97,40 @@ def successful_claude_tool_uses(events):
                     and not block.get("is_error", False)
                 ):
                     successful.add(tool_use_id)
-    return [requests[tool_use_id] for tool_use_id in successful]
+    return [
+        block
+        for tool_use_id, block in requests.items()
+        if tool_use_id in successful
+    ]
+
+
+def read_complete_jsonl(path):
+    """Read JSONL while tolerating one truncated final event."""
+    events = []
+    lines = path.read_text().splitlines(keepends=True)
+    truncated_final_event = False
+    for index, raw_line in enumerate(lines):
+        line = raw_line.rstrip("\r\n")
+        if not line.strip():
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            if (
+                raw_line.endswith(("\n", "\r"))
+                or any(remaining.strip() for remaining in lines[index + 1:])
+            ):
+                raise
+            truncated_final_event = True
+    return events, truncated_final_event
+
+
+def positive_finite_float(value):
+    """Parse a positive finite floating-point argument."""
+    parsed = float(value)
+    if not math.isfinite(parsed) or parsed <= 0:
+        raise argparse.ArgumentTypeError("must be a positive finite number")
+    return parsed
 
 
 def command_calls(agent, events):
@@ -161,6 +195,7 @@ parser.add_argument("--texio", required=True)
 parser.add_argument("--skill", required=True)
 parser.add_argument("--work-dir", required=True)
 parser.add_argument("--output", required=True)
+parser.add_argument("--timeout-seconds", type=positive_finite_float, default=240)
 args = parser.parse_args()
 
 root = Path(args.work_dir).resolve()
@@ -176,9 +211,11 @@ report = {
     "observed_at": datetime.now(timezone.utc).isoformat(),
     "agent": args.agent,
     "agent_version": subprocess.check_output(
-        [agent_command, "--version"], text=True
+        [agent_command, "--version"], text=True, timeout=30
     ).strip(),
-    "texio_version": subprocess.check_output([str(texio), "--version"], text=True).strip(),
+    "texio_version": subprocess.check_output(
+        [str(texio), "--version"], text=True, timeout=30
+    ).strip(),
     "skill_sha256": sha256((skill / "SKILL.md").read_bytes()),
     "trials": [],
 }
@@ -219,11 +256,17 @@ for case in CASES:
             str(work), case["prompt"],
         ]
     with raw.open("w") as output, error.open("w") as stderr:
-        completed = subprocess.run(
-            command, cwd=work, env=environment, stdout=output, stderr=stderr,
-            timeout=240,
-        )
-    events = [json.loads(line) for line in raw.read_text().splitlines() if line]
+        try:
+            completed = subprocess.run(
+                command, cwd=work, env=environment, stdout=output, stderr=stderr,
+                timeout=args.timeout_seconds,
+            )
+            process_exit = completed.returncode
+            timed_out = False
+        except subprocess.TimeoutExpired:
+            process_exit = 124
+            timed_out = True
+    events, truncated_final_event = read_complete_jsonl(raw)
     calls = command_calls(args.agent, events)
     calls = [
         command.replace(str(work), "TRIAL_ROOT").replace(
@@ -250,7 +293,9 @@ for case in CASES:
             "before_sha256": sha256(case["before"].encode()),
             "after_sha256": sha256(after),
             "expected_sha256": sha256(expected),
-            "process_exit": completed.returncode,
+            "process_exit": process_exit,
+            "timed_out": timed_out,
+            "truncated_final_event": truncated_final_event,
             "models": model_names(events),
             "commands": calls,
         }
@@ -258,7 +303,9 @@ for case in CASES:
     print(
         case["name"], "selected=" + str(used_texio),
         "exact=" + str(after == expected),
-        "exit=" + str(completed.returncode), flush=True,
+        "exit=" + str(process_exit),
+        "timed_out=" + str(timed_out),
+        "truncated_final_event=" + str(truncated_final_event), flush=True,
     )
 
 Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
