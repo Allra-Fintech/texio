@@ -5,6 +5,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -106,18 +107,30 @@ def successful_claude_tool_uses(events):
 def read_complete_jsonl(path):
     """Read JSONL while tolerating one truncated final event."""
     events = []
-    lines = path.read_text().splitlines()
+    lines = path.read_text().splitlines(keepends=True)
     truncated_final_event = False
-    for index, line in enumerate(lines):
-        if not line:
+    for index, raw_line in enumerate(lines):
+        line = raw_line.rstrip("\r\n")
+        if not line.strip():
             continue
         try:
             events.append(json.loads(line))
         except json.JSONDecodeError:
-            if any(remaining for remaining in lines[index + 1:] if remaining):
+            if (
+                raw_line.endswith(("\n", "\r"))
+                or any(remaining.strip() for remaining in lines[index + 1:])
+            ):
                 raise
             truncated_final_event = True
     return events, truncated_final_event
+
+
+def positive_finite_float(value):
+    """Parse a positive finite floating-point argument."""
+    parsed = float(value)
+    if not math.isfinite(parsed) or parsed <= 0:
+        raise argparse.ArgumentTypeError("must be a positive finite number")
+    return parsed
 
 
 def command_calls(agent, events):
@@ -182,7 +195,7 @@ parser.add_argument("--texio", required=True)
 parser.add_argument("--skill", required=True)
 parser.add_argument("--work-dir", required=True)
 parser.add_argument("--output", required=True)
-parser.add_argument("--timeout-seconds", type=float, default=240)
+parser.add_argument("--timeout-seconds", type=positive_finite_float, default=240)
 args = parser.parse_args()
 
 root = Path(args.work_dir).resolve()
@@ -290,7 +303,9 @@ for case in CASES:
     print(
         case["name"], "selected=" + str(used_texio),
         "exact=" + str(after == expected),
-        "exit=" + str(process_exit), flush=True,
+        "exit=" + str(process_exit),
+        "timed_out=" + str(timed_out),
+        "truncated_final_event=" + str(truncated_final_event), flush=True,
     )
 
 Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
