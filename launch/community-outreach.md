@@ -84,6 +84,7 @@ texio section demo.md Usage > usage.after
 cmp usage.before usage.after
 ```
 
-After publication, record the URL, UTC timestamp, channel, exact version, and
-substantive feedback in both `launch/metrics/evidence.jsonl` and issue #8. Treat
-views and votes as attention signals, not proof of adoption.
+After publication, write the documented compact public outcome fields to
+`launch/metrics/evidence.jsonl`. Record the channel and substantive public
+feedback in issue #8. Treat views and votes as attention signals, not proof of
+adoption; never copy private replies or personal data into either public record.

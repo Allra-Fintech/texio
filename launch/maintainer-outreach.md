@@ -140,8 +140,10 @@ so the dependency may cost more than the added ambiguity protection.
 
 ## Outcome recording
 
-For each approved send, record the external URL, UTC timestamp, exact draft,
-response, and disposition in both `launch/metrics/evidence.jsonl` and issue #8.
+For each approved send, write one compact public event using the schema in
+`launch/metrics/README.md` to `launch/metrics/evidence.jsonl`. Record the exact
+public draft, channel, substantive public response, and disposition in issue #8.
 Use `accepted`, `declined`, `no-response`, or `unsuitable`; do not count an
-opened issue as adoption. Convert a repeated product limitation into a Texio
-issue only after the same need appears in more than one independent workflow.
+opened issue as adoption, and do not copy private replies or personal data into
+public records. Convert a repeated product limitation into a Texio issue only
+after the same need appears in more than one independent workflow.

@@ -25,7 +25,7 @@ section body to a temporary file, and apply it to a clean copy. The dbt MCP and
 SQuADDS pilots use `README.md`; Tekton Catalog uses `git/README.md`.
 
 ```sh
-DOC=README.md
+DOC="${DOC:-README.md}"
 texio headings "$DOC" --json
 texio section "$DOC" "TARGET"
 texio replace "$DOC" --section "TARGET" --from generated.md --dry-run
