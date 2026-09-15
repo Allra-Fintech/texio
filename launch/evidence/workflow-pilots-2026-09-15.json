@@ -7,7 +7,20 @@
       "repository": "dbt-labs/dbt-mcp",
       "commit": "231970bc2658696a3eff228052e38a6208ff15a2",
       "file": "README.md",
+      "source_file_url": "https://raw.githubusercontent.com/dbt-labs/dbt-mcp/231970bc2658696a3eff228052e38a6208ff15a2/README.md",
+      "contribution_rules_url": "https://github.com/dbt-labs/dbt-mcp/blob/231970bc2658696a3eff228052e38a6208ff15a2/CONTRIBUTING.md",
       "section": "Tools",
+      "replacement_input": {
+        "derivation": "Run `texio section README.md Tools`, remove the first output line, strip trailing LF bytes, then append one LF, the exact UTF-8 text below, and one final LF.",
+        "appended_utf8": "- `texio_pilot`: Temporary workflow validation entry.",
+        "sha256": "d3d921ec243b46de1b78650db6fa36e58edcda91c972a466f4c5bd790132af8b"
+      },
+      "commands": [
+        "texio headings README.md --json",
+        "texio section README.md Tools",
+        "texio replace README.md --section Tools --from replacement.md --dry-run",
+        "texio replace README.md --section Tools --from replacement.md --write"
+      ],
       "heading_count": 1,
       "dry_run_changed_file": false,
       "write_changed_file": true,
@@ -20,7 +33,20 @@
       "repository": "open-toolchain/tekton-catalog",
       "commit": "f7b166bc5556fc11ecbbae1e350153cf883af95d",
       "file": "git/README.md",
+      "source_file_url": "https://raw.githubusercontent.com/open-toolchain/tekton-catalog/f7b166bc5556fc11ecbbae1e350153cf883af95d/git/README.md",
+      "contribution_rules_url": "https://github.com/open-toolchain/tekton-catalog/blob/f7b166bc5556fc11ecbbae1e350153cf883af95d/README.md#criteria-for-code-submission",
       "section": "Available tasks",
+      "replacement_input": {
+        "derivation": "Run `texio section git/README.md 'Available tasks'`, remove the first output line, strip trailing LF bytes, then append one LF, the exact UTF-8 text below, and one final LF.",
+        "appended_utf8": "- **Texio pilot**: Temporary workflow validation entry.",
+        "sha256": "31c7aa995bf4af65346eb87fb4b002b67f6f78f98c400c1b7d941bbbc6630cab"
+      },
+      "commands": [
+        "texio headings git/README.md --json",
+        "texio section git/README.md 'Available tasks'",
+        "texio replace git/README.md --section 'Available tasks' --from replacement.md --dry-run",
+        "texio replace git/README.md --section 'Available tasks' --from replacement.md --write"
+      ],
       "heading_count": 1,
       "dry_run_changed_file": false,
       "write_changed_file": true,
@@ -33,7 +59,20 @@
       "repository": "LFL-Lab/SQuADDS",
       "commit": "185f4e6cb013bb1e0421dc780e3df750b1befca7",
       "file": "README.md",
+      "source_file_url": "https://raw.githubusercontent.com/LFL-Lab/SQuADDS/185f4e6cb013bb1e0421dc780e3df750b1befca7/README.md",
+      "contribution_rules_url": "https://github.com/LFL-Lab/SQuADDS/blob/185f4e6cb013bb1e0421dc780e3df750b1befca7/CONTRIBUTING.md",
       "section": "Contributors",
+      "replacement_input": {
+        "derivation": "Run `texio section README.md Contributors`, remove the first output line, strip trailing LF bytes, then append one LF, the exact UTF-8 text below, and one final LF.",
+        "appended_utf8": "Texio pilot validation entry.",
+        "sha256": "e4088e82c6861bc0f14af47b2af1a4edd0abf1362a0bc478516163f70addec5c"
+      },
+      "commands": [
+        "texio headings README.md --json",
+        "texio section README.md Contributors",
+        "texio replace README.md --section Contributors --from replacement.md --dry-run",
+        "texio replace README.md --section Contributors --from replacement.md --write"
+      ],
       "heading_count": 1,
       "dry_run_changed_file": false,
       "write_changed_file": true,
