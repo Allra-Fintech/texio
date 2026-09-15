@@ -9,17 +9,34 @@
       "contribution_rules_url": "https://github.com/open-toolchain/tekton-catalog/blob/f7b166bc5556fc11ecbbae1e350153cf883af95d/README.md#criteria-for-code-submission",
       "existing_issue_search": {
         "scope": "open_and_closed",
-        "queries": [
-          "texio",
-          "\"missing heading\"",
-          "update_readme.py"
-        ],
-        "commands": [
-          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog texio in:title,body'",
-          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog \"missing heading\" in:title,body'",
-          "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog update_readme.py in:title,body'"
-        ],
-        "matches": []
+        "predates_proposal": false,
+        "proposal_issue_excluded": 285,
+        "runs": [
+          {
+            "execution_order": 1,
+            "searched_at": "2026-09-15T23:19:34Z",
+            "query": "texio",
+            "command": "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog texio in:title,body'",
+            "raw_matches": [285],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 2,
+            "searched_at": "2026-09-15T23:19:35Z",
+            "query": "\"missing heading\"",
+            "command": "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog \"missing heading\" in:title,body'",
+            "raw_matches": [285],
+            "matches_excluding_proposal": []
+          },
+          {
+            "execution_order": 3,
+            "searched_at": "2026-09-15T23:19:35Z",
+            "query": "update_readme.py",
+            "command": "gh api -X GET search/issues -f q='repo:open-toolchain/tekton-catalog update_readme.py in:title,body'",
+            "raw_matches": [285],
+            "matches_excluding_proposal": []
+          }
+        ]
       },
       "outreach_status": "sent_awaiting_response",
       "proposal_url": "https://github.com/open-toolchain/tekton-catalog/issues/285",
