@@ -141,7 +141,7 @@ so the dependency may cost more than the added ambiguity protection.
 ## Outcome recording
 
 For each approved send, record the external URL, UTC timestamp, exact draft,
-response, and disposition in issue #8. Use `accepted`, `declined`,
-`no-response`, or `unsuitable`; do not count an opened issue as adoption.
-Convert a repeated product limitation into a Texio issue only after the same
-need appears in more than one independent workflow.
+response, and disposition in both `launch/metrics/evidence.jsonl` and issue #8.
+Use `accepted`, `declined`, `no-response`, or `unsuitable`; do not count an
+opened issue as adoption. Convert a repeated product limitation into a Texio
+issue only after the same need appears in more than one independent workflow.
