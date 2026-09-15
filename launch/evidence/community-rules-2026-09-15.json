@@ -1,0 +1,90 @@
+{
+  "observed_on": "2026-09-15",
+  "publication_status": "not_published",
+  "recommended": [
+    {
+      "community": "r/LLMDevs",
+      "priority": 1,
+      "rule_url": "https://www.reddit.com/r/LLMDevs/comments/1mvuw5x/community_rule_update_clarifying_our/",
+      "rule_summary": "Free open-source projects may be shared without prior moderator approval; commercial promotion and disguised advertising are prohibited.",
+      "angle": "Deterministic, fail-closed Markdown section editing for coding agents",
+      "requirements": [
+        "disclose author relationship",
+        "use a reproducible technical example",
+        "avoid disguised marketing",
+        "recheck current subreddit rules before posting"
+      ]
+    },
+    {
+      "community": "r/github self-promotion megathread",
+      "priority": 2,
+      "rule_url": "https://www.reddit.com/r/github/comments/1jy8rea/promote_your_projects_here_selfpromotion/",
+      "rule_summary": "The designated recurring thread accepts GitHub-hosted tools and requests a short description and repository link.",
+      "angle": "A narrow Rust CLI for safer README automation",
+      "requirements": [
+        "comment only in the designated thread",
+        "include repository link",
+        "include a working install path and example",
+        "recheck that the thread remains current before posting"
+      ]
+    },
+    {
+      "community": "DEV #showdev",
+      "priority": 3,
+      "rule_url": "https://dev.to/t/showdev",
+      "additional_rule_urls": [
+        "https://dev.to/guidelines-for-ai-assisted-articles-on-dev",
+        "https://dev.to/devteam/introducing-ai-disclosure-on-dev-tools-for-nuance-clarity-and-better-feeds-34mk",
+        "https://dev.to/t/opensource"
+      ],
+      "rule_summary": "#showdev accepts project launches that are community-oriented and not overly sales-focused. AI assistance requires disclosure and human accountability; #opensource is not for single-project promotion.",
+      "angle": "A reproducible tutorial showing why fenced Markdown headings defeat a regex edit",
+      "requirements": [
+        "human verifies every claim and command",
+        "select current AI disclosure tier",
+        "use #showdev instead of #opensource",
+        "do not generate comments"
+      ]
+    }
+  ],
+  "conditional_or_excluded": [
+    {
+      "community": "r/rust",
+      "decision": "human_authored_only",
+      "rule_urls": [
+        "https://www.reddit.com/r/rust/comments/1qptoes/request_for_comments_moderating_aigenerated/",
+        "https://www.reddit.com/r/rust/comments/1ryfdb3/removed/"
+      ],
+      "reason": "Posts must be primarily about Rust, self-promotion is limited, and low-effort submissions, including those primarily produced by AI with minimal human intervention, may face removal."
+    },
+    {
+      "community": "Rust Users Forum",
+      "decision": "hold",
+      "rule_urls": [
+        "https://users.rust-lang.org/guidelines",
+        "https://users.rust-lang.org/tos",
+        "https://users.rust-lang.org/t/announcement-topic-category/142378"
+      ],
+      "reason": "Machine-generated or traffic-driving spam is disallowed, and the announcements category was muted by default on 2026-09-10 after quality concerns."
+    },
+    {
+      "community": "Lobsters",
+      "decision": "hold",
+      "rule_urls": [
+        "https://lobste.rs/about"
+      ],
+      "reason": "Self-promotion should remain below one quarter of activity, new accounts are restricted, and meaningful human authorship is required."
+    },
+    {
+      "community": "r/commandline",
+      "decision": "exclude",
+      "rule_urls": [
+        "https://www.reddit.com/r/commandline/comments/1t8pkj7/please_read_the_rules/"
+      ],
+      "reason": "Current rules prohibit generative-AI-related projects except already-popular projects and prohibit AI-generated titles or post text."
+    }
+  ],
+  "shared_install_command": "cargo install texio-cli --locked",
+  "agent_skill_command": "npx skills add Allra-Fintech/texio --skill texio-markdown",
+  "repository": "https://github.com/Allra-Fintech/texio"
+}
