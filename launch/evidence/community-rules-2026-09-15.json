@@ -1,6 +1,14 @@
 {
   "observed_on": "2026-09-15",
-  "publication_status": "not_published",
+  "publication_status": "partially_published",
+  "published": [
+    {
+      "community": "r/LLMDevs",
+      "published_on": "2026-09-17",
+      "url": "https://www.reddit.com/r/LLMDevs/comments/1wic0w9/texio_failclosed_markdown_section_edits_for/",
+      "status": "published; response pending"
+    }
+  ],
   "recommended": [
     {
       "community": "r/LLMDevs",
