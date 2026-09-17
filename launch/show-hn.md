@@ -5,17 +5,17 @@ generated prose into Hacker News: its current guidelines prohibit AI-generated
 and AI-edited submission text.
 
 ## Posting rules
+Published on 2026-09-17: [Show HN: Texio, reliable Markdown operations for shell scripts and AI agents](https://news.ycombinator.com/item?id=49736484). The submission links directly to the repository and was posted by the maintainer as `yuzong`. Monitor the thread and answer questions in the maintainer's own words; do not solicit votes or booster comments.
 
-- Read the [Show HN guidelines](https://news.ycombinator.com/showhn.html) and
-  [site guidelines](https://news.ycombinator.com/newsguidelines.html) immediately
-  before posting.
-- Confirm that the submitting account is currently eligible for Show HN.
-- Start the title with `Show HN:` and link directly to the
+- The [Show HN guidelines](https://news.ycombinator.com/showhn.html) and
+  [site guidelines](https://news.ycombinator.com/newsguidelines.html) were
+  rechecked immediately before posting.
+- The title begins with `Show HN:` and links directly to the
   [Texio repository](https://github.com/Allra-Fintech/texio).
-- Explain what you built, why you built it, and what differs from existing
-  approaches in your own words.
-- Stay available to answer questions. Do not solicit votes or booster comments.
-
+- The public `texio-cli` 0.1.2 install and launch-sheet demo were reverified
+  immediately before posting.
+- Keep follow-up conversation human-authored and stay available to answer
+  questions without asking for votes.
 ## Verified facts
 
 - Texio is an MIT-licensed CLI for structural Markdown inspection, extraction,
