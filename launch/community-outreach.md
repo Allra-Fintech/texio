@@ -49,18 +49,60 @@ ready-to-paste personal story.
   or whole-file generation.
 
 ### DEV `#showdev`: reproduce a fenced-heading failure
+- **Proposed title:** I built Texio so coding agents can edit one Markdown section safely
+- **Tags:** `showdev`, `rust`, `ai`, `markdown`
+- **DEV disclosure tier:** AI-Assisted (Some AI)
+- **Target reading time:** under three minutes
 
-- Article goal: teach the failure mode, then let readers reproduce the fix.
-- Start with a README containing a real `## Installation` heading and another
-  `## Installation` string inside a fenced example.
-- Compare a disclosed regex proxy with Texio's parsed heading list, dry-run, and
-  exact write. Link the raw four-fixture benchmark and explain its limits.
-- Include both discovery paths: `cargo install texio-cli --version 0.1.2 --locked` and
-  `npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown`.
-- Use `#showdev`; do not use `#opensource` for a single-project announcement.
-- The publisher must choose DEV's current AI-disclosure tier and personally
-  verify the prose, commands, and results. Do not use generated comments.
+#### Article copy
 
+Coding agents often need to change one section in a README. The usual shortcuts—regex replacement or regenerating the whole file—can silently cross a structural boundary.
+
+I built [Texio](https://github.com/Allra-Fintech/texio), an MIT-licensed Rust CLI that gives agents a smaller, fail-closed interface for Markdown: list real headings, inspect one section, preview one replacement, then apply it explicitly.
+
+Here is a small failure case. The second heading-shaped line is only example text inside a fence:
+
+~~~markdown
+# Demo
+
+## Installation
+old command
+
+```md
+## Installation
+example only
+```
+
+## Usage
+keep this
+~~~
+
+A text regex can mistake the fenced line for a section boundary. Texio parses the document structure instead:
+
+~~~bash
+cargo install texio-cli --version 0.1.2 --locked
+texio headings demo.md --json
+texio replace demo.md \
+  --section Installation \
+  --text 'cargo install texio-cli --locked' \
+  --dry-run
+~~~
+
+The dry run prints a unified diff and leaves the file unchanged. Replace `--dry-run` with `--write` only after reviewing that diff. If `Installation` is missing or appears more than once as a real heading, Texio refuses to write instead of guessing.
+
+I also packaged this workflow as an [Agent Skill](https://github.com/Allra-Fintech/texio/tree/main/skills/texio-markdown) for Codex, Claude Code, and compatible clients. The instructions make agents inspect headings, preview the exact edit, write it, and check the repository diff:
+
+~~~bash
+npx --yes skills@1.5.26 add \
+  https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown \
+  --skill texio-markdown
+~~~
+
+The checked-in [four-fixture benchmark](https://github.com/Allra-Fintech/texio/blob/main/launch/evidence/benchmark-v0.1.2.json) passed 4/4 cases with Texio, 3/4 with an idealized whole-file baseline, and 2/4 with the disclosed regex proxy. That is a small mechanics benchmark, not a claim about every Markdown document, model, or token bill.
+
+I maintain Texio. I would especially value examples of repository automation that currently rewrites a README or uses a multiline regex to replace one named section.
+
+*Disclosure: I wrote and verified the project claims, commands, and results. AI tools assisted with development and editing this article; the DEV disclosure tier should be set to “AI-Assisted (Some AI).”*
 ## Hold or exclude
 
 | Community | Decision | Reason |
