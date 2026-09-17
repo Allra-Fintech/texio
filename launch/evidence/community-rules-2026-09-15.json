@@ -1,6 +1,6 @@
 {
   "observed_on": "2026-09-15",
-  "publication_status": "partially_published",
+  "publication_status": "screened_channels_completed",
   "published": [
     {
       "community": "r/LLMDevs",
@@ -16,6 +16,12 @@
       "published_on": "2026-09-17",
       "url": "https://www.reddit.com/r/github/comments/1jy8rea/comment/pa9h13r/",
       "status": "published; response pending"
+    },
+    {
+      "community": "DEV #showdev",
+      "published_on": "2026-09-17",
+      "url": "https://dev.to/jonghunyu/i-built-texio-so-coding-agents-can-edit-one-markdown-section-safely-2n61",
+      "status": "published with AI-Assisted disclosure; response pending"
     }
   ],
   "recommended": [
