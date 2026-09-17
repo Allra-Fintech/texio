@@ -8,15 +8,15 @@ the linked rules immediately before each later post. The machine-readable
 ## Recommended order
 | Priority | Community | Why it fits | Publication condition |
 | --- | --- | --- | --- |
-| 1 | [`r/LLMDevs`](https://www.reddit.com/r/LLMDevs/) | The audience builds LLM and agent systems, and its policy explicitly permits free open-source projects. | Disclose the author relationship, avoid marketing language, and lead with the reproducible agent-editing failure. |
-| 2 | [`r/github` self-promotion thread](https://www.reddit.com/r/github/comments/1jy8rea/promote_your_projects_here_selfpromotion/) | The thread explicitly accepts GitHub-hosted tools and asks for a short description and repository link. | Comment only in the designated thread; keep it short and include the install path and example. |
-| 3 | [DEV `#showdev`](https://dev.to/t/showdev) | A durable tutorial can be indexed and found later by developers and agents. | A human author must verify every claim, select the current AI-disclosure tier, and keep the article educational rather than promotional. |
+| 1 | [`r/github` self-promotion thread](https://www.reddit.com/r/github/comments/1jy8rea/promote_your_projects_here_selfpromotion/) | The thread explicitly accepts GitHub-hosted tools and asks for a short description and repository link. | Published in the designated thread; monitor for substantive replies. |
+| 2 | [DEV `#showdev`](https://dev.to/t/showdev) | A durable tutorial can be indexed and found later by developers and agents. | A human author must verify every claim, select the current AI-disclosure tier, and keep the article educational rather than promotional. |
+| — | [`r/LLMDevs`](https://www.reddit.com/r/LLMDevs/) | The audience builds LLM and agent systems, and its policy explicitly permits free open-source projects. | Withdrawn after duplicate cleanup; both submitted copies now resolve as author-deleted. |
 
-`r/LLMDevs` was published on 2026-09-17: [Texio: fail-closed Markdown section edits for coding agents (MIT)](https://www.reddit.com/r/LLMDevs/comments/1wic0w9/texio_failclosed_markdown_section_edits_for/).
-Wait for substantive questions or feedback before using the next channel.
+The `r/github` comment was published on 2026-09-17: [Texio in the self-promotion megathread](https://www.reddit.com/r/github/comments/1jy8rea/comment/pa9h13r/). It includes the tested install command, a dry-run example, the repository link, agent-client context, and maintainer/AI disclosures. Monitor it for substantive questions or workflow examples.
 
-Publish one at a time and answer substantive questions before using the next
-channel. Do not ask for votes or reuse identical copy.
+Two accidental `r/LLMDevs` copies were submitted on 2026-09-17. The older duplicate was deleted intentionally; the intended retained copy also became author-deleted during cleanup. Neither URL is active, so this channel is recorded as withdrawn rather than published outreach.
+
+Publish one channel at a time and answer substantive questions before using the next channel. Do not ask for votes or reuse identical copy.
 ## Community-specific author sheets
 
 These are fact sheets for the human publisher. They deliberately avoid a
