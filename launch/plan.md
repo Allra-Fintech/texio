@@ -38,13 +38,13 @@
 ### AI Finderz directory submission
 
 - Tracking issue: [#95](https://github.com/Allra-Fintech/texio/issues/95).
-- Submit via [AI Finderz](https://aifinderz.com/submit-ai-tool/) under **Developer Tools**.
+- Submitted via [AI Finderz](https://aifinderz.com/submit-ai-tool/) under **Developer Tools**.
 - Project URL: https://github.com/Allra-Fintech/texio.
 - Positioning: free, MIT-licensed Markdown CLI for shell scripts and AI agents;
   deterministic heading discovery, section extraction, and surgical replacement
   with dry-run previews and explicit errors for missing or ambiguous headings.
-- Status (2026-09-22): form prepared; awaiting a contact email before submission.
+- Status (2026-09-22): submitted for review. The site confirmed:
+  “Thanks! Your AI tool was submitted for review.”
   AI Finderz reviews submissions before publishing; no listing is confirmed.
-- Follow-up: submit when the contact email is supplied, record the confirmation,
-  then check for review feedback or a public listing after one week. Add the
+- Follow-up (2026-09-29): check for review feedback or a public listing. Add the
   listing URL and any attributable referral/adoption evidence when available.
