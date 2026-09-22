@@ -58,7 +58,7 @@ Tracked in [#98](https://github.com/Allra-Fintech/texio/issues/98), following
 | Directory | Status | Next step |
 | --- | --- | --- |
 | [Future Tools](https://futuretools.io/submit-a-tool) | Submitted under Other / Open Source; page confirmed “Tool Submitted!” and editorial review. | Check for a listing on 2026-09-29; approval is not guaranteed. |
-| [Console](https://console.dev/selection-criteria) | Pending email submission to hello@console.dev; Mail access awaiting user approval after automatic approval review blocked it. | Send the developer-tool pitch from the authorized contact account once access is approved. |
+| [Console](https://console.dev/selection-criteria) | Email submission sent to hello@console.dev on 2026-09-22; verified in Mail’s Sent folder. | Await editorial response; check status on 2026-09-29. Publication is not confirmed. |
 | [AlternativeTo](https://alternativeto.net/faq/#add-a-new-application) | Pending sign-in or account creation, including password, CAPTCHA, and email verification. | User completes account access; then submit via the standard free queue, without priority review. |
 | [ToolScout](https://toolscout.ai/submit/repo) | Free GitHub-repository route accepts developer tools and CLIs; sign-in requires terms acceptance. | Await user approval of terms and complete sign-in, then submit the repository. |
 | [Futurepedia](https://www.futurepedia.io/submit-tool) | Skipped: the free-listings FAQ explicitly says free submissions are no longer offered. | Revisit only if a free route becomes available. |
