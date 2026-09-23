@@ -29,9 +29,13 @@ from every network in mainland China.
 
 | Directory | Route and requirements | Status |
 | --- | --- | --- |
-| [爱自由 · AI 自由](https://aiziyou.ai/submit/) | Direct form; no login or email required. The directory explicitly accepts open-source tools and manually verifies price and access. | Chinese form prepared under 编程开发 / 开源; final submission pending. |
-| [AI旗页](https://www.aiqipage.com/submit) | Direct review form; no login or payment appears in the submission flow. Contact information is optional. | Chinese form prepared under 开源项目 / AI 编程开发工具; final submission pending. |
-| [拾品号导航](https://daohang.bot.cd/submit) | Explicitly free manual review for GitHub open-source and developer projects. Submission is by email with the repository, one-line purpose, category, and rationale. | Chinese email copy prepared; send pending. |
+| [爱自由 · AI 自由](https://aiziyou.ai/submit/) | Direct form; no login or email required. The directory explicitly accepts open-source tools and manually verifies price and access. | Submitted in Chinese on 2026-09-23 under 编程开发 / 开源. The site confirmed success with review number **#2**; publication is pending. |
+| [AI旗页](https://www.aiqipage.com/submit) | Direct review form; no login or payment appears in the submission flow. Contact information is optional. | Submitted in Chinese on 2026-09-23 under 开源项目 / AI 编程开发工具. The form completed and closed into the review queue; publication is pending. |
+| [拾品号导航](https://daohang.bot.cd/submit) | Explicitly free manual review for GitHub open-source and developer projects. Submission is by email with the repository, one-line purpose, category, and rationale. | Chinese email sent on 2026-09-23 to the published submission address with subject “推荐收录开源 Markdown 工具 Texio”; publication is pending. |
+
+Check all three directories on 2026-09-30. Record only a public listing URL or
+an attributable editorial response; a submitted form or sent email is not a
+confirmed listing.
 
 ## Email submission copy
 
