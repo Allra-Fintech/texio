@@ -48,3 +48,25 @@
   AI Finderz reviews submissions before publishing; no listing is confirmed.
 - Follow-up (2026-09-29): check for review feedback or a public listing. Add the
   listing URL and any attributable referral/adoption evidence when available.
+
+### Additional free directory submissions
+
+Tracked in [#98](https://github.com/Allra-Fintech/texio/issues/98), following
+[research #97](https://github.com/Allra-Fintech/texio/issues/97). Final status
+recorded 2026-09-23. Only free submission routes were considered; no paid
+placement or expedited review was purchased.
+
+| Directory | Final status | Follow-up |
+| --- | --- | --- |
+| [Future Tools](https://futuretools.io/submit-a-tool) | Submitted under Other / Open Source; page confirmed “Tool Submitted!” and editorial review. | Check for a listing on 2026-09-29; approval is not guaranteed. |
+| [Console](https://console.dev/selection-criteria) | Email submission sent to hello@console.dev on 2026-09-22; verified in Mail’s Sent folder. | Await editorial response; check status on 2026-09-29. Publication is not confirmed. |
+| [AlternativeTo](https://alternativeto.net/faq/#add-a-new-application) | Deferred from this issue because submission requires an account, password, CAPTCHA, and email verification. | Submit through the standard free queue in a separate task after the account is ready. |
+| [ToolScout](https://toolscout.ai/submit/repo) | Deferred from this issue because its free GitHub-repository route requires account sign-in and acceptance of binding terms. | Submit in a separate task after account access and terms acceptance are completed. |
+| [Futurepedia](https://www.futurepedia.io/submit-tool) | Skipped: the free-listings FAQ explicitly says free submissions are no longer offered. | Revisit only if a free route becomes available. |
+| [OpenSourceAlternative.to](https://opensourcealternative.to/submit) | Not submitted: requires a self-hosted alternative to a named proprietary product; no credible counterpart was identified for Texio. | Reconsider only with an accurate eligibility match; do not invent a competitor to complete the form. |
+
+Submission positioning: Texio is a free, MIT-licensed Markdown CLI for shell
+scripts and AI-agent workflows, with heading discovery, section extraction,
+surgical replacement, and dry-run previews. Clearly describe it as deterministic
+tooling for agents rather than a generative AI model. Keep the contact email out
+of public repository records. Record published listing URLs when available.
