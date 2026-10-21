@@ -312,3 +312,54 @@ fn section_extraction_retains_the_heading_source_prefix() {
         .success()
         .stdout("> ## Quoted\n> body\n\n");
 }
+
+#[test]
+fn dry_run_uses_document_coordinates_and_identifying_heading_context() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original =
+        "# Intro\nkeep 1\nkeep 2\nkeep 3\nkeep 4\n\n## Target\nold\n\n## Next\nkeep tail\n";
+    fs::write(&path, original).unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Target",
+            "--text",
+            "new",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("@@ -5,7 +5,6 @@"))
+        .stdout(predicate::str::contains(" ## Target\n"))
+        .stdout(predicate::str::contains(" ## Next\n"));
+    assert_eq!(fs::read_to_string(path).unwrap(), original);
+}
+
+#[test]
+fn dry_run_identifies_the_section_after_a_long_unchanged_prefix() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original =
+        "# Document\n\n## Target\nfirst\nsecond\nthird\nfourth\nfifth\nold\n\n## Next\nkeep\n";
+    fs::write(&path, original).unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Target",
+            "--text",
+            "first\nsecond\nthird\nfourth\nfifth\nnew\n",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(
+            "@@ -6,7 +6,6 @@ section: Target\n",
+        ))
+        .stdout(predicate::str::contains(" ## Target\n").not());
+    assert_eq!(fs::read_to_string(path).unwrap(), original);
+}
