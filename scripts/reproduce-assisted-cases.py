@@ -188,6 +188,9 @@ def main():
         version = run(binary, ["--version"])
         if version.returncode != 0:
             raise ValueError("could not read Texio version")
+        version_text = version.stdout.strip()
+        require(re.fullmatch(r"texio \S+", version_text) is not None,
+                "unexpected --version output")
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory(prefix="texio-assisted-") as temporary:
             rows = []
@@ -198,7 +201,7 @@ def main():
                     raise ValueError(f"{case['id']}: {error}") from error
         report = {
             "schema_version": 1,
-            "texio_version": version.stdout.strip(),
+            "texio_version": version_text,
             "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
             "scope": "offline synthetic selector comparisons; no upstream generator execution",
             "independent": False,
