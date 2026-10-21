@@ -184,10 +184,10 @@ def main():
     if executable is None:
         parser.error("Texio executable not found; pass --texio /path/to/texio")
     binary = Path(executable).resolve()
-    version = run(binary, ["--version"])
-    if version.returncode != 0:
-        parser.error("could not read Texio version")
     try:
+        version = run(binary, ["--version"])
+        if version.returncode != 0:
+            raise ValueError("could not read Texio version")
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory(prefix="texio-assisted-") as temporary:
             rows = []
@@ -206,9 +206,16 @@ def main():
             "cases": rows,
         }
         if args.output:
-            with args.output.open("x", encoding="utf-8", newline="\n") as output:
-                json.dump(report, output, indent=2)
-                output.write("\n")
+            payload = json.dumps(report, indent=2) + "\n"
+            created = False
+            try:
+                with args.output.open("x", encoding="utf-8", newline="\n") as output:
+                    created = True
+                    output.write(payload)
+            except OSError:
+                if created:
+                    args.output.unlink(missing_ok=True)
+                raise
         print(json.dumps(report, indent=2))
     except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
         print(f"comparison failed: {error}", file=sys.stderr)
