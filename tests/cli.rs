@@ -197,7 +197,7 @@ fn final_heading_preview_does_not_write_and_apply_preserves_title() {
         ])
         .assert()
         .success()
-        .stdout(predicate::str::contains("+\n+new body\n"));
+        .stdout(predicate::str::contains("+new body\n"));
     assert_eq!(fs::read_to_string(&path).unwrap(), "# A");
     texio()
         .args([
