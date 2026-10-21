@@ -205,3 +205,21 @@ fn replace_rejects_using_stdin_twice() {
             "document and replacement cannot both read from stdin",
         ));
 }
+
+#[test]
+fn replacement_keeps_the_following_setext_heading_separate() {
+    texio()
+        .args([
+            "replace",
+            "-",
+            "--section",
+            "Target",
+            "--text",
+            "new body",
+            "--stdout",
+        ])
+        .write_stdin("## Target\nold\n\nNext\n---\nkeep\n")
+        .assert()
+        .success()
+        .stdout("## Target\nnew body\n\nNext\n---\nkeep\n");
+}
