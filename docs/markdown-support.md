@@ -7,7 +7,7 @@ tables, task lists, footnotes, and strikethrough.
 ## Supported section syntax
 
 - ATX headings from `#` through `######`
-- Setext level-one and level-two headings
+- Setext level-one and level-two headings, including multiline titles
 - Nested sections bounded by the next heading at the same or a higher level
 - Inline Markdown inside heading titles
 - LF and CRLF line endings

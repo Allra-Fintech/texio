@@ -46,7 +46,9 @@ fn headings(input: &str) -> Vec<Heading> {
                         level,
                         title: title.trim().to_string(),
                         start,
-                        body_start: heading_body_start(input, start),
+                        // The parser span includes every Setext title line and
+                        // its underline, as well as the complete ATX line.
+                        body_start: range.end,
                         end: input.len(),
                     });
                 }
@@ -107,30 +109,6 @@ fn line_end(input: &str, from: usize) -> usize {
     input[from..]
         .find('\n')
         .map_or(input.len(), |relative| from + relative + 1)
-}
-
-fn heading_body_start(input: &str, start: usize) -> usize {
-    let first_end = line_end(input, start);
-    let first_line = input[start..first_end].trim_end_matches(['\r', '\n']);
-    if is_atx_heading_line(first_line) {
-        first_end
-    } else {
-        line_end(input, first_end)
-    }
-}
-
-fn is_atx_heading_line(line: &str) -> bool {
-    let indent = line.bytes().take_while(|byte| *byte == b' ').count();
-    if indent > 3 {
-        return false;
-    }
-    let content = &line[indent..];
-    let hashes = content.bytes().take_while(|byte| *byte == b'#').count();
-    (1..=6).contains(&hashes)
-        && content
-            .as_bytes()
-            .get(hashes)
-            .is_none_or(u8::is_ascii_whitespace)
 }
 
 fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, String> {
@@ -485,6 +463,45 @@ mod tests {
         let all = headings(md);
         let section = select_heading(&all, "#Title").unwrap();
         assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn multiline_setext_body_starts_after_the_complete_heading() {
+        for ending in ["\n", "\r\n"] {
+            for (title_lines, title, underline) in [
+                ("Alpha\nBeta", "Alpha Beta", "---"),
+                ("Alpha\nBeta\nGamma", "Alpha Beta Gamma", "==="),
+                ("*Alpha*\n**Beta**", "Alpha Beta", "---"),
+            ] {
+                let md = format!("{title_lines}\n{underline}\nold body\n\n").replace('\n', ending);
+                let all = headings(&md);
+                let selected = select_heading(&all, title).unwrap();
+                assert_eq!(
+                    &md[selected.body_start..selected.end],
+                    format!("old body{ending}{ending}")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn multiline_setext_replacement_preserves_title_underline_and_neighbors() {
+        for ending in ["\n", "\r\n"] {
+            let md =
+                "# Top\nkeep intro\n\nAlpha\nBeta\nGamma\n---\nold body\n\n## Next\nkeep tail\n"
+                    .replace('\n', ending);
+            let expected =
+                "# Top\nkeep intro\n\nAlpha\nBeta\nGamma\n---\nnew body\n## Next\nkeep tail\n"
+                    .replace('\n', ending);
+            let (output, _, _) =
+                replace_section(&md, "Alpha Beta Gamma", "new body".to_string()).unwrap();
+            assert_eq!(output, expected);
+            assert!(
+                headings(&output)
+                    .iter()
+                    .any(|heading| heading.title == "Alpha Beta Gamma")
+            );
+        }
     }
 
     #[test]
