@@ -1,0 +1,19 @@
+{
+  "repository": "iowarp/clio-kit",
+  "source_commit": "93e41d70d6c25ea22c82a39c25c510816e67e8ef",
+  "updater": "scripts/generate_docs.py",
+  "input_document": "clio-kit-mcp-servers/hdf5/README.md",
+  "input_sha256": "468dff9d0dd383ad341bcbaa846b8f14cbaac057b1d4eca436f8fe41bd6b0839",
+  "texio_version": "texio 0.1.2",
+  "execution_scope": "Only the inspected section selector and existing cleanup methods, isolated via AST; no module imports, generator, API or CI execution",
+  "current_document": {
+    "baseline_keeps_verify_installation_heading": false,
+    "texio_with_same_cleanup_keeps_verify_installation_heading": true
+  },
+  "synthetic_fenced_example": {
+    "baseline_keeps_after_text": false,
+    "texio_with_same_cleanup_keeps_after_text": true
+  },
+  "independent": false,
+  "trial": false
+}
