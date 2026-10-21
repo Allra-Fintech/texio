@@ -156,3 +156,28 @@ fn replace_rejects_using_stdin_twice() {
             "document and replacement cannot both read from stdin",
         ));
 }
+
+#[test]
+fn dry_run_uses_document_coordinates_and_identifying_heading_context() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original =
+        "# Intro\nkeep 1\nkeep 2\nkeep 3\nkeep 4\n\n## Target\nold\n\n## Next\nkeep tail\n";
+    fs::write(&path, original).unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Target",
+            "--text",
+            "new",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("@@ -5,7 +5,6 @@"))
+        .stdout(predicate::str::contains(" ## Target\n"))
+        .stdout(predicate::str::contains(" ## Next\n"));
+    assert_eq!(fs::read_to_string(path).unwrap(), original);
+}

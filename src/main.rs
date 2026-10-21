@@ -412,10 +412,10 @@ fn run(cli: &Cli) -> Result<(), AppError> {
                 _ => unreachable!("clap validates the source group"),
             };
             let input = read_input(file)?;
-            let (output, old_range, normalized) =
+            let (output, _, _) =
                 replace_section(&input, section, replacement).map_err(selection_error)?;
             if *dry_run {
-                unified_preview(file, &input[old_range], &normalized);
+                unified_preview(file, &input, &output);
             } else if *stdout {
                 print!("{output}");
             } else if *write {
