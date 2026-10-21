@@ -88,6 +88,23 @@ edit MDX as part of this proposal.
 
 ## Next steps and decision gates
 
+**Correctness gate:** An internal audit on October 21 reproduced four heading
+preservation defects in the published v0.1.2 behavior: [multiline Setext title
+loss](https://github.com/Allra-Fintech/texio/issues/135), [final-heading/body
+concatenation](https://github.com/Allra-Fintech/texio/issues/136), [following
+heading prefix loss](https://github.com/Allra-Fintech/texio/issues/139), and
+[following Setext title merging](https://github.com/Allra-Fintech/texio/issues/141).
+Fixes in PRs #137, #138, #140 and #142 pass their checks but still require
+review. Do not send new trial offers or propose a v0.1.2 integration until the
+relevant repairs have been reviewed and published in a corrected release.
+These are project-authored reproductions, not independent user reports.
+
+Correctness corrections were posted to the existing
+[CVE invitation](https://github.com/0x5t4l1n/CVE/issues/7#issuecomment-6308490097)
+and [CleanTube invitation](https://github.com/revolunet/cleantube/issues/9#issuecomment-6308490657).
+These are disclosures about the tool, not new offers or external trial results.
+The cycle invitation total remains two.
+
 Wait for the CleanTube response before the next outbound offer. Do not repeat
 the declined Tekton or dbt proposals without materially new evidence. CLIO
 remains a technically revalidated reserve, not a submitted invitation.
