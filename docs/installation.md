@@ -14,7 +14,7 @@ cargo install texio-cli --locked
 texio --version
 ```
 
-For an exact version, add `--version 0.1.2`. A source build may take more than
+For an exact version, add `--version 0.1.3`. A source build may take more than
 five minutes depending on the machine and network. From a source checkout,
 use `cargo install --path . --locked`.
 
@@ -32,7 +32,7 @@ The following example uses Apple Silicon. Set `target` to the matching value
 above. It installs into a user-owned directory without administrator access.
 
 ```sh
-version=0.1.2
+version=0.1.3
 target=aarch64-apple-darwin
 archive="texio-$target.tar.gz"
 download_dir=$(mktemp -d)
@@ -61,7 +61,7 @@ Run in PowerShell. This verifies the checksum before extracting the archive
 and adds the installation directory to the current session's PATH.
 
 ```powershell
-$version = '0.1.2'
+$version = '0.1.3'
 $archive = 'texio-x86_64-pc-windows-msvc.zip'
 $downloadDir = Join-Path ([IO.Path]::GetTempPath()) ([guid]::NewGuid().ToString())
 New-Item -ItemType Directory $downloadDir | Out-Null
