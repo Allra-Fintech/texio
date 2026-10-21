@@ -193,6 +193,13 @@ fn replace_section(
         // following Setext title, despite preserving that title's bytes.
         after.push_str(line_ending(input));
     }
+    // An empty final section can end at the heading itself. Keep the new
+    // body on a separate line instead of extending the title or underline.
+    let after = if heading.body_start == input.len() && !input.ends_with('\n') {
+        format!("{}{}", line_ending(input), after)
+    } else {
+        after
+    };
     let output = format!(
         "{}{}{}",
         &input[..heading.body_start],
@@ -716,18 +723,30 @@ mod tests {
     }
 
     #[test]
-    fn replacement_preserves_the_following_heading_source_prefix() {
-        for ending in ["\n", "\r\n"] {
-            for next in ["> ## Next", "> > ## Next", "- ## Next", "   ## Next"] {
-                let suffix = format!("{next}\nkeep tail\n\n## Last\nlast\n").replace('\n', ending);
-                let input = format!("## Target{ending}old body{ending}{ending}{suffix}");
-                let (output, _, _) =
-                    replace_section(&input, "Target", "new body".to_string()).unwrap();
-                assert_eq!(output, format!("## Target{ending}new body{ending}{suffix}"));
-                let all = headings(&input);
-                let selected = select_heading(&all, "Next").unwrap();
-                assert!(input[selected.start..].starts_with(next));
-            }
+    fn replacement_separates_an_unterminated_final_heading_from_its_body() {
+        for (md, title, expected) in [
+            ("# A", "A", "# A\nnew body\n"),
+            ("# A ###", "A", "# A ###\nnew body\n"),
+            ("Title\n---", "Title", "Title\n---\nnew body\n"),
+            ("Title\n===", "Title", "Title\n===\nnew body\n"),
+            (
+                "# First\r\nkeep\r\n\r\n## Last",
+                "Last",
+                "# First\r\nkeep\r\n\r\n## Last\r\nnew body\r\n",
+            ),
+            (
+                "# First\r\nkeep\r\n\r\nLast\r\n---",
+                "Last",
+                "# First\r\nkeep\r\n\r\nLast\r\n---\r\nnew body\r\n",
+            ),
+        ] {
+            let (output, replaced, inserted) =
+                replace_section(md, title, "new body".to_string()).unwrap();
+            assert_eq!(output, expected);
+            assert_eq!(replaced, md.len()..md.len());
+            assert_eq!(&output[..md.len()], md);
+            assert_eq!(&output[md.len()..], inserted);
+            assert_eq!(headings(&output).last().unwrap().title, title);
         }
     }
 
@@ -777,5 +796,21 @@ mod tests {
         )
         .unwrap();
         assert_eq!(output, "## Target\nnew\n## Next\nkeep\n");
+    }
+
+    #[test]
+    fn replacement_preserves_the_following_heading_source_prefix() {
+        for ending in ["\n", "\r\n"] {
+            for next in ["> ## Next", "> > ## Next", "- ## Next", "   ## Next"] {
+                let suffix = format!("{next}\nkeep tail\n\n## Last\nlast\n").replace('\n', ending);
+                let input = format!("## Target{ending}old body{ending}{ending}{suffix}");
+                let (output, _, _) =
+                    replace_section(&input, "Target", "new body".to_string()).unwrap();
+                assert_eq!(output, format!("## Target{ending}new body{ending}{suffix}"));
+                let all = headings(&input);
+                let selected = select_heading(&all, "Next").unwrap();
+                assert!(input[selected.start..].starts_with(next));
+            }
+        }
     }
 }

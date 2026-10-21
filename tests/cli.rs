@@ -207,6 +207,81 @@ fn replace_rejects_using_stdin_twice() {
 }
 
 #[test]
+fn stdout_replacement_keeps_an_unterminated_heading_separate() {
+    for (input, title, expected) in [
+        ("# A", "A", "# A\nnew body\n"),
+        ("Title\n---", "Title", "Title\n---\nnew body\n"),
+    ] {
+        texio()
+            .args([
+                "replace",
+                "-",
+                "--section",
+                title,
+                "--text",
+                "new body",
+                "--stdout",
+            ])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected);
+    }
+}
+
+#[test]
+fn final_heading_preview_does_not_write_and_apply_preserves_title() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    fs::write(&path, "# A").unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("+new body\n"));
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A");
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--write",
+        ])
+        .assert()
+        .success();
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A\nnew body\n");
+}
+
+#[test]
+fn replacement_keeps_the_following_setext_heading_separate() {
+    texio()
+        .args([
+            "replace",
+            "-",
+            "--section",
+            "Target",
+            "--text",
+            "new body",
+            "--stdout",
+        ])
+        .write_stdin("## Target\nold\n\nNext\n---\nkeep\n")
+        .assert()
+        .success()
+        .stdout("## Target\nnew body\n\nNext\n---\nkeep\n");
+}
+
+#[test]
 fn replacing_a_section_preserves_next_heading_markers_and_indentation() {
     for following in ["> ## Next", "- ## Next", "   ## Next"] {
         let input = format!("## Target\nold\n\n{following}\nkeep\n");
@@ -236,24 +311,6 @@ fn section_extraction_retains_the_heading_source_prefix() {
         .assert()
         .success()
         .stdout("> ## Quoted\n> body\n\n");
-}
-
-#[test]
-fn replacement_keeps_the_following_setext_heading_separate() {
-    texio()
-        .args([
-            "replace",
-            "-",
-            "--section",
-            "Target",
-            "--text",
-            "new body",
-            "--stdout",
-        ])
-        .write_stdin("## Target\nold\n\nNext\n---\nkeep\n")
-        .assert()
-        .success()
-        .stdout("## Target\nnew body\n\nNext\n---\nkeep\n");
 }
 
 #[test]
