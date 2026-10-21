@@ -207,6 +207,38 @@ fn replace_rejects_using_stdin_twice() {
 }
 
 #[test]
+fn replacing_a_section_preserves_next_heading_markers_and_indentation() {
+    for following in ["> ## Next", "- ## Next", "   ## Next"] {
+        let input = format!("## Target\nold\n\n{following}\nkeep\n");
+        let expected = format!("## Target\nnew\n{following}\nkeep\n");
+        texio()
+            .args([
+                "replace",
+                "-",
+                "--section",
+                "Target",
+                "--text",
+                "new",
+                "--stdout",
+            ])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected);
+    }
+}
+
+#[test]
+fn section_extraction_retains_the_heading_source_prefix() {
+    texio()
+        .args(["section", "-", "Quoted"])
+        .write_stdin("> ## Quoted\n> body\n\n## Next\nkeep\n")
+        .assert()
+        .success()
+        .stdout("> ## Quoted\n> body\n\n");
+}
+
+#[test]
 fn replacement_keeps_the_following_setext_heading_separate() {
     texio()
         .args([
