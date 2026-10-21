@@ -305,13 +305,23 @@ fn selection_error(message: String) -> AppError {
     }
 }
 
-fn unified_preview(path: &str, before: &str, after: &str) {
-    print!(
-        "{}",
-        TextDiff::from_lines(before, after)
-            .unified_diff()
-            .header(path, &format!("{path} (proposed)"))
-    );
+fn unified_preview(path: &str, section: &str, before: &str, after: &str) {
+    let preview = TextDiff::from_lines(before, after)
+        .unified_diff()
+        .header(path, &format!("{path} (proposed)"))
+        .to_string();
+    for line in preview.split_inclusive('\n') {
+        if line.starts_with("@@ ") {
+            // A hunk label identifies the section without unbounded context.
+            println!(
+                "{} section: {}",
+                line.trim_end_matches('\n'),
+                section.escape_debug()
+            );
+        } else {
+            print!("{line}");
+        }
+    }
 }
 
 fn atomic_write(path: &str, content: &str) -> Result<(), String> {
@@ -421,7 +431,7 @@ fn run(cli: &Cli) -> Result<(), AppError> {
             let (output, _, _) =
                 replace_section(&input, section, replacement).map_err(selection_error)?;
             if *dry_run {
-                unified_preview(file, &input, &output);
+                unified_preview(file, section, &input, &output);
             } else if *stdout {
                 print!("{output}");
             } else if *write {
