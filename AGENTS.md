@@ -54,3 +54,32 @@ is missing or ambiguous; do not guess which duplicate heading the user meant.
 
 After a change, inspect the version-control diff and verify that no unrelated
 content changed.
+
+## Time-based blockers and automatic continuation
+
+When authorized work is blocked by a condition that can clear with time, such
+as a service rate limit, usage reset, pending check, or review cooldown, save a
+checkpoint in its issue before stopping. Record the blocker, issue/branch/PR,
+next action, and the source and timestamp of any retry or reset information.
+
+Create or update one temporary continuation reminder in the same chat so work
+resumes automatically. Use a verified retry/reset time with a small buffer;
+anchor relative delays to the service response timestamp. For multiple blocking
+usage windows, wait until all required windows reset. If completion time is
+unknown, schedule a bounded status check with reasonable backoff or reuse the
+existing daily monitor; describe it as a check time, not a promised reset.
+Do not guess provider reset times, create duplicate reminders, or poll idly.
+
+At the reminder, recheck the blocker and current issue/PR state before acting.
+If it has cleared, resume the checkpoint under the user's existing authorization
+without asking again. Otherwise, update the checkpoint and reschedule using
+fresh retry evidence or bounded backoff. Disable or remove the temporary
+reminder once it is no longer needed. Keep unchanged/non-actionable checks quiet;
+notify only for meaningful progress, failure, or a decision the user must make.
+
+This authorizes retrying a rate-limited review request that never started after
+availability recovers. Do not duplicate a pending or completed review for the
+same HEAD. Waiting does not satisfy required approval, and reminders must not
+bypass review gates, enable paid usage, or spend reset credits. Blockers requiring
+a human decision or credentials need a clear user-facing explanation rather
+than repeated automatic retries.
