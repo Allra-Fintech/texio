@@ -194,6 +194,13 @@ fn replace_section(
     let heading = select_heading(&all, title)?;
     let before = heading.body_start..heading.end;
     let after = normalize_replacement(replacement, input);
+    // An empty final section can end at the heading itself. Keep the new
+    // body on a separate line instead of extending the title or underline.
+    let after = if heading.body_start == input.len() && !input.ends_with('\n') {
+        format!("{}{}", line_ending(input), after)
+    } else {
+        after
+    };
     let output = format!(
         "{}{}{}",
         &input[..heading.body_start],
@@ -675,5 +682,33 @@ mod tests {
         assert_eq!(output, "# First\nnew\n# Last\nold");
         let (output, _, _) = replace_section(md, "Last", "new".to_string()).unwrap();
         assert_eq!(output, "# First\nbody\n# Last\nnew\n");
+    }
+
+    #[test]
+    fn replacement_separates_an_unterminated_final_heading_from_its_body() {
+        for (md, title, expected) in [
+            ("# A", "A", "# A\nnew body\n"),
+            ("# A ###", "A", "# A ###\nnew body\n"),
+            ("Title\n---", "Title", "Title\n---\nnew body\n"),
+            ("Title\n===", "Title", "Title\n===\nnew body\n"),
+            (
+                "# First\r\nkeep\r\n\r\n## Last",
+                "Last",
+                "# First\r\nkeep\r\n\r\n## Last\r\nnew body\r\n",
+            ),
+            (
+                "# First\r\nkeep\r\n\r\nLast\r\n---",
+                "Last",
+                "# First\r\nkeep\r\n\r\nLast\r\n---\r\nnew body\r\n",
+            ),
+        ] {
+            let (output, replaced, inserted) =
+                replace_section(md, title, "new body".to_string()).unwrap();
+            assert_eq!(output, expected);
+            assert_eq!(replaced, md.len()..md.len());
+            assert_eq!(&output[..md.len()], md);
+            assert_eq!(&output[md.len()..], inserted);
+            assert_eq!(headings(&output).last().unwrap().title, title);
+        }
     }
 }

@@ -156,3 +156,60 @@ fn replace_rejects_using_stdin_twice() {
             "document and replacement cannot both read from stdin",
         ));
 }
+
+#[test]
+fn stdout_replacement_keeps_an_unterminated_heading_separate() {
+    for (input, title, expected) in [
+        ("# A", "A", "# A\nnew body\n"),
+        ("Title\n---", "Title", "Title\n---\nnew body\n"),
+    ] {
+        texio()
+            .args([
+                "replace",
+                "-",
+                "--section",
+                title,
+                "--text",
+                "new body",
+                "--stdout",
+            ])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected);
+    }
+}
+
+#[test]
+fn final_heading_preview_does_not_write_and_apply_preserves_title() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    fs::write(&path, "# A").unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("+\n+new body\n"));
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A");
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--write",
+        ])
+        .assert()
+        .success();
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A\nnew body\n");
+}

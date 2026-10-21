@@ -26,6 +26,8 @@ front matter.
 - A missing heading fails instead of creating a new section.
 - Duplicate matching headings fail as ambiguous.
 - Replacement changes only the selected section body.
+- Adding a body after an unterminated final heading inserts the required line
+  ending so the heading remains separate from the new content.
 - Line endings follow the target document.
 - Writes replace the file atomically, retain its permissions, and preserve
   symlinks by updating their targets.
