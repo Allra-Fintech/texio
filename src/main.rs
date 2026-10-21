@@ -45,7 +45,9 @@ fn headings(input: &str) -> Vec<Heading> {
                     found.push(Heading {
                         level,
                         title: title.trim().to_string(),
-                        start,
+                        // Parser offsets omit indentation and container markers.
+                        // Keep those bytes with this heading, not the prior body.
+                        start: source_line_start(input, start),
                         body_start: heading_body_start(input, start),
                         end: input.len(),
                     });
@@ -107,6 +109,10 @@ fn line_end(input: &str, from: usize) -> usize {
     input[from..]
         .find('\n')
         .map_or(input.len(), |relative| from + relative + 1)
+}
+
+fn source_line_start(input: &str, from: usize) -> usize {
+    input[..from].rfind('\n').map_or(0, |newline| newline + 1)
 }
 
 fn heading_body_start(input: &str, start: usize) -> usize {
@@ -675,5 +681,21 @@ mod tests {
         assert_eq!(output, "# First\nnew\n# Last\nold");
         let (output, _, _) = replace_section(md, "Last", "new".to_string()).unwrap();
         assert_eq!(output, "# First\nbody\n# Last\nnew\n");
+    }
+
+    #[test]
+    fn replacement_preserves_the_following_heading_source_prefix() {
+        for ending in ["\n", "\r\n"] {
+            for next in ["> ## Next", "> > ## Next", "- ## Next", "   ## Next"] {
+                let suffix = format!("{next}\nkeep tail\n\n## Last\nlast\n").replace('\n', ending);
+                let input = format!("## Target{ending}old body{ending}{ending}{suffix}");
+                let (output, _, _) =
+                    replace_section(&input, "Target", "new body".to_string()).unwrap();
+                assert_eq!(output, format!("## Target{ending}new body{ending}{suffix}"));
+                let all = headings(&input);
+                let selected = select_heading(&all, "Next").unwrap();
+                assert!(input[selected.start..].starts_with(next));
+            }
+        }
     }
 }
