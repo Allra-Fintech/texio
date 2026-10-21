@@ -42,6 +42,55 @@ fn ambiguous_section_has_stable_exit_code() {
 }
 
 #[test]
+fn multiline_setext_extraction_excludes_the_title_and_underline() {
+    texio()
+        .args(["section", "-", "Alpha Beta", "--body-only"])
+        .write_stdin("Alpha\nBeta\n---\nold body\n\n## Next\nkeep\n")
+        .assert()
+        .success()
+        .stdout("old body\n\n");
+}
+
+#[test]
+fn multiline_setext_write_preserves_the_heading_and_following_section() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original = "Alpha\nBeta\n---\nold body\n\n## Next\nkeep\n";
+    fs::write(&path, original).unwrap();
+
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Alpha Beta",
+            "--text",
+            "new body",
+            "--dry-run",
+        ])
+        .assert()
+        .success();
+    assert_eq!(fs::read_to_string(&path).unwrap(), original);
+
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Alpha Beta",
+            "--text",
+            "new body",
+            "--write",
+        ])
+        .assert()
+        .success();
+    assert_eq!(
+        fs::read_to_string(&path).unwrap(),
+        "Alpha\nBeta\n---\nnew body\n## Next\nkeep\n"
+    );
+}
+
+#[test]
 fn unreadable_input_has_stable_exit_code() {
     texio()
         .args(["headings", "file-that-does-not-exist.md"])
@@ -180,4 +229,22 @@ fn dry_run_uses_document_coordinates_and_identifying_heading_context() {
         .stdout(predicate::str::contains(" ## Target\n"))
         .stdout(predicate::str::contains(" ## Next\n"));
     assert_eq!(fs::read_to_string(path).unwrap(), original);
+}
+
+#[test]
+fn replacement_keeps_the_following_setext_heading_separate() {
+    texio()
+        .args([
+            "replace",
+            "-",
+            "--section",
+            "Target",
+            "--text",
+            "new body",
+            "--stdout",
+        ])
+        .write_stdin("## Target\nold\n\nNext\n---\nkeep\n")
+        .assert()
+        .success()
+        .stdout("## Target\nnew body\n\nNext\n---\nkeep\n");
 }
