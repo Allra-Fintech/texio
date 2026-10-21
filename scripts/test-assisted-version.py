@@ -34,7 +34,8 @@ class VersionEvidenceTests(unittest.TestCase):
                     contextlib.redirect_stdout(captured), \
                     contextlib.redirect_stderr(io.StringIO()):
                 status = comparisons.main()
-            return status, output.exists(), captured.getvalue(), compare.call_count
+            report = json.loads(output.read_text(encoding="utf-8")) if output.exists() else None
+            return status, output.exists(), captured.getvalue(), compare.call_count, report
 
     def test_invalid_version_cannot_create_a_report_or_run_cases(self):
         """Fail before fixture comparisons and report creation on bad identity."""
@@ -42,16 +43,17 @@ class VersionEvidenceTests(unittest.TestCase):
                              ("other 0.1.3\n", 0), ("texio \n", 0),
                              ("texio 0.1.3\nextra\n", 0)]:
             with self.subTest(stdout=stdout, returncode=code):
-                self.assertEqual(self.invoke(stdout, code), (1, False, "", 0))
+                self.assertEqual(self.invoke(stdout, code), (1, False, "", 0, None))
 
     def test_other_versions_are_accepted_and_reused_in_report(self):
         """Comparisons may target an executable other than the checkout version."""
         for version in ["0.1.2", "0.1.3", "0.2.0-rc.1+local"]:
             with self.subTest(version=version):
-                status, exists, stdout, count = self.invoke(f"texio {version}\n")
+                status, exists, stdout, count, report = self.invoke(f"texio {version}\n")
                 self.assertEqual((status, exists), (0, True))
                 self.assertGreater(count, 0)
                 self.assertEqual(json.loads(stdout)["texio_version"], f"texio {version}")
+                self.assertEqual(report["texio_version"], f"texio {version}")
 
 
 if __name__ == "__main__":
