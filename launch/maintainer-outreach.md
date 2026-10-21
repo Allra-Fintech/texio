@@ -11,9 +11,11 @@ The proposals were sent one at a time, starting with Tekton Catalog, after the
 
 ## Open-Toolchain Tekton Catalog
 
-**Status:** Proposal opened on 2026-09-15 at
+**Status:** Declined and closed on 2026-10-07 at
 [`open-toolchain/tekton-catalog#285`](https://github.com/open-toolchain/tekton-catalog/issues/285).
-Awaiting a maintainer response; this is outreach, not adoption.
+The [maintainer response](https://github.com/open-toolchain/tekton-catalog/issues/285#issuecomment-6031996481)
+rejected an external tool dependency. No assisted trial or adoption followed;
+do not repeat this proposal without materially new evidence.
 
 **Route:** Open a normal
 [GitHub issue](https://github.com/open-toolchain/tekton-catalog/issues/new).
@@ -101,9 +103,13 @@ binary must justify the narrower write surface.
 
 ## dbt MCP
 
-**Status:** Proposal opened on 2026-09-15 at
+**Status:** Declined; the proposal was closed on 2026-09-29 at
 [`dbt-labs/dbt-mcp#887`](https://github.com/dbt-labs/dbt-mcp/issues/887).
-Awaiting a maintainer response; this is outreach, not adoption.
+A [collaborator evaluation](https://github.com/dbt-labs/dbt-mcp/issues/887#issuecomment-5750484580)
+found the extra binary dependency unjustified for an already working,
+non-production generator. The [closure](https://github.com/dbt-labs/dbt-mcp/issues/887#issuecomment-5894161990)
+and subsequent maintainer acknowledgment leave this declined, not adoption.
+Do not reopen without a demonstrated workflow problem or materially new evidence.
 
 **Route:** Use the repository's
 [feature request](https://github.com/dbt-labs/dbt-mcp/issues/new?template=feature_request.yml).
