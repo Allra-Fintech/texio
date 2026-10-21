@@ -27,18 +27,15 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag }}
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Verify tag matches the package version
+      - name: Verify release tag and branch
         env:
           RELEASE_TAG: ${{ inputs.tag }}
-        run: |
-          package_version=$(cargo metadata --no-deps --format-version 1 |
-            jq -r '.packages[] | select(.name == "texio-cli") | .version')
-          test "$RELEASE_TAG" = "v$package_version"
-          test "$(git tag --points-at HEAD)" = "$RELEASE_TAG"
+        run: bash scripts/verify-release-tag.sh "$RELEASE_TAG"
 
       - name: Verify package contents
         run: |
