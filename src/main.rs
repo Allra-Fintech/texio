@@ -14,6 +14,7 @@ use tempfile::NamedTempFile;
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Heading {
     level: usize,
+    setext: bool,
     title: String,
     start: usize,
     body_start: usize,
@@ -44,6 +45,7 @@ fn headings(input: &str) -> Vec<Heading> {
                 if let Some((level, start, title)) = current.take() {
                     found.push(Heading {
                         level,
+                        setext: line_end(input, start) < range.end,
                         title: title.trim().to_string(),
                         start,
                         body_start: heading_body_start(input, start),
@@ -193,7 +195,20 @@ fn replace_section(
     let all = headings(input);
     let heading = select_heading(&all, title)?;
     let before = heading.body_start..heading.end;
-    let after = normalize_replacement(replacement, input);
+    let mut after = normalize_replacement(replacement, input);
+    let following_setext = all
+        .iter()
+        .any(|next| next.start == heading.end && next.setext);
+    if following_setext
+        && after
+            .lines()
+            .last()
+            .is_some_and(|line| !line.trim_matches([' ', '\t']).is_empty())
+    {
+        // Otherwise the last replacement paragraph becomes part of the
+        // following Setext title, despite preserving that title's bytes.
+        after.push_str(line_ending(input));
+    }
     let output = format!(
         "{}{}{}",
         &input[..heading.body_start],
@@ -675,5 +690,53 @@ mod tests {
         assert_eq!(output, "# First\nnew\n# Last\nold");
         let (output, _, _) = replace_section(md, "Last", "new".to_string()).unwrap();
         assert_eq!(output, "# First\nbody\n# Last\nnew\n");
+    }
+
+    #[test]
+    fn replacement_does_not_merge_with_a_following_setext_title() {
+        for ending in ["\n", "\r\n"] {
+            for underline in ["---", "==="] {
+                let input = format!("# Target\nold body\n\nNext\n{underline}\nkeep tail\n")
+                    .replace('\n', ending);
+                // Use a same-level target so Next is a separate section.
+                let input = if underline == "---" {
+                    input.replacen("# Target", "## Target", 1)
+                } else {
+                    input
+                };
+                let expected = input.replace(
+                    &format!("old body{ending}{ending}"),
+                    &format!("new body{ending}{ending}"),
+                );
+                let (output, _, _) =
+                    replace_section(&input, "Target", "new body".to_string()).unwrap();
+                assert_eq!(output, expected);
+                assert_eq!(
+                    headings(&output)
+                        .iter()
+                        .map(|h| h.title.as_str())
+                        .collect::<Vec<_>>(),
+                    ["Target", "Next"]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn replacement_retains_existing_blank_line_separation() {
+        let input = "## Target\nold\n\nNext\n---\nkeep\n";
+        for body in ["new\n\n", "new\n \t\n", "\n"] {
+            let (output, _, normalized) =
+                replace_section(input, "Target", body.to_string()).unwrap();
+            assert_eq!(normalized, body);
+            assert_eq!(output, format!("## Target\n{body}Next\n---\nkeep\n"));
+        }
+        let (output, _, _) = replace_section(
+            "## Target\nold\n## Next\nkeep\n",
+            "Target",
+            "new".to_string(),
+        )
+        .unwrap();
+        assert_eq!(output, "## Target\nnew\n## Next\nkeep\n");
     }
 }
