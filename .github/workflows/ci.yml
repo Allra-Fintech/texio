@@ -27,6 +27,9 @@ jobs:
         run: |
           cargo build --locked
           python3 scripts/launch-demo.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
+      - name: Reproduce assisted workflow comparisons
+        shell: bash
+        run: python3 scripts/reproduce-assisted-cases.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
       - name: Reproduce benchmark
         if: runner.os == 'Linux'
         run: |
