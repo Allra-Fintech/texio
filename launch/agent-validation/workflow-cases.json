@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "scope": "Synthetic ASCII fixtures exercising selected published selector behavior. Does not run upstream generators or establish external trials.",
+  "baseline_notes": {
+    "positional_tables": "Published counter/table selection with generated sample tables; no file I/O.",
+    "uppercase_boundary": "Python transcription of the published JavaScript regex for these ASCII LF fixtures; only the existing-section replacement branch is exercised, not insertion fallback.",
+    "substring_extract": "Published line selector and cleanup; cleanup is also applied after Texio extraction."
+  },
+  "cases": [
+    {
+      "id": "cve-reordered-tables",
+      "source_url": "https://github.com/0x5t4l1n/CVE/blob/98e6a52a6941797a9d44d3f1f23ff9adaa66beee/scripts/update_readme.py",
+      "operation": "replace",
+      "baseline": "positional_tables",
+      "input": "# CVE Research\n\n## Patched\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| OLD | Existing row | N/A |\n\n---\n\n## Reported\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| OLD | Existing row | N/A |\n\n---\n\n## Footer\nKeep footer.\n",
+      "replacements": [
+        {
+          "heading": "Reported",
+          "body": "\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| REPORTED | Generated reported row | Low |\n\n---\n\n"
+        },
+        {
+          "heading": "Patched",
+          "body": "\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| PATCHED | Generated patched row | Low |\n\n---\n\n"
+        }
+      ],
+      "expected": "# CVE Research\n\n## Patched\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| PATCHED | Generated patched row | Low |\n\n---\n\n## Reported\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| REPORTED | Generated reported row | Low |\n\n---\n\n## Footer\nKeep footer.\n",
+      "baseline_expected": "# CVE Research\n\n## Patched\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| REPORTED | Generated reported row | Low |\n\n---\n\n## Reported\n\n| CVE | Description | Severity |\n|-----|-------------|----------|\n| PATCHED | Generated patched row | Low |\n\n---\n\n## Footer\nKeep footer.\n"
+    },
+    {
+      "id": "cleantube-lowercase-boundary",
+      "source_url": "https://github.com/revolunet/cleantube/blob/7d16523d45d1f265b36a1bd3b7208845c6a4a454/src/update-readme.ts",
+      "operation": "replace",
+      "baseline": "uppercase_boundary",
+      "input": "# Channels\n\n## Chaines\n\nOld list.\n\n## setup\nKeep setup.\n\n## Usage\nKeep usage.\n",
+      "replacements": [
+        {
+          "heading": "Chaines",
+          "body": "\nNew generated list.\n\n"
+        }
+      ],
+      "expected": "# Channels\n\n## Chaines\n\nNew generated list.\n\n## setup\nKeep setup.\n\n## Usage\nKeep usage.\n",
+      "baseline_expected": "# Channels\n\n## Chaines\n\nNew generated list.\n\n## Usage\nKeep usage.\n"
+    },
+    {
+      "id": "clio-nested-substring-heading",
+      "source_url": "https://github.com/iowarp/clio-kit/blob/93e41d70d6c25ea22c82a39c25c510816e67e8ef/scripts/generate_docs.py",
+      "operation": "extract",
+      "baseline": "substring_extract",
+      "heading": "Installation",
+      "input": "# Server\n\n## Installation\n\nInstall the package.\n\n### Verify Installation\n\nRun the check.\n\n## Features\nKeep features.\n",
+      "expected": "Install the package.\n\n### Verify Installation\n\nRun the check.",
+      "baseline_expected": "Install the package.\n\n\nRun the check."
+    },
+    {
+      "id": "clio-fenced-shell-comment",
+      "source_url": "https://github.com/iowarp/clio-kit/blob/93e41d70d6c25ea22c82a39c25c510816e67e8ef/scripts/generate_docs.py",
+      "operation": "extract",
+      "baseline": "substring_extract",
+      "heading": "Installation",
+      "input": "## Installation\n\nBefore example.\n\n```sh\n# shell comment\necho example\n```\n\nAfter example.\n\n## Next\nKeep next.\n",
+      "expected": "Before example.\n\n```sh\n# shell comment\necho example\n```\n\nAfter example.",
+      "baseline_expected": "Before example.\n\n```sh\n```"
+    },
+    {
+      "id": "cleantube-missing-heading",
+      "source_url": "https://github.com/revolunet/cleantube/blob/7d16523d45d1f265b36a1bd3b7208845c6a4a454/src/update-readme.ts",
+      "operation": "replace",
+      "baseline": "uppercase_boundary",
+      "input": "# Channels\n\n## Usage\nKeep usage.\n",
+      "replacements": [
+        {
+          "heading": "Chaines",
+          "body": "\nNew generated list.\n\n"
+        }
+      ],
+      "expected_exit": 4,
+      "baseline_expected": "# Channels\n\n## Usage\nKeep usage.\n"
+    },
+    {
+      "id": "cleantube-duplicate-heading",
+      "source_url": "https://github.com/revolunet/cleantube/blob/7d16523d45d1f265b36a1bd3b7208845c6a4a454/src/update-readme.ts",
+      "operation": "replace",
+      "baseline": "uppercase_boundary",
+      "input": "## Chaines\nOld one.\n\n## Usage\nKeep usage.\n\n## Chaines\nOld two.\n\n## Setup\nKeep setup.\n",
+      "replacements": [
+        {
+          "heading": "Chaines",
+          "body": "\nNew generated list.\n\n"
+        }
+      ],
+      "expected_exit": 5,
+      "baseline_expected": "## Chaines\n\nNew generated list.\n\n## Usage\nKeep usage.\n\n## Chaines\nOld two.\n\n## Setup\nKeep setup.\n"
+    }
+  ]
+}
