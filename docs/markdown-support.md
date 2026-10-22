@@ -7,7 +7,7 @@ tables, task lists, footnotes, and strikethrough.
 ## Supported section syntax
 
 - ATX headings from `#` through `######`
-- Setext level-one and level-two headings
+- Setext level-one and level-two headings, including multiline titles
 - Nested sections bounded by the next heading at the same or a higher level
 - Inline Markdown inside heading titles
 - LF and CRLF line endings
@@ -26,6 +26,8 @@ front matter.
 - A missing heading fails instead of creating a new section.
 - Duplicate matching headings fail as ambiguous.
 - Replacement changes only the selected section body.
+- Adding a body after an unterminated final heading inserts the required line
+  ending so the heading remains separate from the new content.
 - Line endings follow the target document.
 - Writes replace the file atomically, retain its permissions, and preserve
   symlinks by updating their targets.

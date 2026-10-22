@@ -22,11 +22,20 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test
+      - name: Verify release tag preflight
+        if: runner.os == 'Linux'
+        run: python3 scripts/test-release-tag.py
       - name: Verify launch demonstration
         shell: bash
         run: |
           cargo build --locked
           python3 scripts/launch-demo.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
+      - name: Reproduce assisted workflow comparisons
+        shell: bash
+        run: python3 scripts/reproduce-assisted-cases.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
+      - name: Verify comparison version evidence
+        shell: bash
+        run: python3 scripts/test-assisted-version.py
       - name: Reproduce benchmark
         if: runner.os == 'Linux'
         run: |

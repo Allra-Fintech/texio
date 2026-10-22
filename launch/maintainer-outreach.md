@@ -1,15 +1,21 @@
 # Maintainer outreach packages
 
 Prepared on 2026-09-15 for issue #79 and parent issue #36. The three upstream
-files still matched the exact commits used by the reproducible pilot. No
-maintainer message or external pull request has been sent.
+files still matched the exact commits used by the reproducible pilot. All three
+maintainer proposals were sent after current-code checks and followed by
+timestamped duplicate-issue rechecks. No external implementation pull request
+has been opened.
 
-Send these proposals one at a time, starting with Tekton Catalog. Publish the
-[pilot report](workflow-pilots.md) on Texio's `main` branch first so its links
-are stable. Recheck the target repository and search its issues again
-immediately before contact.
+The proposals were sent one at a time, starting with Tekton Catalog, after the
+[pilot report](workflow-pilots.md) had stable links on Texio's `main` branch.
 
 ## Open-Toolchain Tekton Catalog
+
+**Status:** Declined and closed on 2026-10-07 at
+[`open-toolchain/tekton-catalog#285`](https://github.com/open-toolchain/tekton-catalog/issues/285).
+The [maintainer response](https://github.com/open-toolchain/tekton-catalog/issues/285#issuecomment-6031996481)
+rejected an external tool dependency. No assisted trial or adoption followed;
+do not repeat this proposal without materially new evidence.
 
 **Route:** Open a normal
 [GitHub issue](https://github.com/open-toolchain/tekton-catalog/issues/new).
@@ -40,6 +46,10 @@ The repository has issues enabled and no contribution guide or issue template.
 without writing. **Tradeoff:** a Rust binary becomes a pinned CI dependency.
 
 ## SQuADDS
+
+**Status:** Proposal opened on 2026-09-15 at
+[`LFL-Lab/SQuADDS#68`](https://github.com/LFL-Lab/SQuADDS/issues/68).
+Awaiting a maintainer response; this is outreach, not adoption.
 
 **Route:** Open a
 [General Issue](https://github.com/LFL-Lab/SQuADDS/issues/new?template=GENERAL_ISSUE.md).
@@ -92,6 +102,14 @@ each body an explicit boundary. **Tradeoff:** installation time and a new CI
 binary must justify the narrower write surface.
 
 ## dbt MCP
+
+**Status:** Declined; the proposal was closed on 2026-09-29 at
+[`dbt-labs/dbt-mcp#887`](https://github.com/dbt-labs/dbt-mcp/issues/887).
+A [collaborator evaluation](https://github.com/dbt-labs/dbt-mcp/issues/887#issuecomment-5750484580)
+found the extra binary dependency unjustified for an already working,
+non-production generator. The [closure](https://github.com/dbt-labs/dbt-mcp/issues/887#issuecomment-5894161990)
+and subsequent maintainer acknowledgment leave this declined, not adoption.
+Do not reopen without a demonstrated workflow problem or materially new evidence.
 
 **Route:** Use the repository's
 [feature request](https://github.com/dbt-labs/dbt-mcp/issues/new?template=feature_request.yml).

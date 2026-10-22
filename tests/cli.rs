@@ -42,6 +42,55 @@ fn ambiguous_section_has_stable_exit_code() {
 }
 
 #[test]
+fn multiline_setext_extraction_excludes_the_title_and_underline() {
+    texio()
+        .args(["section", "-", "Alpha Beta", "--body-only"])
+        .write_stdin("Alpha\nBeta\n---\nold body\n\n## Next\nkeep\n")
+        .assert()
+        .success()
+        .stdout("old body\n\n");
+}
+
+#[test]
+fn multiline_setext_write_preserves_the_heading_and_following_section() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original = "Alpha\nBeta\n---\nold body\n\n## Next\nkeep\n";
+    fs::write(&path, original).unwrap();
+
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Alpha Beta",
+            "--text",
+            "new body",
+            "--dry-run",
+        ])
+        .assert()
+        .success();
+    assert_eq!(fs::read_to_string(&path).unwrap(), original);
+
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Alpha Beta",
+            "--text",
+            "new body",
+            "--write",
+        ])
+        .assert()
+        .success();
+    assert_eq!(
+        fs::read_to_string(&path).unwrap(),
+        "Alpha\nBeta\n---\nnew body\n## Next\nkeep\n"
+    );
+}
+
+#[test]
 fn unreadable_input_has_stable_exit_code() {
     texio()
         .args(["headings", "file-that-does-not-exist.md"])
@@ -155,4 +204,162 @@ fn replace_rejects_using_stdin_twice() {
         .stderr(predicate::str::contains(
             "document and replacement cannot both read from stdin",
         ));
+}
+
+#[test]
+fn stdout_replacement_keeps_an_unterminated_heading_separate() {
+    for (input, title, expected) in [
+        ("# A", "A", "# A\nnew body\n"),
+        ("Title\n---", "Title", "Title\n---\nnew body\n"),
+    ] {
+        texio()
+            .args([
+                "replace",
+                "-",
+                "--section",
+                title,
+                "--text",
+                "new body",
+                "--stdout",
+            ])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected);
+    }
+}
+
+#[test]
+fn final_heading_preview_does_not_write_and_apply_preserves_title() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    fs::write(&path, "# A").unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("+new body\n"));
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A");
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "A",
+            "--text",
+            "new body",
+            "--write",
+        ])
+        .assert()
+        .success();
+    assert_eq!(fs::read_to_string(&path).unwrap(), "# A\nnew body\n");
+}
+
+#[test]
+fn replacement_keeps_the_following_setext_heading_separate() {
+    texio()
+        .args([
+            "replace",
+            "-",
+            "--section",
+            "Target",
+            "--text",
+            "new body",
+            "--stdout",
+        ])
+        .write_stdin("## Target\nold\n\nNext\n---\nkeep\n")
+        .assert()
+        .success()
+        .stdout("## Target\nnew body\n\nNext\n---\nkeep\n");
+}
+
+#[test]
+fn replacing_a_section_preserves_next_heading_markers_and_indentation() {
+    for following in ["> ## Next", "- ## Next", "   ## Next"] {
+        let input = format!("## Target\nold\n\n{following}\nkeep\n");
+        let expected = format!("## Target\nnew\n{following}\nkeep\n");
+        texio()
+            .args([
+                "replace",
+                "-",
+                "--section",
+                "Target",
+                "--text",
+                "new",
+                "--stdout",
+            ])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected);
+    }
+}
+
+#[test]
+fn section_extraction_retains_the_heading_source_prefix() {
+    texio()
+        .args(["section", "-", "Quoted"])
+        .write_stdin("> ## Quoted\n> body\n\n## Next\nkeep\n")
+        .assert()
+        .success()
+        .stdout("> ## Quoted\n> body\n\n");
+}
+
+#[test]
+fn dry_run_uses_document_coordinates_and_identifying_heading_context() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original =
+        "# Intro\nkeep 1\nkeep 2\nkeep 3\nkeep 4\n\n## Target\nold\n\n## Next\nkeep tail\n";
+    fs::write(&path, original).unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Target",
+            "--text",
+            "new",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("@@ -5,7 +5,6 @@"))
+        .stdout(predicate::str::contains(" ## Target\n"))
+        .stdout(predicate::str::contains(" ## Next\n"));
+    assert_eq!(fs::read_to_string(path).unwrap(), original);
+}
+
+#[test]
+fn dry_run_identifies_the_section_after_a_long_unchanged_prefix() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("doc.md");
+    let original =
+        "# Document\n\n## Target\nfirst\nsecond\nthird\nfourth\nfifth\nold\n\n## Next\nkeep\n";
+    fs::write(&path, original).unwrap();
+    texio()
+        .args([
+            "replace",
+            path.to_str().unwrap(),
+            "--section",
+            "Target",
+            "--text",
+            "first\nsecond\nthird\nfourth\nfifth\nnew\n",
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(
+            "@@ -6,7 +6,6 @@ section: Target\n",
+        ))
+        .stdout(predicate::str::contains(" ## Target\n").not());
+    assert_eq!(fs::read_to_string(path).unwrap(), original);
 }

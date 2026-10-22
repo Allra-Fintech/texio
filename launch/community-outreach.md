@@ -1,21 +1,25 @@
 # Community outreach review
 
-Rules checked on 2026-09-15. This is a publication plan, not a record of posts:
-no community message has been sent. Recheck the linked rules immediately before
-posting. The machine-readable [rule record](evidence/community-rules-2026-09-15.json)
-captures the review.
+Rules checked on 2026-09-15 and rechecked before the first publication. This
+document now records published outreach as well as the remaining plan. Recheck
+the linked rules immediately before each later post. The machine-readable
+[rule record](evidence/community-rules-2026-09-15.json) captures the review.
 
 ## Recommended order
-
 | Priority | Community | Why it fits | Publication condition |
 | --- | --- | --- | --- |
-| 1 | [`r/LLMDevs`](https://www.reddit.com/r/LLMDevs/) | The audience builds LLM and agent systems, and its policy explicitly permits free open-source projects. | Disclose the author relationship, avoid marketing language, and lead with the reproducible agent-editing failure. |
-| 2 | [`r/github` self-promotion thread](https://www.reddit.com/r/github/comments/1jy8rea/promote_your_projects_here_selfpromotion/) | The thread explicitly accepts GitHub-hosted tools and asks for a short description and repository link. | Comment only in the designated thread; keep it short and include the install path and example. |
-| 3 | [DEV `#showdev`](https://dev.to/t/showdev) | A durable tutorial can be indexed and found later by developers and agents. | A human author must verify every claim, select the current AI-disclosure tier, and keep the article educational rather than promotional. |
+| 1 | [`r/github` self-promotion thread](https://www.reddit.com/r/github/comments/1jy8rea/promote_your_projects_here_selfpromotion/) | The thread explicitly accepts GitHub-hosted tools and asks for a short description and repository link. | Published in the designated thread; monitor for substantive replies. |
+| 2 | [DEV `#showdev`](https://dev.to/t/showdev) | A durable tutorial can be indexed and found later by developers and agents. | Published with verified claims, reproducible commands, and the `AI-Assisted` disclosure; monitor for substantive replies. |
+| 3 | [CoderLegion](https://coderlegion.com/) | Article submission target: Emily Brooks (Developer Relations) invited the maintainer after reading the DEV article on safe, constrained Markdown editing. | Not submitted. The invitation offers a new post or republication with a canonical link, full author credit, and a short bio with blog or social links; submission details still need to be obtained. |
+| — | [`r/LLMDevs`](https://www.reddit.com/r/LLMDevs/) | The audience builds LLM and agent systems, and its policy explicitly permits free open-source projects. | Withdrawn after duplicate cleanup; both submitted copies now resolve as author-deleted. |
 
-Publish one at a time and answer substantive questions before using the next
-channel. Do not ask for votes or reuse identical copy.
+The `r/github` comment was published on 2026-09-17: [Texio in the self-promotion megathread](https://www.reddit.com/r/github/comments/1jy8rea/comment/pa9h13r/). It includes the tested install command, a dry-run example, the repository link, agent-client context, and maintainer/AI disclosures.
 
+The DEV article was published on 2026-09-17: [I built Texio so coding agents can edit one Markdown section safely](https://dev.to/jonghunyu/i-built-texio-so-coding-agents-can-edit-one-markdown-section-safely-2n61). It uses the `showdev`, `rust`, `ai`, and `agents` tags, carries DEV's `AI-Assisted` label, and includes both Cargo and Agent Skill installation paths.
+
+Two accidental `r/LLMDevs` copies were submitted on 2026-09-17. The older duplicate was deleted intentionally; the intended retained copy also became author-deleted during cleanup. Neither URL is active, so this channel is recorded as withdrawn rather than published outreach.
+
+Monitor the active publications and answer substantive questions. Do not ask for votes or reuse identical copy.
 ## Community-specific author sheets
 
 These are fact sheets for the human publisher. They deliberately avoid a
@@ -48,18 +52,60 @@ ready-to-paste personal story.
   or whole-file generation.
 
 ### DEV `#showdev`: reproduce a fenced-heading failure
+- **Proposed title:** I built Texio so coding agents can edit one Markdown section safely
+- **Tags:** `showdev`, `rust`, `ai`, `agents`
+- **DEV disclosure tier:** AI-Assisted (Some AI)
+- **Target reading time:** under three minutes
 
-- Article goal: teach the failure mode, then let readers reproduce the fix.
-- Start with a README containing a real `## Installation` heading and another
-  `## Installation` string inside a fenced example.
-- Compare a disclosed regex proxy with Texio's parsed heading list, dry-run, and
-  exact write. Link the raw four-fixture benchmark and explain its limits.
-- Include both discovery paths: `cargo install texio-cli --version 0.1.2 --locked` and
-  `npx --yes skills@1.5.26 add https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown --skill texio-markdown`.
-- Use `#showdev`; do not use `#opensource` for a single-project announcement.
-- The publisher must choose DEV's current AI-disclosure tier and personally
-  verify the prose, commands, and results. Do not use generated comments.
+#### Article copy
 
+Coding agents often need to change one section in a README. The usual shortcuts—regex replacement or regenerating the whole file—can silently cross a structural boundary.
+
+I built [Texio](https://github.com/Allra-Fintech/texio), an MIT-licensed Rust CLI that gives agents a smaller, fail-closed interface for Markdown: list real headings, inspect one section, preview one replacement, then apply it explicitly.
+
+Here is a small failure case. The second heading-shaped line is only example text inside a fence:
+
+````markdown
+# Demo
+
+## Installation
+old command
+
+```md
+## Installation
+example only
+```
+
+## Usage
+keep this
+````
+
+A text regex can mistake the fenced line for a section boundary. Texio parses the document structure instead:
+
+```bash
+cargo install texio-cli --version 0.1.2 --locked
+texio headings demo.md --json
+texio replace demo.md \
+  --section Installation \
+  --text 'cargo install texio-cli --locked' \
+  --dry-run
+```
+
+The dry run prints a unified diff and leaves the file unchanged. Replace `--dry-run` with `--write` only after reviewing that diff. If `Installation` is missing or appears more than once as a real heading, Texio refuses to write instead of guessing.
+
+I also packaged this workflow as an [Agent Skill](https://github.com/Allra-Fintech/texio/tree/main/skills/texio-markdown) for Codex, Claude Code, and compatible clients. The instructions make agents inspect headings, preview the exact edit, write it, and check the repository diff:
+
+```bash
+npx --yes skills@1.5.26 add \
+  https://github.com/Allra-Fintech/texio/tree/2141d66531ad10a748e11c566428fba3e80c7e4e/skills/texio-markdown \
+  --skill texio-markdown
+```
+
+The checked-in [four-fixture benchmark](https://github.com/Allra-Fintech/texio/blob/main/launch/evidence/benchmark-v0.1.2.json) passed 4/4 cases with Texio, 3/4 with an idealized whole-file baseline, and 2/4 with the disclosed regex proxy. That is a small mechanics benchmark, not a claim about every Markdown document, model, or token bill.
+
+I maintain Texio. I would especially value examples of repository automation that currently rewrites a README or uses a multiline regex to replace one named section.
+
+*Disclosure: I wrote and verified the project claims, commands, and results. AI tools assisted with development and editing this article; the DEV disclosure tier should be set to “AI-Assisted (Some AI).”*
 ## Hold or exclude
 
 | Community | Decision | Reason |

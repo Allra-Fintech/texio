@@ -1,0 +1,48 @@
+{
+  "repository": "iowarp/clio-kit",
+  "source_commit": "93e41d70d6c25ea22c82a39c25c510816e67e8ef",
+  "updater": "scripts/generate_docs.py",
+  "input_document": "clio-kit-mcp-servers/hdf5/README.md",
+  "input_sha256": "468dff9d0dd383ad341bcbaa846b8f14cbaac057b1d4eca436f8fe41bd6b0839",
+  "texio_version": "texio 0.1.2",
+  "execution_scope": "Only the inspected section selector and existing cleanup methods, isolated via AST; no module imports, generator, API or CI execution",
+  "current_document": {
+    "baseline_keeps_verify_installation_heading": false,
+    "texio_with_same_cleanup_keeps_verify_installation_heading": true,
+    "input_sha256": "468dff9d0dd383ad341bcbaa846b8f14cbaac057b1d4eca436f8fe41bd6b0839",
+    "baseline_output_sha256": "c491027242edf992f75fa1d5d492b6dac4e1accb9792aef23f08bd4b63c129ad",
+    "texio_with_same_cleanup_output_sha256": "16b480004518f8a13d512da0b87f430b8967f9a0d263eb0ca4a1b62ec4372baa"
+  },
+  "synthetic_fenced_example": {
+    "baseline_keeps_after_text": false,
+    "texio_with_same_cleanup_keeps_after_text": true,
+    "input_sha256": "6f6e8e15b9e302c8969cec01f2d70f5b2ee8e867606ad9fdb534bd584d60da4a",
+    "baseline_output_sha256": "616ae83a2f0b8ae635c93df96f78fe86444cc57c5a0a5af0d87aac31c14599df",
+    "texio_with_same_cleanup_output_sha256": "7e5b301c2dcd5a9d880764388c2d0df7d313c1170a7ceb84d2c4512152ad7194",
+    "input": "## Installation\nbefore\n\n```sh\n# shell comment\necho example\n```\n\nafter\n\n## Next\nkeep\n"
+  },
+  "independent": false,
+  "trial": false,
+  "execution_protocol": {
+    "selector": "DocusaurusGenerator._extract_section_from_readme",
+    "selector_arguments": {
+      "section_name": "installation"
+    },
+    "cleanup": "DocusaurusGenerator._clean_extracted_content",
+    "cleanup_options": {},
+    "helper_loading": "Parse pinned updater with Python ast; compile only these two method definitions with re supplied from the standard library; bind to an isolated object without constructing DocusaurusGenerator or executing/importing the upstream module.",
+    "updater_sha256": "074bda8fa9e9cb8864e81917c0c38435012e889e1e1b9dbf0fdfd04ea4cbc1fa",
+    "baseline_order": [
+      "Split source on LF; run the pinned selector for section_name=installation.",
+      "Selector joins selected lines and applies Python str.strip(), then calls the pinned cleanup once.",
+      "Cleanup returns LF-joined lines with Python str.strip(); no further normalization."
+    ],
+    "texio_order": [
+      "Run texio section INPUT Installation --body-only (exact visible heading, case-insensitive).",
+      "Apply Python str.strip() to extracted stdout, then call the same pinned cleanup once with no options.",
+      "Use cleanup output without further normalization."
+    ],
+    "scope": "Selection and the two helper methods only; no other generator transformations, imports, construction, API calls, or upstream file writes.",
+    "texio_binary_sha256": "a9f4cc78215a5eceb44aadbb0b2c11f2b5bd9fa53e88c751e1869497753d3256"
+  }
+}

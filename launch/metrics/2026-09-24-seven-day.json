@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "repository": "Allra-Fintech/texio",
+  "started_at": "2026-09-27T22:53:13.936277+00:00",
+  "note": "Seven-day launch-window final snapshot captured after 2026-09-24 04:39:42 UTC.",
+  "github": {
+    "source": "https://api.github.com/repos/Allra-Fintech/texio",
+    "stars": 4,
+    "forks": 0,
+    "subscribers": 0,
+    "issues_open": {
+      "count": 9,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Aissue+is%3Aopen&per_page=1"
+    },
+    "issues_closed": {
+      "count": 51,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Aissue+is%3Aclosed&per_page=1"
+    },
+    "prs_open": {
+      "count": 0,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Apr+is%3Aopen&per_page=1"
+    },
+    "prs_closed": {
+      "count": 44,
+      "source": "https://api.github.com/search/issues?q=repo%3AAllra-Fintech%2Ftexio+is%3Apr+is%3Aclosed&per_page=1"
+    }
+  },
+  "releases": [
+    {
+      "tag": "v0.1.2",
+      "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/385367897",
+      "published_at": "2026-09-09T09:08:40Z",
+      "assets": [
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401194",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz.sha256",
+          "downloads": 3,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401191",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401198",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz.sha256",
+          "downloads": 3,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401193",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401192",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip.sha256",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401202",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz",
+          "downloads": 6,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401207",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz.sha256",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/552401212",
+          "kind": "checksum"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.1",
+      "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/381954531",
+      "published_at": "2026-09-03T11:13:17Z",
+      "assets": [
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz",
+          "downloads": 4,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653144",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-aarch64-apple-darwin.tar.gz.sha256",
+          "downloads": 3,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653146",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz",
+          "downloads": 2,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653148",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-apple-darwin.tar.gz.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653143",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653142",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-pc-windows-msvc.zip.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653152",
+          "kind": "checksum"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653156",
+          "kind": "binary_archive"
+        },
+        {
+          "name": "texio-x86_64-unknown-linux-gnu.tar.gz.sha256",
+          "downloads": 1,
+          "source": "https://api.github.com/repos/Allra-Fintech/texio/releases/assets/542653155",
+          "kind": "checksum"
+        }
+      ]
+    }
+  ],
+  "crates_io": {
+    "source": "https://crates.io/api/v1/crates/texio-cli",
+    "available": true,
+    "downloads": 37,
+    "versions": [
+      {
+        "version": "0.1.2",
+        "downloads": 23,
+        "yanked": false
+      },
+      {
+        "version": "0.1.1",
+        "downloads": 14,
+        "yanked": false
+      }
+    ]
+  },
+  "discussions": {
+    "source": "https://github.com/Allra-Fintech/texio/discussions",
+    "count": 1
+  },
+  "supplemental_observations": {
+    "observed_at": "2026-09-27T22:53:17Z",
+    "github_traffic": {
+      "views_source": "https://api.github.com/repos/Allra-Fintech/texio/traffic/views",
+      "clones_source": "https://api.github.com/repos/Allra-Fintech/texio/traffic/clones",
+      "referrers_source": "https://api.github.com/repos/Allra-Fintech/texio/traffic/popular/referrers",
+      "available_launch_window_days": [
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "views_on_available_days": 226,
+      "clones_on_available_days": 286,
+      "top_referrers_rolling_window": [
+        {
+          "referrer": "news.ycombinator.com",
+          "views": 26,
+          "unique_visitors": 17
+        },
+        {
+          "referrer": "reddit.com",
+          "views": 2,
+          "unique_visitors": 2
+        },
+        {
+          "referrer": "aifinderz.com",
+          "views": 1,
+          "unique_visitors": 1
+        }
+      ],
+      "limitations": "GitHub returned daily traffic through September 23 only. Referrers cover GitHub's rolling window, not the exact launch window. Clone and view counts include maintainer activity, automation, bots, and repeat requests."
+    },
+    "public_launch_pages": {
+      "show_hn": {
+        "source": "https://hacker-news.firebaseio.com/v0/item/49736484.json",
+        "points": 2,
+        "comments": 0
+      },
+      "dev": {
+        "source": "https://dev.to/api/articles/jonghunyu/i-built-texio-so-coding-agents-can-edit-one-markdown-section-safely-2n61",
+        "reactions": 2,
+        "comments": 0
+      }
+    },
+    "maintainer_proposals": {
+      "no_response": [
+        "https://github.com/open-toolchain/tekton-catalog/issues/285",
+        "https://github.com/LFL-Lab/SQuADDS/issues/68"
+      ],
+      "substantive_response": [
+        "https://github.com/dbt-labs/dbt-mcp/issues/887#issuecomment-5750484580"
+      ],
+      "trials_or_adoptions": 0
+    },
+    "chinese_directory_outreach": {
+      "source": "https://github.com/Allra-Fintech/texio/blob/develop/launch/chinese-promotion.md",
+      "submitted": 3,
+      "confirmed_public_listings": 0,
+      "status": "All three submissions remained pending; no attributable editorial response or public listing URL was recorded."
+    },
+    "public_code_search": {
+      "repository_url_mentions_outside_organization": 6,
+      "crate_name_mentions_outside_organization": 1,
+      "cargo_install_mentions_outside_organization": 0,
+      "external_repository_adoptions": 0,
+      "interpretation": "Results were the crates.io index plus automated catalog, RSS, and news mirrors; none showed a workflow integration."
+    },
+    "issues_created_during_window": {
+      "count": 9,
+      "numbers": [
+        94,
+        95,
+        97,
+        98,
+        100,
+        101,
+        102,
+        104,
+        105
+      ],
+      "external_defect_reports": 0,
+      "source": "https://github.com/Allra-Fintech/texio/issues?q=is%3Aissue+created%3A2026-09-17T04%3A39%3A42Z..2026-09-24T04%3A39%3A42Z"
+    }
+  },
+  "evidence_ledger": {
+    "verified_external_installs": null,
+    "independent_agent_trials": null,
+    "external_repository_adoptions": null,
+    "substantive_feedback": null,
+    "note": "Not measured by API counts. Record verified evidence separately; null does not mean zero."
+  },
+  "limitations": [
+    "Downloads include maintainer and CI verification, retries and bots; they are not unique installs.",
+    "Checksum downloads are separate from binary downloads. GitHub source archives are not counted.",
+    "Stars, forks, issues and discussions do not establish adoption or substantive feedback.",
+    "Endpoints are collected sequentially and may update at different times. No personal tracking is collected."
+  ],
+  "completed_at": "2026-09-27T22:53:17.795733+00:00"
+}

@@ -14,6 +14,7 @@ use tempfile::NamedTempFile;
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Heading {
     level: usize,
+    setext: bool,
     title: String,
     start: usize,
     body_start: usize,
@@ -44,9 +45,14 @@ fn headings(input: &str) -> Vec<Heading> {
                 if let Some((level, start, title)) = current.take() {
                     found.push(Heading {
                         level,
+                        setext: line_end(input, start) < range.end,
                         title: title.trim().to_string(),
-                        start,
-                        body_start: heading_body_start(input, start),
+                        // Parser offsets omit indentation and container markers.
+                        // Keep those bytes with this heading, not the prior body.
+                        start: source_line_start(input, start),
+                        // The parser span includes every Setext title line and
+                        // its underline, as well as the complete ATX line.
+                        body_start: range.end,
                         end: input.len(),
                     });
                 }
@@ -109,28 +115,8 @@ fn line_end(input: &str, from: usize) -> usize {
         .map_or(input.len(), |relative| from + relative + 1)
 }
 
-fn heading_body_start(input: &str, start: usize) -> usize {
-    let first_end = line_end(input, start);
-    let first_line = input[start..first_end].trim_end_matches(['\r', '\n']);
-    if is_atx_heading_line(first_line) {
-        first_end
-    } else {
-        line_end(input, first_end)
-    }
-}
-
-fn is_atx_heading_line(line: &str) -> bool {
-    let indent = line.bytes().take_while(|byte| *byte == b' ').count();
-    if indent > 3 {
-        return false;
-    }
-    let content = &line[indent..];
-    let hashes = content.bytes().take_while(|byte| *byte == b'#').count();
-    (1..=6).contains(&hashes)
-        && content
-            .as_bytes()
-            .get(hashes)
-            .is_none_or(u8::is_ascii_whitespace)
+fn source_line_start(input: &str, from: usize) -> usize {
+    input[..from].rfind('\n').map_or(0, |newline| newline + 1)
 }
 
 fn select_heading<'a>(all: &'a [Heading], title: &str) -> Result<&'a Heading, String> {
@@ -193,7 +179,27 @@ fn replace_section(
     let all = headings(input);
     let heading = select_heading(&all, title)?;
     let before = heading.body_start..heading.end;
-    let after = normalize_replacement(replacement, input);
+    let mut after = normalize_replacement(replacement, input);
+    let following_setext = all
+        .iter()
+        .any(|next| next.start == heading.end && next.setext);
+    if following_setext
+        && after
+            .lines()
+            .last()
+            .is_some_and(|line| !line.trim_matches([' ', '\t']).is_empty())
+    {
+        // Otherwise the last replacement paragraph becomes part of the
+        // following Setext title, despite preserving that title's bytes.
+        after.push_str(line_ending(input));
+    }
+    // An empty final section can end at the heading itself. Keep the new
+    // body on a separate line instead of extending the title or underline.
+    let after = if heading.body_start == input.len() && !input.ends_with('\n') {
+        format!("{}{}", line_ending(input), after)
+    } else {
+        after
+    };
     let output = format!(
         "{}{}{}",
         &input[..heading.body_start],
@@ -299,13 +305,23 @@ fn selection_error(message: String) -> AppError {
     }
 }
 
-fn unified_preview(path: &str, before: &str, after: &str) {
-    print!(
-        "{}",
-        TextDiff::from_lines(before, after)
-            .unified_diff()
-            .header(path, &format!("{path} (proposed)"))
-    );
+fn unified_preview(path: &str, section: &str, before: &str, after: &str) {
+    let preview = TextDiff::from_lines(before, after)
+        .unified_diff()
+        .header(path, &format!("{path} (proposed)"))
+        .to_string();
+    for line in preview.split_inclusive('\n') {
+        if line.starts_with("@@ ") {
+            // A hunk label identifies the section without unbounded context.
+            println!(
+                "{} section: {}",
+                line.trim_end_matches('\n'),
+                section.escape_debug()
+            );
+        } else {
+            print!("{line}");
+        }
+    }
 }
 
 fn atomic_write(path: &str, content: &str) -> Result<(), String> {
@@ -412,10 +428,10 @@ fn run(cli: &Cli) -> Result<(), AppError> {
                 _ => unreachable!("clap validates the source group"),
             };
             let input = read_input(file)?;
-            let (output, old_range, normalized) =
+            let (output, _, _) =
                 replace_section(&input, section, replacement).map_err(selection_error)?;
             if *dry_run {
-                unified_preview(file, &input[old_range], &normalized);
+                unified_preview(file, section, &input, &output);
             } else if *stdout {
                 print!("{output}");
             } else if *write {
@@ -485,6 +501,45 @@ mod tests {
         let all = headings(md);
         let section = select_heading(&all, "#Title").unwrap();
         assert_eq!(&md[section.body_start..section.end], "body\n");
+    }
+
+    #[test]
+    fn multiline_setext_body_starts_after_the_complete_heading() {
+        for ending in ["\n", "\r\n"] {
+            for (title_lines, title, underline) in [
+                ("Alpha\nBeta", "Alpha Beta", "---"),
+                ("Alpha\nBeta\nGamma", "Alpha Beta Gamma", "==="),
+                ("*Alpha*\n**Beta**", "Alpha Beta", "---"),
+            ] {
+                let md = format!("{title_lines}\n{underline}\nold body\n\n").replace('\n', ending);
+                let all = headings(&md);
+                let selected = select_heading(&all, title).unwrap();
+                assert_eq!(
+                    &md[selected.body_start..selected.end],
+                    format!("old body{ending}{ending}")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn multiline_setext_replacement_preserves_title_underline_and_neighbors() {
+        for ending in ["\n", "\r\n"] {
+            let md =
+                "# Top\nkeep intro\n\nAlpha\nBeta\nGamma\n---\nold body\n\n## Next\nkeep tail\n"
+                    .replace('\n', ending);
+            let expected =
+                "# Top\nkeep intro\n\nAlpha\nBeta\nGamma\n---\nnew body\n## Next\nkeep tail\n"
+                    .replace('\n', ending);
+            let (output, _, _) =
+                replace_section(&md, "Alpha Beta Gamma", "new body".to_string()).unwrap();
+            assert_eq!(output, expected);
+            assert!(
+                headings(&output)
+                    .iter()
+                    .any(|heading| heading.title == "Alpha Beta Gamma")
+            );
+        }
     }
 
     #[test]
@@ -675,5 +730,97 @@ mod tests {
         assert_eq!(output, "# First\nnew\n# Last\nold");
         let (output, _, _) = replace_section(md, "Last", "new".to_string()).unwrap();
         assert_eq!(output, "# First\nbody\n# Last\nnew\n");
+    }
+
+    #[test]
+    fn replacement_separates_an_unterminated_final_heading_from_its_body() {
+        for (md, title, expected) in [
+            ("# A", "A", "# A\nnew body\n"),
+            ("# A ###", "A", "# A ###\nnew body\n"),
+            ("Title\n---", "Title", "Title\n---\nnew body\n"),
+            ("Title\n===", "Title", "Title\n===\nnew body\n"),
+            (
+                "# First\r\nkeep\r\n\r\n## Last",
+                "Last",
+                "# First\r\nkeep\r\n\r\n## Last\r\nnew body\r\n",
+            ),
+            (
+                "# First\r\nkeep\r\n\r\nLast\r\n---",
+                "Last",
+                "# First\r\nkeep\r\n\r\nLast\r\n---\r\nnew body\r\n",
+            ),
+        ] {
+            let (output, replaced, inserted) =
+                replace_section(md, title, "new body".to_string()).unwrap();
+            assert_eq!(output, expected);
+            assert_eq!(replaced, md.len()..md.len());
+            assert_eq!(&output[..md.len()], md);
+            assert_eq!(&output[md.len()..], inserted);
+            assert_eq!(headings(&output).last().unwrap().title, title);
+        }
+    }
+
+    #[test]
+    fn replacement_does_not_merge_with_a_following_setext_title() {
+        for ending in ["\n", "\r\n"] {
+            for underline in ["---", "==="] {
+                let input = format!("# Target\nold body\n\nNext\n{underline}\nkeep tail\n")
+                    .replace('\n', ending);
+                // Use a same-level target so Next is a separate section.
+                let input = if underline == "---" {
+                    input.replacen("# Target", "## Target", 1)
+                } else {
+                    input
+                };
+                let expected = input.replace(
+                    &format!("old body{ending}{ending}"),
+                    &format!("new body{ending}{ending}"),
+                );
+                let (output, _, _) =
+                    replace_section(&input, "Target", "new body".to_string()).unwrap();
+                assert_eq!(output, expected);
+                assert_eq!(
+                    headings(&output)
+                        .iter()
+                        .map(|h| h.title.as_str())
+                        .collect::<Vec<_>>(),
+                    ["Target", "Next"]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn replacement_retains_existing_blank_line_separation() {
+        let input = "## Target\nold\n\nNext\n---\nkeep\n";
+        for body in ["new\n\n", "new\n \t\n", "\n"] {
+            let (output, _, normalized) =
+                replace_section(input, "Target", body.to_string()).unwrap();
+            assert_eq!(normalized, body);
+            assert_eq!(output, format!("## Target\n{body}Next\n---\nkeep\n"));
+        }
+        let (output, _, _) = replace_section(
+            "## Target\nold\n## Next\nkeep\n",
+            "Target",
+            "new".to_string(),
+        )
+        .unwrap();
+        assert_eq!(output, "## Target\nnew\n## Next\nkeep\n");
+    }
+
+    #[test]
+    fn replacement_preserves_the_following_heading_source_prefix() {
+        for ending in ["\n", "\r\n"] {
+            for next in ["> ## Next", "> > ## Next", "- ## Next", "   ## Next"] {
+                let suffix = format!("{next}\nkeep tail\n\n## Last\nlast\n").replace('\n', ending);
+                let input = format!("## Target{ending}old body{ending}{ending}{suffix}");
+                let (output, _, _) =
+                    replace_section(&input, "Target", "new body".to_string()).unwrap();
+                assert_eq!(output, format!("## Target{ending}new body{ending}{suffix}"));
+                let all = headings(&input);
+                let selected = select_heading(&all, "Next").unwrap();
+                assert!(input[selected.start..].starts_with(next));
+            }
+        }
     }
 }
