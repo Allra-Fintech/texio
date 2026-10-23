@@ -10,38 +10,42 @@ unnecessary changes.
 
 ## Extract a Markdown section
 
-Install from [crates.io](https://crates.io/crates/texio-cli) with a current stable
-Rust toolchain, or use the [platform-specific binary instructions](docs/installation.md).
+Try a short comparison on a disposable file after [installing Texio 0.1.3](docs/installation.md):
+
+| Whole-document editing | Named-section preview |
+| --- | --- |
+| Read or regenerate the document, then review the complete edit | Inspect the target, prepare its desired body and preview only that replacement |
+| Your script owns boundary selection | Texio parses headings and refuses missing or ambiguous targets |
 
 ```sh
-cargo install texio-cli --locked
-texio --version
+trial_dir=$(mktemp -d)
+printf '# Demo\n\n## Installation\nold\n\n## Usage\nkeep\n' > "$trial_dir/README.md"
+cp "$trial_dir/README.md" "$trial_dir/before.md"
+texio replace "$trial_dir/README.md" --section Installation --text new --dry-run
+cmp "$trial_dir/before.md" "$trial_dir/README.md"
 ```
 
-Create a small document and inspect its structure:
+The preview proposes `old` → `new` inside Installation. `cmp` verifies that the
+file stayed unchanged. After reviewing, repeat the replacement with `--write`
+instead of `--dry-run` on the disposable copy; Usage remains unchanged.
 
-```sh
-printf '# Demo\n\n## Installation\nold command\n\n## Usage\nkeep this\n' > demo.md
-texio headings demo.md --json
-texio section demo.md Installation
-```
+For a real generated body, use `--from section-body.md` instead of `--text new`.
+Inspect with `texio headings FILE --json` and `texio section FILE "HEADING"`
+first. The replacement covers the complete selected body, including nested
+subsections; retain everything you want within that body. Separate section
+writes are not a transaction.
 
-Preview one section change, then apply the same change after checking the diff:
+This is a synthetic example, not external adoption evidence. A new binary
+dependency must justify its setup cost; improving your current generator can
+be preferable. A source build can take more than five minutes. See the
+[platform-specific binary and Homebrew instructions](docs/installation.md).
 
-```sh
-texio replace demo.md --section Installation --text 'cargo install texio-cli --locked' --dry-run
-texio replace demo.md --section Installation --text 'cargo install texio-cli --locked' --write
-texio section demo.md Installation
-```
-
-The preview leaves the file unchanged; the write preserves the Usage section.
-Copy the [agent policy](docs/agent-instructions.md) for future edits. Missing or
-duplicate headings cause an error rather than selecting a guessed target.
-
-The [four-fixture benchmark](benchmarks/README.md) measured 82.8% fewer
-context-proxy tokens versus an idealized whole-file rewrite. This is not a
-model-token or billing measurement. A source build can take longer than five
-minutes; use a binary archive for the fastest first edit.
+**Try this on a copy of your Markdown file.** Want a diff before installing?
+[Request a no-install workflow review](https://github.com/Allra-Fintech/texio/issues/new?template=workflow-review.yml&source=readme-comparison),
+or use the [agent and CI trial recipes](docs/trial-recipes.md).
+The [reproducible boundary comparison](scripts/launch-demo.py) also shows one
+specific regex selector stopping at a fenced-code heading. That result does
+not establish that every regex-based updater fails.
 
 ## Replace one section safely
 
