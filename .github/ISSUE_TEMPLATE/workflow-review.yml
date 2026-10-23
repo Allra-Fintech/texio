@@ -1,0 +1,63 @@
+name: Try Texio on a Markdown workflow
+description: Request a no-install diff review or report a first dry run.
+title: "Workflow review: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share a public or minimal synthetic Markdown example. We can prepare a
+        no-write comparison before you install anything. Texio's maintainer
+        provides this assistance; a new CLI dependency may not suit your workflow.
+        Do not include credentials or private documents. A request is not adoption.
+  - type: dropdown
+    id: discovery
+    attributes:
+      label: Where did you first find this?
+      options:
+        - README comparison
+        - Workflow review offer
+        - Agent recipe
+        - CI recipe
+        - External case study
+        - GitHub tutorial
+        - DEV tutorial
+        - CLI listing
+        - Other or unknown
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Link source tag
+      description: Optional prefilled tag. Keep first discovery above accurate if you arrived through several methods.
+      value: unknown
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow and exact heading
+      description: Link a public document/updater, or paste a small example. What should change and what should remain?
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: What have you tried?
+      options:
+        - I want a no-install diff review
+        - I attempted setup but need help
+        - I ran a preview on my own workflow
+        - I used Texio again or integrated it
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result, version and setup time
+      description: If you ran it, include texio --version, OS, command, outcome and approximate or measured setup minutes. Leave unknown values unknown.
+  - type: checkboxes
+    id: permissions
+    attributes:
+      label: Optional follow-up
+      options:
+        - label: You may ask me once about repeat use after seven days.
+        - label: I am interested in discussing a case study; publishing any finished story still needs my approval.
