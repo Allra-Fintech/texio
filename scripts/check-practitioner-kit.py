@@ -30,6 +30,7 @@ def main():
         body.write_bytes(b"generated command\n")
 
         def run(*arguments, code=0):
+            """Capture a real CLI command and enforce its expected exit status."""
             result = subprocess.run([str(binary), *map(str, arguments)], capture_output=True, timeout=30)
             require(result.returncode == code, "unexpected command status")
             return result

@@ -10,20 +10,22 @@ from unittest.mock import patch
 
 
 def main():
+    """Inject four output faults and require the intended validation failure."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--texio', type=Path, required=True)
     args = parser.parse_args()
     scripts = Path(__file__).resolve().parent
     original_run = subprocess.run
     for mode in ('headings', 'preview', 'diff-extra', 'diff-stderr'):
-        def faulty(command, *positional, **keywords):
+        def faulty(command, *positional, fault_mode=mode, **keywords):
+            """Alter captured output for this fault while executing the real command."""
             result = original_run(command, *positional, **keywords)
-            if mode == 'headings' and command[1] == 'headings':
+            if fault_mode == 'headings' and command[1] == 'headings':
                 result.stdout = b'[]'
-            elif mode == 'preview' and '--dry-run' in command:
+            elif fault_mode == 'preview' and '--dry-run' in command:
                 result.stdout = b''
-            elif mode.startswith('diff-') and command[0] == 'git':
-                if mode == 'diff-extra':
+            elif fault_mode.startswith('diff-') and command[0] == 'git':
+                if fault_mode == 'diff-extra':
                     result.stdout += '+unexpected change\n'
                 else:
                     result.stderr = 'unexpected warning\n'
