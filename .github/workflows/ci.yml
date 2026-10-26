@@ -36,6 +36,9 @@ jobs:
       - name: Verify comparison version evidence
         shell: bash
         run: python3 scripts/test-assisted-version.py
+      - name: Verify practitioner kit mechanics
+        shell: bash
+        run: python3 -O scripts/check-practitioner-kit.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
       - name: Reproduce benchmark
         if: runner.os == 'Linux'
         run: |

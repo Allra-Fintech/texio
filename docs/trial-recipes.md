@@ -5,6 +5,10 @@ can take more than five minutes; binary archives or the macOS Homebrew tap
 avoid compiling. A new dependency may cost more than improving your existing
 generator. Start with a disposable copy and inspect the diff.
 
+For three task choices, setup and feedback guidance, use the
+[practitioner trial kit](practitioner-trial-kit.md). Internal fixture checks do
+not count as external use or a fresh agent session.
+
 ## Agent path
 
 Copy the [Markdown agent policy](agent-instructions.md), then give your agent a
