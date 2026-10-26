@@ -42,6 +42,8 @@ def main():
             "events": lambda d: d["events"][0].update(stdout="wrong"),
             "exit": lambda d: d["events"][0].update(exit=9),
             "recorder": lambda d: d.update(recorder_sha256="0" * 64),
+            "missing-timestamp": lambda d: d.pop("recorded_at"),
+            "missing-binary-hash": lambda d: d.pop("binary_sha256"),
         }.items():
             copy = base / name
             shutil.copytree(args.generated, copy)

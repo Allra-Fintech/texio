@@ -20,6 +20,8 @@ def normalize(value):
 def read_artifacts(directory):
     """Validate the full embedded payload against its adjacent JSON."""
     data = json.loads((directory / "section-workflow.json").read_text(encoding="utf-8"))
+    require(isinstance(data, dict) and {"recorded_at", "binary_sha256"} <= data.keys(),
+            "recording timestamp and binary hash are required")
     page = (directory / "section-workflow.html").read_text(encoding="utf-8")
     marker = '<script id="recording" type="application/json">'
     require(page.count(marker) == 1, "expected exactly one recording payload")
