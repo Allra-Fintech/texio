@@ -2,6 +2,7 @@
 """Verify practitioner-kit mechanics with synthetic disposable inputs only."""
 
 import argparse
+import json
 from pathlib import Path
 import subprocess
 import tempfile
@@ -33,9 +34,13 @@ def main():
             require(result.returncode == code, "unexpected command status")
             return result
 
-        run("headings", path, "--json")
+        headings = run("headings", path, "--json")
+        require(json.loads(headings.stdout) == [
+            {"level": 1, "title": "Demo"}, {"level": 2, "title": "Installation"},
+            {"level": 2, "title": "Usage"}], "unexpected headings")
         replace = ("replace", path, "--section", "Installation", "--from", body)
-        run(*replace, "--dry-run")
+        preview = run(*replace, "--dry-run")
+        require(b"+generated command\n" in preview.stdout, "preview missing replacement")
         require(path.read_bytes() == original, "preview changed input")
         run(*replace, "--write")
         require(path.read_bytes() == expected, "replacement did not preserve expected bytes")

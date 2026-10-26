@@ -39,6 +39,9 @@ jobs:
       - name: Verify practitioner kit mechanics
         shell: bash
         run: python3 -O scripts/check-practitioner-kit.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
+      - name: Reject incorrect captured output
+        shell: bash
+        run: python3 -O scripts/test-output-validation.py --texio "target/debug/texio${{ runner.os == 'Windows' && '.exe' || '' }}"
       - name: Reproduce benchmark
         if: runner.os == 'Linux'
         run: |
