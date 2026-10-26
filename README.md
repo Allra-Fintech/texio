@@ -114,6 +114,8 @@ small, deterministic operation that is easier to review and automate.
   [automatic-selection evidence](launch/agent-validation/skill-selection.md).
 - Read [Stop letting agents rewrite your entire README](docs/stop-rewriting-readmes.md).
 - Inspect and reproduce the [public benchmark](benchmarks/README.md).
+- Read the [24-task comparison and its limits](docs/structural-comparison.md).
+- Replay the [short inspect/preview/apply demonstration](launch/demos/README.md).
 
 ## Agent token benchmark
 
