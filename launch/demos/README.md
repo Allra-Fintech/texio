@@ -30,3 +30,22 @@ against the Linux source build to keep these checks reproducible.
 successful diff comparison here, not a failed Texio operation. The published
 recording uses Texio 0.1.3; a future source-build recording may report another
 version and must not be presented as the same binary or timing result.
+
+## Verify published artifacts
+
+The recorder also validates parsed headings, exact section text, expected
+preview/diff changes and the ambiguous-target diagnostic. To compare a fresh
+recording with the published JSON and HTML, run from the repository root:
+
+```sh
+python3 -O scripts/check-section-demo.py /tmp/new-section-demo
+python3 -O scripts/test-section-demo.py --texio /path/to/texio --generated /tmp/new-section-demo
+```
+
+Only recording timestamp and binary hash may differ across recordings. Events,
+exit codes, output, version, recorder hash and HTML template must match. Each
+HTML payload must exactly match its own adjacent JSON, including metadata.
+The current source version must match the published recording version; a
+version or recorder change requires regenerating the committed artifacts.
+Git output options are pinned for reproducibility. Fault checks reject altered
+artifacts and successful-but-empty or incorrect CLI output before publication.

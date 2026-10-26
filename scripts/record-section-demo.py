@@ -36,32 +36,42 @@ def main():
         document.write_bytes(original)
         (root / "before.md").write_bytes(original)
 
-        def run(at, argv, code=0):
+        def run(at, argv, code=0, expected_text=()):
             shown = ["texio" if i == 0 and arg == str(binary) else arg
                      for i, arg in enumerate(argv)]
             result = subprocess.run(argv, cwd=root, capture_output=True, text=True, timeout=30)
             require(result.returncode == code, f"unexpected exit: {shown}: {result.stderr}")
+            for text in expected_text:
+                require(text in result.stdout + result.stderr, f"missing expected output: {shown}: {text}")
             events.append({"at": at, "command": shlex.join(shown), "exit": result.returncode,
                            "stdout": result.stdout, "stderr": result.stderr})
             return result
 
         version = run(0, [str(binary), "--version"]).stdout.strip()
         require(re.fullmatch(r"texio \S+", version), "invalid version response")
-        run(5, [str(binary), "headings", "document.md", "--json"])
-        run(11, [str(binary), "section", "document.md", "Installation"])
+        headings = run(5, [str(binary), "headings", "document.md", "--json"])
+        require(json.loads(headings.stdout) == [
+            {"level": 1, "title": "Demo"}, {"level": 2, "title": "Installation"},
+            {"level": 2, "title": "Usage"}], "unexpected headings")
+        section = run(11, [str(binary), "section", "document.md", "Installation"])
+        require(section.stdout == "## Installation\nold\n\n", "unexpected section output")
         replace = [str(binary), "replace", "document.md", "--section", "Installation", "--text", "new"]
-        run(18, replace + ["--dry-run"])
+        run(18, replace + ["--dry-run"], expected_text=("section: Installation", "-old\n", "+new\n"))
         require(document.read_bytes() == original, "preview changed input")
         run(27, replace + ["--write"])
         require(document.read_bytes() == expected, "write changed unexpected bytes")
-        run(32, ["git", "diff", "--no-index", "--", "before.md", "document.md"], code=1)
+        run(32, ["git", "-c", "core.abbrev=7", "diff", "--no-index", "--no-ext-diff",
+                 "--no-textconv", "--no-color", "--unified=3", "--src-prefix=a/", "--dst-prefix=b/",
+                 "--", "before.md", "document.md"], code=1,
+            expected_text=("--- a/before.md", "+++ b/document.md", "-old\n", "+new\n", " ## Usage\n", " keep\n"))
         events.append({"at": 39, "command": None, "exit": None,
                        "stdout": "PASS: preview did not write; actual output matches every expected byte, including Usage.\n", "stderr": ""})
         document.write_bytes(expected + b"\n## Installation\nsecond\n")
         duplicate = document.read_bytes()
         events.append({"at": 42, "command": None, "exit": None,
                        "stdout": "Recorder adds a second real Installation heading to test ambiguity.\n", "stderr": ""})
-        run(44, replace + ["--dry-run"], code=5)
+        run(44, replace + ["--dry-run"], code=5,
+            expected_text=("ambiguous section: Installation (2 matches)",))
         require(document.read_bytes() == duplicate, "ambiguous preview changed input")
         events.append({"at": 50, "command": None, "exit": None,
                        "stdout": "PASS: ambiguous target refused with exit 5; input unchanged.\nSynthetic internal demo. Playback is paced, not a speed measurement.\n", "stderr": ""})
