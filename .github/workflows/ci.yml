@@ -49,3 +49,6 @@ jobs:
           python3 benchmarks/structural/run.py --texio target/release/texio --runs 3 --output "$RUNNER_TEMP/structural.json"
           python3 benchmarks/structural/check.py "$RUNNER_TEMP/structural.json"
           python3 -O benchmarks/structural/test-check.py "$RUNNER_TEMP/structural.json"
+      - name: Verify recorded section demonstration
+        if: runner.os == 'Linux'
+        run: python3 -O scripts/record-section-demo.py --texio target/release/texio --output-dir "$RUNNER_TEMP/section-demo"

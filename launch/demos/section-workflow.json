@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-26T08:43:40.094453+00:00",
+  "version": "texio 0.1.3",
+  "binary_sha256": "7953fb1dd7957fb8b4922edb070de8d6c08094feae898bd798741ed59951f67d",
+  "recorder_sha256": "95802113d958050bfd63228f9cc617e02e9a1dc60af82d41aa0b359e40d66a5c",
+  "duration_seconds": 55,
+  "timing": "editorial pacing, not command runtime",
+  "events": [
+    {
+      "at": 0,
+      "command": "texio --version",
+      "exit": 0,
+      "stdout": "texio 0.1.3\n",
+      "stderr": ""
+    },
+    {
+      "at": 5,
+      "command": "texio headings document.md --json",
+      "exit": 0,
+      "stdout": "[{\"level\":1,\"title\":\"Demo\"},{\"level\":2,\"title\":\"Installation\"},{\"level\":2,\"title\":\"Usage\"}]\n",
+      "stderr": ""
+    },
+    {
+      "at": 11,
+      "command": "texio section document.md Installation",
+      "exit": 0,
+      "stdout": "## Installation\nold\n\n",
+      "stderr": ""
+    },
+    {
+      "at": 18,
+      "command": "texio replace document.md --section Installation --text new --dry-run",
+      "exit": 0,
+      "stdout": "--- document.md\n+++ document.md (proposed)\n@@ -1,7 +1,6 @@ section: Installation\n # Demo\n \n ## Installation\n-old\n-\n+new\n ## Usage\n keep\n",
+      "stderr": ""
+    },
+    {
+      "at": 27,
+      "command": "texio replace document.md --section Installation --text new --write",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "at": 32,
+      "command": "git diff --no-index -- before.md document.md",
+      "exit": 1,
+      "stdout": "diff --git a/before.md b/document.md\nindex 860d143..79b3b33 100644\n--- a/before.md\n+++ b/document.md\n@@ -1,7 +1,6 @@\n # Demo\n \n ## Installation\n-old\n-\n+new\n ## Usage\n keep\n",
+      "stderr": ""
+    },
+    {
+      "at": 39,
+      "command": null,
+      "exit": null,
+      "stdout": "PASS: preview did not write; actual output matches every expected byte, including Usage.\n",
+      "stderr": ""
+    },
+    {
+      "at": 42,
+      "command": null,
+      "exit": null,
+      "stdout": "Recorder adds a second real Installation heading to test ambiguity.\n",
+      "stderr": ""
+    },
+    {
+      "at": 44,
+      "command": "texio replace document.md --section Installation --text new --dry-run",
+      "exit": 5,
+      "stdout": "",
+      "stderr": "texio: ambiguous section: Installation (2 matches)\n"
+    },
+    {
+      "at": 50,
+      "command": null,
+      "exit": null,
+      "stdout": "PASS: ambiguous target refused with exit 5; input unchanged.\nSynthetic internal demo. Playback is paced, not a speed measurement.\n",
+      "stderr": ""
+    }
+  ]
+}
