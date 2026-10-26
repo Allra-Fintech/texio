@@ -73,7 +73,7 @@ def main():
     page = '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Texio: inspect, preview, apply, verify</title>
-<style>body{font:16px system-ui;max-width:960px;margin:2rem auto;padding:0 1rem;background:#111827;color:#e5e7eb}button,input{font:inherit}button{padding:.5rem;margin-right:.5rem}pre{background:#030712;padding:1rem;height:28rem;overflow:auto;white-space:pre-wrap}input{width:70%}a{color:#93c5fd}</style>
+<style>body{font:16px system-ui;max-width:960px;margin:2rem auto;padding:0 1rem;background:#111827;color:#e5e7eb}button,input{font:inherit}button{padding:.5rem;margin-right:.5rem}pre{background:#030712;padding:1rem;height:28rem;overflow:auto;white-space:pre-wrap}input{width:55%;vertical-align:middle}#time{white-space:nowrap;display:inline-block}a{color:#93c5fd}</style>
 <h1>Inspect → preview → apply → verify</h1>
 <p>Real output from disposable files. A 55-second paced replay, not an execution-speed measurement or external trial.</p>
 <button id="play">Play</button><button id="restart">Restart</button>
