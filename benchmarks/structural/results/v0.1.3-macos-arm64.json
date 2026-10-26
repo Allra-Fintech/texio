@@ -1,0 +1,4570 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-26T07:56:57.223700+00:00",
+  "scope": "synthetic replacement fixtures; deterministic baselines, no agent or external trial",
+  "version": "texio 0.1.3",
+  "binary_sha256": "7953fb1dd7957fb8b4922edb070de8d6c08094feae898bd798741ed59951f67d",
+  "python": "3.9.6",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "runs_per_case": 5,
+  "agent_model": null,
+  "agent_tokens": null,
+  "manifest_sha256": "ecaace65dc055f45f4d6ed8149f257a53439ab4cf26099c486deae95fc9a680c",
+  "source_sha256": {
+    "structural/run.py": "7d261048144eca27fa411d819cb87b18b5d2a8f703fc564c8e74d621f3cdb368",
+    "structural/baseline.py": "c617f56236b5aa812451e2ff3cdfe4a5dfc203c9f8fdf64a593435312a1afaf5",
+    "run.py": "ea96049f0f83c15843babcf19dee07004a3ef9255e616b0522fa88af824dc5ab"
+  },
+  "methods": {
+    "texio": {
+      "passed": 24,
+      "total": 24
+    },
+    "regex": {
+      "passed": 9,
+      "total": 24
+    },
+    "whole-document": {
+      "passed": 15,
+      "total": 24
+    }
+  },
+  "results": [
+    {
+      "case": "simple",
+      "category": "atx",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 2989167,
+        "median": 3204541,
+        "max": 4594084
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3204541,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3057083,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 4594084,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 2989167,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3273417,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "simple",
+      "category": "atx",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56395792,
+        "median": 58120958,
+        "max": 60927708
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 60169250,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58120958,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56847583,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56395792,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 60927708,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "simple",
+      "category": "atx",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 41994833,
+        "median": 43078250,
+        "max": 45340709
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 41994833,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 45340709,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 42581416,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 43212583,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 43078250,
+          "actual": "# Demo\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "nested-body",
+      "category": "nested",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3026541,
+        "median": 3348084,
+        "max": 3918958
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3652875,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3918958,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3348084,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3026541,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3176417,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "nested-body",
+      "category": "nested",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57119750,
+        "median": 57377750,
+        "max": 59066958
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 57377750,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 59066958,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57569291,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57119750,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57125208,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "nested-body",
+      "category": "nested",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39994334,
+        "median": 40526291,
+        "max": 41560541
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39994334,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40276417,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40526291,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 41042958,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 41560541,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "backtick-boundary",
+      "category": "fences",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3308750,
+        "median": 3422125,
+        "max": 3857500
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3308750,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3857500,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3557625,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3422125,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3412917,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "backtick-boundary",
+      "category": "fences",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 58099791,
+        "median": 60858708,
+        "max": 66886292
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 58099791,
+          "actual": "## Target\nnew\n## Fake\n```\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 59339417,
+          "actual": "## Target\nnew\n## Fake\n```\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 62389625,
+          "actual": "## Target\nnew\n## Fake\n```\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 60858708,
+          "actual": "## Target\nnew\n## Fake\n```\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 66886292,
+          "actual": "## Target\nnew\n## Fake\n```\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "backtick-boundary",
+      "category": "fences",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39047375,
+        "median": 39880167,
+        "max": 42551542
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 42551542,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40392667,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39047375,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39564542,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39880167,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "tilde-boundary",
+      "category": "fences",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3079416,
+        "median": 3253792,
+        "max": 3462834
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3387292,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3212458,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3253792,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3462834,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3079416,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "tilde-boundary",
+      "category": "fences",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57063875,
+        "median": 57265958,
+        "max": 57728209
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 57728209,
+          "actual": "## Target\nnew\n## Fake\n~~~\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57620250,
+          "actual": "## Target\nnew\n## Fake\n~~~\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57239291,
+          "actual": "## Target\nnew\n## Fake\n~~~\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57063875,
+          "actual": "## Target\nnew\n## Fake\n~~~\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57265958,
+          "actual": "## Target\nnew\n## Fake\n~~~\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "tilde-boundary",
+      "category": "fences",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39477791,
+        "median": 39883708,
+        "max": 40161666
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 40161666,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39477791,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39793250,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39883708,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40019667,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "duplicate",
+      "category": "refusal",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 5,
+      "expected": "## Target\none\n## Target\ntwo\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 2814875,
+        "median": 2967333,
+        "max": 2999000
+      },
+      "trials": [
+        {
+          "exit": 5,
+          "runtime_ns": 2988458,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "texio: ambiguous section: Target (2 matches)\n",
+          "input_unchanged": true,
+          "preview_exit": 5
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 2814875,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "texio: ambiguous section: Target (2 matches)\n",
+          "input_unchanged": true,
+          "preview_exit": 5
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 2864875,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "texio: ambiguous section: Target (2 matches)\n",
+          "input_unchanged": true,
+          "preview_exit": 5
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 2967333,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "texio: ambiguous section: Target (2 matches)\n",
+          "input_unchanged": true,
+          "preview_exit": 5
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 2999000,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "texio: ambiguous section: Target (2 matches)\n",
+          "input_unchanged": true,
+          "preview_exit": 5
+        }
+      ]
+    },
+    {
+      "case": "duplicate",
+      "category": "refusal",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 5,
+      "expected": "## Target\none\n## Target\ntwo\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": false,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 58314000,
+        "median": 59947167,
+        "max": 65250584
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 58755375,
+          "actual": "## Target\nnew\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 61219916,
+          "actual": "## Target\nnew\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 65250584,
+          "actual": "## Target\nnew\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 59947167,
+          "actual": "## Target\nnew\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58314000,
+          "actual": "## Target\nnew\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "duplicate",
+      "category": "refusal",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 5,
+      "expected": "## Target\none\n## Target\ntwo\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39083541,
+        "median": 39715708,
+        "max": 49380041
+      },
+      "trials": [
+        {
+          "exit": 5,
+          "runtime_ns": 39715708,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 39685542,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 39083541,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 49380041,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 5,
+          "runtime_ns": 39814459,
+          "actual": "## Target\none\n## Target\ntwo\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "missing",
+      "category": "refusal",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 4,
+      "expected": "## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 2858583,
+        "median": 2909292,
+        "max": 3220459
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 3220459,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "texio: section not found: Target\n",
+          "input_unchanged": true,
+          "preview_exit": 4
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 3052375,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "texio: section not found: Target\n",
+          "input_unchanged": true,
+          "preview_exit": 4
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 2899375,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "texio: section not found: Target\n",
+          "input_unchanged": true,
+          "preview_exit": 4
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 2909292,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "texio: section not found: Target\n",
+          "input_unchanged": true,
+          "preview_exit": 4
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 2858583,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "texio: section not found: Target\n",
+          "input_unchanged": true,
+          "preview_exit": 4
+        }
+      ]
+    },
+    {
+      "case": "missing",
+      "category": "refusal",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 4,
+      "expected": "## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 55509333,
+        "median": 55650542,
+        "max": 55731667
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 55666083,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 55647917,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 55509333,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 55650542,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 55731667,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "missing",
+      "category": "refusal",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 4,
+      "expected": "## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 38550125,
+        "median": 38686833,
+        "max": 39102208
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 39102208,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 38863584,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 38686833,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 38550125,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 38644250,
+          "actual": "## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "unicode",
+      "category": "unicode",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3103000,
+        "median": 3168041,
+        "max": 3343125
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3103000,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3146125,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3168041,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3192625,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3343125,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "unicode",
+      "category": "unicode",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56130708,
+        "median": 56441709,
+        "max": 56924458
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 56924458,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56441709,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56130708,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56498083,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56170917,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "unicode",
+      "category": "unicode",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 38479875,
+        "median": 38533333,
+        "max": 39221958
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39221958,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38756417,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38516708,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38533333,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38479875,
+          "actual": "# 文書\n## 対象 🚀\n新しい\n## 保持\nそのまま\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "crlf",
+      "category": "bytes",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3150625,
+        "median": 3212000,
+        "max": 3370375
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3370375,
+          "actual": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3191958,
+          "actual": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3212000,
+          "actual": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3150625,
+          "actual": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3231750,
+          "actual": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "crlf",
+      "category": "bytes",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 55702875,
+        "median": 56037167,
+        "max": 56112042
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 55702875,
+          "actual": "## Target\r\nnew\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55994458,
+          "actual": "## Target\r\nnew\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56037167,
+          "actual": "## Target\r\nnew\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56112042,
+          "actual": "## Target\r\nnew\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56071792,
+          "actual": "## Target\r\nnew\n## Keep\r\nkeep\r\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "crlf",
+      "category": "bytes",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\r\nnew\r\n## Keep\r\nkeep\r\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": false,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 38351250,
+        "median": 38690917,
+        "max": 42684000
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 38690917,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38351250,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38613916,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40891875,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 42684000,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "indented-target",
+      "category": "atx",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "   ## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3153959,
+        "median": 3533917,
+        "max": 3646208
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3637875,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3533917,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3295584,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3646208,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3153959,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "indented-target",
+      "category": "atx",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "   ## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56486958,
+        "median": 57505208,
+        "max": 60040875
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 60040875,
+          "actual": "   ## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 58766083,
+          "actual": "   ## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57505208,
+          "actual": "   ## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56486958,
+          "actual": "   ## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56516541,
+          "actual": "   ## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "indented-target",
+      "category": "atx",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "   ## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39243583,
+        "median": 39487875,
+        "max": 39803958
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39487875,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39267709,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39617416,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39243583,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39803958,
+          "actual": "   ## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "closing-hashes",
+      "category": "atx",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target ##\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3209667,
+        "median": 3237250,
+        "max": 4101084
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3266250,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3237250,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3228625,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 4101084,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3209667,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "closing-hashes",
+      "category": "atx",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target ##\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56337791,
+        "median": 56469250,
+        "max": 57168042
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 56621000,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57168042,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56469250,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56341500,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56337791,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "closing-hashes",
+      "category": "atx",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target ##\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39156042,
+        "median": 39274917,
+        "max": 40241333
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 40241333,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39274917,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39215959,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39156042,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39755375,
+          "actual": "## Target ##\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "setext",
+      "category": "setext",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 2941167,
+        "median": 3153959,
+        "max": 3555917
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3555917,
+          "actual": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3153959,
+          "actual": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3048958,
+          "actual": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3180459,
+          "actual": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 2941167,
+          "actual": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "setext",
+      "category": "setext",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57481500,
+        "median": 58096167,
+        "max": 60391834
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 57951458,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 60391834,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 60099500,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57481500,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 58096167,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "setext",
+      "category": "setext",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Target\n------\nnew\n\nKeep\n----\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 40179291,
+        "median": 41023459,
+        "max": 42958292
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 42958292,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 41360042,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 41023459,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40387750,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40179291,
+          "actual": "Target\n------\nold\n\nKeep\n----\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "multiline-setext",
+      "category": "setext",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3029875,
+        "median": 3237917,
+        "max": 3426125
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3426125,
+          "actual": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3399916,
+          "actual": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3089375,
+          "actual": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3029875,
+          "actual": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3237917,
+          "actual": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "multiline-setext",
+      "category": "setext",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57191125,
+        "median": 58101291,
+        "max": 58445125
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 57779833,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 58101291,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57191125,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 58286042,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 58445125,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "multiline-setext",
+      "category": "setext",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Multi\nTarget\n------\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 40417292,
+        "median": 41275792,
+        "max": 42463250
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 42046709,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40417292,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 42463250,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 41275792,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40418458,
+          "actual": "Multi\nTarget\n------\nold\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "final-atx-no-newline",
+      "category": "eof",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3055625,
+        "median": 3413084,
+        "max": 3603583
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3450667,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3413084,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3055625,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3251458,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3603583,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "final-atx-no-newline",
+      "category": "eof",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57892875,
+        "median": 58161042,
+        "max": 62489084
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 62489084,
+          "actual": "## Targetnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 60944875,
+          "actual": "## Targetnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57892875,
+          "actual": "## Targetnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57924542,
+          "actual": "## Targetnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58161042,
+          "actual": "## Targetnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "final-atx-no-newline",
+      "category": "eof",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39068916,
+        "median": 39303709,
+        "max": 39914792
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39914792,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39529458,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39268875,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39303709,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39068916,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "final-setext-no-newline",
+      "category": "eof",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "Target\n---\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3125291,
+        "median": 3220292,
+        "max": 3351875
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3242041,
+          "actual": "Target\n---\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3169292,
+          "actual": "Target\n---\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3351875,
+          "actual": "Target\n---\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3220292,
+          "actual": "Target\n---\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3125291,
+          "actual": "Target\n---\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "final-setext-no-newline",
+      "category": "eof",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Target\n---\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56387541,
+        "median": 56413583,
+        "max": 56712333
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 56413583,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56597125,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56397166,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56387541,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56712333,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "final-setext-no-newline",
+      "category": "eof",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "Target\n---\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 38966416,
+        "median": 39722459,
+        "max": 40581500
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 38966416,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40048334,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 39334167,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 39722459,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40581500,
+          "actual": "Target\n---",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "quoted-next",
+      "category": "prefixes",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n> ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3115167,
+        "median": 3287208,
+        "max": 3366500
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3313833,
+          "actual": "## Target\nnew\n> ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3366500,
+          "actual": "## Target\nnew\n> ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3115167,
+          "actual": "## Target\nnew\n> ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3247958,
+          "actual": "## Target\nnew\n> ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3287208,
+          "actual": "## Target\nnew\n> ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "quoted-next",
+      "category": "prefixes",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n> ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 55479083,
+        "median": 56043542,
+        "max": 56168416
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 56043542,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56091959,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56168416,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55942542,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55479083,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "quoted-next",
+      "category": "prefixes",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n> ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 38209333,
+        "median": 38590333,
+        "max": 39468042
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39468042,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38656708,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38590333,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38209333,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38272084,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "list-next",
+      "category": "prefixes",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n- ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 2933250,
+        "median": 3229708,
+        "max": 3380500
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3380500,
+          "actual": "## Target\nnew\n- ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3288875,
+          "actual": "## Target\nnew\n- ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3143291,
+          "actual": "## Target\nnew\n- ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 2933250,
+          "actual": "## Target\nnew\n- ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3229708,
+          "actual": "## Target\nnew\n- ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "list-next",
+      "category": "prefixes",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n- ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 55537791,
+        "median": 55805125,
+        "max": 56015250
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 55798625,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55805125,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56015250,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55537791,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55948541,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "list-next",
+      "category": "prefixes",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n- ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 38465292,
+        "median": 38914667,
+        "max": 39467167
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39467167,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38996167,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38496083,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38465292,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38914667,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "indented-next",
+      "category": "prefixes",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n   ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3126000,
+        "median": 3166833,
+        "max": 3356708
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3356708,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3212875,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3166833,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3126000,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3143875,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "indented-next",
+      "category": "prefixes",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n   ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 56034833,
+        "median": 56259916,
+        "max": 58177875
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 56034833,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58177875,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56566625,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56195250,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56259916,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "indented-next",
+      "category": "prefixes",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n   ## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 38420917,
+        "median": 38629333,
+        "max": 38826416
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 38534083,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38720542,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38629333,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38420917,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38826416,
+          "actual": "## Target\nnew\n   ## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "following-setext",
+      "category": "setext",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n\nKeep\n---\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3113542,
+        "median": 3230791,
+        "max": 3339500
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3339500,
+          "actual": "## Target\nnew\n\nKeep\n---\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3242292,
+          "actual": "## Target\nnew\n\nKeep\n---\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3117500,
+          "actual": "## Target\nnew\n\nKeep\n---\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3113542,
+          "actual": "## Target\nnew\n\nKeep\n---\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3230791,
+          "actual": "## Target\nnew\n\nKeep\n---\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "following-setext",
+      "category": "setext",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n\nKeep\n---\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 55877792,
+        "median": 57013083,
+        "max": 62420708
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 55877792,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56053125,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57013083,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 60585041,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 62420708,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "following-setext",
+      "category": "setext",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n\nKeep\n---\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": false,
+      "runtime_ns": {
+        "min": 38395833,
+        "median": 38967875,
+        "max": 39502833
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39502833,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38395833,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39051958,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38967875,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 38461250,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "empty-body",
+      "category": "empty",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3088583,
+        "median": 3209209,
+        "max": 3531833
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3251792,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3149166,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3531833,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3088583,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3209209,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "empty-body",
+      "category": "empty",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 55661833,
+        "median": 58520083,
+        "max": 60164875
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 55872916,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 55661833,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58690041,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58520083,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 60164875,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "empty-body",
+      "category": "empty",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 41162333,
+        "median": 43086084,
+        "max": 47691375
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 41559666,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 47691375,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 43086084,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 41162333,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 44361792,
+          "actual": "## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "empty-replacement",
+      "category": "empty",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\n\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3077958,
+        "median": 3177250,
+        "max": 3542416
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3542416,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3177250,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3213333,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3136583,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3077958,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "empty-replacement",
+      "category": "empty",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\n\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57175459,
+        "median": 57326125,
+        "max": 57754083
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 57175459,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57348459,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57326125,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57754083,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57221542,
+          "actual": "## Target\n\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "empty-replacement",
+      "category": "empty",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## Target\n\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39871375,
+        "median": 40992708,
+        "max": 42821667
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 39871375,
+          "actual": "## Target\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40992708,
+          "actual": "## Target\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 42821667,
+          "actual": "## Target\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 41322000,
+          "actual": "## Target\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40244750,
+          "actual": "## Target\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "formatted-heading",
+      "category": "inline",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## **Target**\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3122000,
+        "median": 3253459,
+        "max": 3845250
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3434458,
+          "actual": "## **Target**\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3132459,
+          "actual": "## **Target**\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3845250,
+          "actual": "## **Target**\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3253459,
+          "actual": "## **Target**\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3122000,
+          "actual": "## **Target**\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "formatted-heading",
+      "category": "inline",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## **Target**\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56426417,
+        "median": 57330959,
+        "max": 58781042
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 58781042,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57347125,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57191084,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 56426417,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 57330959,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "formatted-heading",
+      "category": "inline",
+      "method": "whole-document",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "## **Target**\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 40050792,
+        "median": 40230500,
+        "max": 40502584
+      },
+      "trials": [
+        {
+          "exit": 4,
+          "runtime_ns": 40230500,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40502584,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40050792,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40332791,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        },
+        {
+          "exit": 4,
+          "runtime_ns": 40061666,
+          "actual": "## **Target**\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": true,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "parent-boundary",
+      "category": "nested",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n# Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3135459,
+        "median": 3184542,
+        "max": 3332000
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3332000,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3273125,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3184542,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3139959,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3135459,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "parent-boundary",
+      "category": "nested",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n# Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56952958,
+        "median": 57608375,
+        "max": 59618875
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 57298291,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56952958,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 59618875,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57608375,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58406667,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "parent-boundary",
+      "category": "nested",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n# Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39863417,
+        "median": 40168458,
+        "max": 43533791
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 40382792,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 40168458,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39863417,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39929042,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 43533791,
+          "actual": "## Target\nnew\n# Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "eof-body",
+      "category": "eof",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3083208,
+        "median": 3318833,
+        "max": 3418542
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3418542,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3198917,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3387625,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3083208,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3318833,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "eof-body",
+      "category": "eof",
+      "method": "regex",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 57110750,
+        "median": 58188667,
+        "max": 58623167
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 58623167,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58188667,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57110750,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 58356084,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57191417,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "eof-body",
+      "category": "eof",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "## Target\nnew\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39149000,
+        "median": 39262458,
+        "max": 40435667
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 40435667,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39262458,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39440250,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39154000,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39149000,
+          "actual": "## Target\nnew\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "duplicate-only-in-fence",
+      "category": "fences",
+      "method": "texio",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 3027375,
+        "median": 3140542,
+        "max": 3441833
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 3441833,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3140542,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3080208,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3027375,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 3163292,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": 0
+        }
+      ]
+    },
+    {
+      "case": "duplicate-only-in-fence",
+      "category": "fences",
+      "method": "regex",
+      "success": false,
+      "expected_exit": 0,
+      "expected": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": false,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 56482916,
+        "median": 57138209,
+        "max": 57624334
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 57579958,
+          "actual": "```md\n## Target\nnew\n## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57624334,
+          "actual": "```md\n## Target\nnew\n## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57138209,
+          "actual": "```md\n## Target\nnew\n## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 57098709,
+          "actual": "```md\n## Target\nnew\n## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 56482916,
+          "actual": "```md\n## Target\nnew\n## Target\nold\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    },
+    {
+      "case": "duplicate-only-in-fence",
+      "category": "fences",
+      "method": "whole-document",
+      "success": true,
+      "expected_exit": 0,
+      "expected": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+      "repeatable": true,
+      "protected_prefix_unchanged": true,
+      "protected_suffix_unchanged": true,
+      "runtime_ns": {
+        "min": 39355667,
+        "median": 41547250,
+        "max": 45569959
+      },
+      "trials": [
+        {
+          "exit": 0,
+          "runtime_ns": 40455125,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 39355667,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 42392084,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 41547250,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        },
+        {
+          "exit": 0,
+          "runtime_ns": 45569959,
+          "actual": "```md\n## Target\n```\n\n## Target\nnew\n## Keep\nkeep\n",
+          "stdout": "",
+          "stderr": "",
+          "input_unchanged": false,
+          "preview_exit": null
+        }
+      ]
+    }
+  ]
+}

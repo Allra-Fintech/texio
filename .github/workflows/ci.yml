@@ -43,3 +43,9 @@ jobs:
           bash scripts/test-recipes.sh target/release/texio
           python3 benchmarks/run.py --texio target/release/texio --release ci --output /tmp/texio-benchmark.json
           python3 benchmarks/check.py /tmp/texio-benchmark.json
+      - name: Reproduce structural comparison
+        if: runner.os == 'Linux'
+        run: |
+          python3 benchmarks/structural/run.py --texio target/release/texio --runs 3 --output "$RUNNER_TEMP/structural.json"
+          python3 benchmarks/structural/check.py "$RUNNER_TEMP/structural.json"
+          python3 -O benchmarks/structural/test-check.py "$RUNNER_TEMP/structural.json"

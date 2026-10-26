@@ -44,3 +44,11 @@ fixtures; the idealized whole-file baseline passed three; and the regex proxy
 passed two. Texio preserved every declared unrelated sentinel line. This small
 sample does not establish general model quality. Promotional claims must cite
 the raw result and retain these caveats.
+
+## New structural replacement suite
+
+The separate [24-fixture suite](structural/README.md) runs actual deterministic
+text baselines without giving them expected outputs, checks all output bytes
+and refusal behavior, and publishes raw five-run results for Texio 0.1.3.
+It does not change the historical oracle-based result above, measure real
+agent tokens, or establish external adoption.
