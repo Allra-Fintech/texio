@@ -41,7 +41,13 @@ def main():
             {"level": 2, "title": "Usage"}], "unexpected headings")
         replace = ("replace", path, "--section", "Installation", "--from", body)
         preview = run(*replace, "--dry-run")
-        require(b"+generated command\n" in preview.stdout, "preview missing replacement")
+        expected_preview = (
+            f"--- {path}\n+++ {path} (proposed)\n"
+            "@@ -1,5 +1,5 @@ section: Installation\n"
+            " # Demo\n ## Installation\n-old\n+generated command\n ## Usage\n keep\n"
+        ).encode("utf-8")
+        require(preview.stdout == expected_preview and preview.stderr == b"",
+                "unexpected preview output")
         require(path.read_bytes() == original, "preview changed input")
         run(*replace, "--write")
         require(path.read_bytes() == expected, "replacement did not preserve expected bytes")

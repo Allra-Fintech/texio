@@ -10,13 +10,13 @@ from unittest.mock import patch
 
 
 def main():
-    """Inject four output faults and require the intended validation failure."""
+    """Inject output faults and require the intended validation failure."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--texio', type=Path, required=True)
     args = parser.parse_args()
     scripts = Path(__file__).resolve().parent
     original_run = subprocess.run
-    for mode in ('headings', 'preview', 'diff-extra', 'diff-stderr'):
+    for mode in ('headings', 'preview', 'preview-added-only', 'diff-extra', 'diff-stderr'):
         def faulty(command, *positional, fault_mode=mode, **keywords):
             """Alter captured output for this fault while executing the real command."""
             result = original_run(command, *positional, **keywords)
@@ -24,6 +24,8 @@ def main():
                 result.stdout = b'[]'
             elif fault_mode == 'preview' and '--dry-run' in command:
                 result.stdout = b''
+            elif fault_mode == 'preview-added-only' and '--dry-run' in command:
+                result.stdout = b'+generated command\n'
             elif fault_mode.startswith('diff-') and command[0] == 'git':
                 if fault_mode == 'diff-extra':
                     result.stdout += '+unexpected change\n'
@@ -37,7 +39,8 @@ def main():
             output = Path(temporary) / 'demo'
             if recorder:
                 argv += ['--output-dir', str(output)]
-            expected = {'headings': 'unexpected headings', 'preview': 'preview missing replacement',
+            expected = {'headings': 'unexpected headings', 'preview': 'unexpected preview output',
+                        'preview-added-only': 'unexpected preview output',
                         'diff-extra': 'unexpected diff output', 'diff-stderr': 'unexpected diff output'}[mode]
             with patch.object(sys, 'argv', argv), patch.object(subprocess, 'run', faulty):
                 try:
