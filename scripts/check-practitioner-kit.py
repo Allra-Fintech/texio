@@ -2,6 +2,7 @@
 """Verify practitioner-kit mechanics with synthetic disposable inputs only."""
 
 import argparse
+import json
 from pathlib import Path
 import subprocess
 import tempfile
@@ -29,13 +30,24 @@ def main():
         body.write_bytes(b"generated command\n")
 
         def run(*arguments, code=0):
+            """Capture a real CLI command and enforce its expected exit status."""
             result = subprocess.run([str(binary), *map(str, arguments)], capture_output=True, timeout=30)
             require(result.returncode == code, "unexpected command status")
             return result
 
-        run("headings", path, "--json")
+        headings = run("headings", path, "--json")
+        require(json.loads(headings.stdout) == [
+            {"level": 1, "title": "Demo"}, {"level": 2, "title": "Installation"},
+            {"level": 2, "title": "Usage"}], "unexpected headings")
         replace = ("replace", path, "--section", "Installation", "--from", body)
-        run(*replace, "--dry-run")
+        preview = run(*replace, "--dry-run")
+        expected_preview = (
+            f"--- {path}\n+++ {path} (proposed)\n"
+            "@@ -1,5 +1,5 @@ section: Installation\n"
+            " # Demo\n ## Installation\n-old\n+generated command\n ## Usage\n keep\n"
+        ).encode("utf-8")
+        require(preview.stdout == expected_preview and preview.stderr == b"",
+                "unexpected preview output")
         require(path.read_bytes() == original, "preview changed input")
         run(*replace, "--write")
         require(path.read_bytes() == expected, "replacement did not preserve expected bytes")

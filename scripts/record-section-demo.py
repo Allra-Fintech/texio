@@ -60,10 +60,16 @@ def main():
         require(document.read_bytes() == original, "preview changed input")
         run(27, replace + ["--write"])
         require(document.read_bytes() == expected, "write changed unexpected bytes")
-        run(32, ["git", "-c", "core.abbrev=7", "diff", "--no-index", "--no-ext-diff",
+        git_diff = run(32, ["git", "-c", "core.abbrev=7", "diff", "--no-index", "--no-ext-diff",
                  "--no-textconv", "--no-color", "--unified=3", "--src-prefix=a/", "--dst-prefix=b/",
-                 "--", "before.md", "document.md"], code=1,
-            expected_text=("--- a/before.md", "+++ b/document.md", "-old\n", "+new\n", " ## Usage\n", " keep\n"))
+                 "--", "before.md", "document.md"], code=1)
+        require(git_diff.stdout == (
+            "diff --git a/before.md b/document.md\n"
+            "index 860d143..79b3b33 100644\n"
+            "--- a/before.md\n+++ b/document.md\n"
+            "@@ -1,7 +1,6 @@\n # Demo\n \n ## Installation\n"
+            "-old\n-\n+new\n ## Usage\n keep\n"
+        ) and git_diff.stderr == "", "unexpected diff output")
         events.append({"at": 39, "command": None, "exit": None,
                        "stdout": "PASS: preview did not write; actual output matches every expected byte, including Usage.\n", "stderr": ""})
         document.write_bytes(expected + b"\n## Installation\nsecond\n")
